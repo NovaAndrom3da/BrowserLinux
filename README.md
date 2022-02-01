@@ -3,4 +3,4 @@ BrowserLinux is an application aiming to enable a linux environment completely i
 
 Contributions are welcomed and appreciated. Feel free to make pull requests.
 
-A running version of this software is occasionally available at (https://browserlinux.froggo8311.repl.co)[https://browserlinux.froggo8311.repl.co]
+A running version of this software is occasionally available at https://browserlinux.froggo8311.repl.co
