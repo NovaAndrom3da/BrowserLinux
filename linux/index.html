@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <script src="/assets/files.js"></script>
+    <script src="/assets/cmd.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/fonts.css">
+
+    <script>
+      function scroll(){window.scrollTo(0,document.body.scrollHeight);}
+      
+      var canvas = document.querySelector("#display");
+      setInterval(function(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }, 5000);
+
+      
+      setTimeout(function(){
+        cmdprompt = document.querySelector("#cmdprompt");
+
+        cmdprompt.innerText = "Welcome to BrowserLinux, a program currently in development by Froggo. Type `help` for help...\nStart typing... >> "
+        currline = "";
+        lastcmd = "";   // a stone-age approach to a command history
+        pausedcmd = ""; //
+      
+        cmdprompt.addEventListener('keydown', function(e){
+          if(!(e.key=="Control" || e.key=="Shift" || e.key=="Escape" || e.key=="Tab" || e.key=="Backspace" || e.key=="Enter" || e.key.startsWith("Arrow") || e.key=="Meta" || e.key=="Alt")) {
+            if(!e.ctrlKey){
+              currline += e.key;
+              scroll();
+            }
+          } else if (e.key == "Backspace") {
+            scroll();
+            if (e.ctrlKey) {
+              currline = currline.slice(0, -5);
+            } else {
+              currline = currline.slice(0, -1);
+            }
+          } else if (e.key == "Enter") {
+            parse(currline);
+            cmdprompt.innerText += "\n";
+            lastcmd = currline;
+            currline = "";
+            scroll();
+          } else if (e.key == "ArrowUp") {
+            pausedcmd = currline;
+            currline = lastcmd;
+            scroll();
+          } else if (e.key == "ArrowDown") {
+            currline = pausedcmd;
+            scroll();
+          }
+
+        
+          cmdlist = cmdprompt.innerText.split("\n");
+          cmdlist[cmdlist.length-1] = env["DIR"] + " >> " + currline;
+          cmdprompt.innerText = cmdlist.join("\n");
+        });
+
+
+        setInterval(function(){
+          cmdprompt.style.width = String(Number(window.innerWidth) - 4);
+          cmdprompt.style.height = String(window.innerHeight);
+        }, 5000);
+      }, 500);
+      setInterval(function(){
+        cmdprompt.focus();
+      }, 200);
+    </script>
+    <style>
+      html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background-color: rgb(15,15,15);
+      }
+      #cmdprompt {
+        color: rgb(190,190,190);
+        font: 18px Profont;
+        padding-left: 2px;
+        padding-right: 2px;
+        outline: none;
+        word-break: break-all;
+        word-wrap: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="display" style="display: none;"></canvas>
+    <div id="cmdprompt" style="width: 98%; height: 98%;" tabindex="0"></div>
+  </body>
+</html>

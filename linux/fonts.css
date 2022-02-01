@@ -1,0 +1,61 @@
+/* Corbel */
+@font-face {
+  font-family: Corbel;
+  src: url("/bin/corbel.ttf");
+}
+
+@font-face {
+  font-family: Corbel;
+  font-weight: bold;
+  src: url("/bin/corbel_bold.ttf");
+}
+
+@font-face {
+  font-family: Corbel;
+  font-style: italic;
+  src: url("/bin/corbel_italic.ttf");
+}
+
+@font-face {
+  font-family: Corbel;
+  font-weight: bold;
+  font-style: italic;
+  src: url("/bin/corbel_bold_italic.ttf");
+}
+
+/* Profont */
+@font-face {
+  font-family: Profont;
+  src: url("/bin/profont.ttf");
+}
+
+@font-face {
+  font-family: Profont;
+  font-weight: bold;
+  src: url("/bin/profont_bold.ttf");
+}
+
+/* Calibri */
+@font-face {
+  font-family: Calibri;
+  src: url("/bin/calibri.ttf");
+}
+
+@font-face {
+  font-family: Calibri;
+  font-style: italic;
+  src: url("/bin/calibri_italic.ttf");
+}
+
+@font-face {
+  font-family: Calibri;
+  font-weight: bold;
+  src: url("/bin/calibri_bold.ttf");
+}
+
+@font-face {
+  font-family: Calibri;
+  font-weight: bold;
+  font-style: italic;
+  src: url("/bin/calibri_bold_italic.ttf");
+}
