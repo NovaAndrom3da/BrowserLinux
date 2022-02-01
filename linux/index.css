@@ -1,0 +1,120 @@
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: rgb(15,15,15);
+}
+#cmdprompt {
+  color: rgb(190,190,190);
+  font: 18px Profont;
+  padding-left: 2px;
+  padding-right: 2px;
+  outline: none;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+
+.coloredtext {
+  display: inline-block;
+}
+
+
+
+.fore_red {
+  color: red !important;
+}
+
+.fore_orange {
+  color: orange !important;
+}
+
+.fore_yellow {
+  color: yellow !important;
+}
+
+.fore_green {
+  color: green !important;
+}
+
+.fore_blue {
+  color: blue !important;
+}
+
+.fore_lightblue {
+  color: rgb(170,170,255) !important;
+}
+
+.fore_violet {
+  color: violet !important;
+}
+
+.fore_purple {
+  color: purple !important;
+}
+
+.fore_white {
+  color: rgb(190,190,190) !important;
+}
+
+.fore_black {
+  color: rgb(15,15,15) !important;
+}
+
+.fore_truwhite {
+  color: rgb(255,255,255) !important;
+}
+
+.fore_trublack {
+  color: rgb(0,0,0) !important;
+}
+
+
+
+
+.back_red {
+  background-color: red !important;
+}
+
+.back_orange {
+  background-color: orange !important;
+}
+
+.back_yellow {
+  background-color: yellow !important;
+}
+
+.back_green {
+  background-color: green !important;
+}
+
+.back_blue {
+  background-color: blue !important;
+}
+
+.back_lightblue {
+  background-color: rgb(170,170,255) !important;
+}
+
+.back_violet {
+  background-color: violet !important;
+}
+
+.back_purple {
+  background-color: purple !important;
+}
+
+.back_white {
+  background-color: rgb(190,190,190) !important;
+}
+
+.back_black {
+  background-color: rgb(15,15,15) !important;
+}
+
+.back_truwhite {
+  background-color: rgb(255,255,255) !important;
+}
+
+.back_trublack {
+  background-color: rgb(0,0,0) !important;
+}
