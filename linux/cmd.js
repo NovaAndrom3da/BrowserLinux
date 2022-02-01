@@ -4,7 +4,7 @@ builtin = {
   "help": {"exec": cmd_help, "desc": "Shows this help message"},
   "vmsh": {"exec": cmd_vmsh, "desc": "Runs the command in VM Shell"},
   "man": {"exec": cmd_man, "desc": "Returns detailed information on a specific command"},
-  "info": {"exec": cmd_info, "desc": "Provides information about the software"},
+  "info": {"exec": cmd_info, "desc": "Provides information about the software. Type `info -h` for more options"},
   "export": {"exec": cmd_export, "desc": "Reads and writes environment variables"},
   "todo": {"exec": cmd_todo, "desc": "Prints the TODO List for BrowserLinux"},
   "reload": {"exec": cmd_reload, "desc": "Reload the browser window"},
@@ -76,7 +76,17 @@ function cmd_vmsh(args) {
 }
 
 function cmd_info(args) {
-  return "BrowserLinux is a free and open source project aiming to get a linux environment into the standard user's browser. It is licensed under GPLv3 (license information not yet included). The git repository is located at https://github.com/Froggo8311/BrowserLinux"
+  if (args == ""){
+    return "BrowserLinux is a free and open source project aiming to get a linux environment into the standard user's browser. It is licensed under GPLv3 (license information not yet included). The git repository is located at https://github.com/Froggo8311/BrowserLinux";
+  } else if (args == "--contributors") {
+    return "Currently the only contributor is Froggo. How about you help out!\nType `info --gh` to go to the github page.";
+  } else if (args == "--gh") {
+    window.open("https://github.com/Froggo8311/BrowserLinux", "_blank");
+  } else if (args == "--help" || args == "-h") {
+    return "--help -h Displays this help message.\n--contributors Lists the contributors\n--gh Opens the GitHub page in a new tab.";
+  } else {
+    return "info has no command '"+args+"'. Type `info --help` for help on this command.";
+  }
 }
 
 function cmd_export(args) {
@@ -96,7 +106,7 @@ function cmd_export(args) {
 }
 
 function cmd_todo(args) {
-  return "TODO List:\n- Add env var fetch using `$VARIABLE`\n- Add useful environment variables\n- Make pipes less buggy (bugs out when more than one pipe is used in a command). `vmsh` seems to be a problem instigator\n- Fix `cd` command\n- Add `wget`/`curl` command\n- Maybe add python/c compiler (!!)";
+  return "TODO List:\n- Add env var fetch using `$VARIABLE`\n- Add useful environment variables\n- Make pipes less buggy when using `vmsh` as it is a problem instigator\n- Fix `cd` command\n- Add `wget`/`curl` command\n- Maybe add python/c compiler (!!)";
 }
 
 function cmd_reload(args) {
