@@ -76,7 +76,7 @@ function cmd_vmsh(args) {
 }
 
 function cmd_info(args) {
-  return "BrowserLinux is a free and opes source project aiming to get a linux environment into the standard user's browser. It is licensed under GPLv3 (license information not yet included). The git repository is located at https://github.com/Froggo8311/BrowserLinux"
+  return "BrowserLinux is a free and open source project aiming to get a linux environment into the standard user's browser. It is licensed under GPLv3 (license information not yet included). The git repository is located at https://github.com/Froggo8311/BrowserLinux"
 }
 
 function cmd_export(args) {
