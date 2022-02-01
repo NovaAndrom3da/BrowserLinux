@@ -76,7 +76,7 @@ function cmd_vmsh(args) {
 }
 
 function cmd_info(args) {
-  return "Copyright (c) Froggo 2022\nBrowserLinux is a project aiming to get a linux environment into the standard user's browser."
+  return "BrowserLinux is a free and opes source project aiming to get a linux environment into the standard user's browser. It is licensed under GPLv3 (license information not yet included)."
 }
 
 function cmd_export(args) {
