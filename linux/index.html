@@ -2,11 +2,12 @@
   <head>
     <script src="/assets/cmdprompt.js"></script>
     <script src="/assets/vmsh.js"></script>
+    <script src="/assets/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/assets/index.css">
     <link rel="stylesheet" type="text/css" href="/assets/fonts.css">
   </head>
   <body>
     <canvas id="display" style="display: none;"></canvas>
-    <div id="cmdprompt" style="width: 98%; height: 98%;" tabindex="0"></div>
+    <div id="cmdprompt" style="width: 98%; height: 98%;" tabindex="0" autofocus onblur="this.focus();"></div>
   </body>
 </html>

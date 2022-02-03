@@ -3,18 +3,14 @@ builtin = {
   "echo": {"exec": cmd_echo, "desc": "Prints the content provided to it"},
   "help": {"exec": cmd_help, "desc": "Shows this help message"},
   "vmsh": {"exec": cmd_vmsh, "desc": "Runs the command in VM Shell"},
-  "man": {"exec": cmd_man, "desc": "Returns detailed information on a specific command"},
+//  "man": {"exec": cmd_man, "desc": "Returns detailed information on a specific command"},
   "info": {"exec": cmd_info, "desc": "Provides information about the software. Type `info -h` for more options"},
   "export": {"exec": cmd_export, "desc": "Reads and writes environment variables"},
-  "todo": {"exec": cmd_todo, "desc": "Prints the TODO List for BrowserLinux"},
-  "reload": {"exec": cmd_reload, "desc": "Reload the browser window"},
   "pwd": {"exec": cmd_pwd, "desc": "Prints the working directory"},
   "display": {"exec": cmd_display, "desc": "Connect to a virtual display"},
+  "color": {"exec": cmd_color, "desc": "Change color"}
 //  "cmdset": {"exec": cmd_cmdset, "desc": "Sets a command stored in an environment variable"},
-  "search": {"exec": cmd_search, "desc": "Search the internet"},
-  "eval": {"exec": cmd_eval, "desc": "Evaluates a math expression"},
-  "whoami": {"exec": cmd_whoami, "desc": "Print the current user"}
-//  "cd": {"exec": cmd_cd, "desc": "Changes the directory. Warning: this command is incomplete and buggy"} // temporarily removed due to glitch issues
+//  "cd": {"exec": cmd_cd, "desc": "Changes the directory"}
 }
 
 env = {
@@ -24,7 +20,13 @@ env = {
 }
 
 usr_bin = {
-  
+  "todo": {"exec": cmd_todo, "desc": "Prints the TODO List for BrowserLinux"},
+  "eval": {"exec": cmd_eval, "desc": "Evaluates a JS expression"},
+  "whoami": {"exec": cmd_whoami, "desc": "Print the current user"},
+  "search": {"exec": cmd_search, "desc": "Search the internet"},
+  "reload": {"exec": cmd_reload, "desc": "Reload the browser window"},
+  "open": {"exec": cmd_open, "desc": "Open a webpage"},
+  "curl": {"exec": cmd_curl, "desc": "CURL"}
 }
 
 
@@ -72,22 +74,26 @@ function cmd_clear(args) {
 }
 
 function cmd_help(args) {
-  text = color("Here is the following commands:<br>--------", "green");
-  for (x in builtin) {
-    text += "<br>    " + color(x, "yellow") + " - " + builtin[x].desc;
-  }
-  if (usr_bin.length > 0) {
-    text += "<br>--------";
+  if (args == "--usr") {
+    text = color("Showing the following "+color(Object.keys(usr_bin).length, "yellow")+" user commands:<br>--------", "green");
     for (x in usr_bin) {
       text += "<br>" + color(x, "yellow") + " - " + usr_bin[x].desc;
     }
+  } else {
+    text = color("Showing the following "+color(Object.keys(builtin).length, "yellow")+" builtin commands:<br>--------", "green");
+    for (x in builtin) {
+      text += "<br>" + color(x, "yellow") + " - " + builtin[x].desc;
+    }
+    text += "<br>" + color("--------", "green") + "<br>" + color("Type `help --usr` to view all", "green") + " " + color(Object.keys(usr_bin).length, "yellow") + " " + color("user commands.", "green")
   }
   return text;
 }
 
+/* disabled `man`
 function cmd_man(args) {
   return "There are currently no manpages. Check later."
 }
+*/
 
 function cmd_vmsh(args) {
   parse(args);
@@ -95,7 +101,7 @@ function cmd_vmsh(args) {
 
 function cmd_info(args) {
   if (args == ""){
-    return color("BrowserLinux is a free and open source project aiming to get a linux environment into the standard user's browser. It is licensed under GPLv3 (license information not yet included). The git repository is located at https://github.com/Froggo8311/BrowserLinux", "blue");
+    return color("BrowserLinux is a free and open source project aiming to get a linux environment into the standard user's browser. It is licensed under the GPLv3 license. The git repository is located at https://github.com/Froggo8311/BrowserLinux", "blue");
   } else if (args == "--contributors") {
     return color("Currently the only contributor is Froggo. How about you help out!<br>Type `info --gh` to go to the github page.", "orange");
   } else if (args == "--gh") {
@@ -205,4 +211,26 @@ function cmd_eval(args) {
 
 function cmd_whoami(args) {
   return env["USERNAME"];
+}
+
+function cmd_open(args){
+  window.open(args, "_blank")
+}
+
+function cmd_color(args) {
+  consolecolor=args;
+}
+
+function cmd_curl(args) {
+  var req = new XMLHttpRequest();
+  req.open("GET", args);
+  req.onreadystatechange = function() {
+    if (req.readyState === XMLHttpRequest.DONE) {
+      if (req.status === 0 || (req.status >= 200 && req.status < 400)) {
+        return req.responseText;
+      } else {
+        return color("curl: ")
+      }
+    }
+  }
 }
