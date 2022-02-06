@@ -3,6 +3,7 @@ html, body {
   padding: 0 !important;
   background-color: rgb(15,15,15);
 }
+
 #cmdprompt {
   color: rgb(190,190,190);
   font: 18px Profont;
@@ -19,7 +20,7 @@ html, body {
 }
 
 
-
+/* Predefined font colors for the color() command */
 .fore_red {
   color: red !important;
 }
@@ -70,7 +71,7 @@ html, body {
 
 
 
-
+/* Predefined background colors for the color() command */
 .back_red {
   background-color: red !important;
 }

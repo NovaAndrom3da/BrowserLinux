@@ -1,3 +1,5 @@
+// === Command Setup ===
+// "Emulating" /bin/
 builtin = {
   "clear": {"exec": cmd_clear, "desc": "Clears the console."},
   "echo": {"exec": cmd_echo, "desc": "Prints the content provided to it"},
@@ -13,12 +15,7 @@ builtin = {
 //  "cd": {"exec": cmd_cd, "desc": "Changes the directory"}
 }
 
-env = {
-  "USERDIR": "/home/user/",
-  "DIR": "/home/user/",
-  "USERNAME": "user"
-}
-
+// "Emulating" /usr/bin/
 usr_bin = {
   "todo": {"exec": cmd_todo, "desc": "Prints the TODO List for BrowserLinux"},
   "eval": {"exec": cmd_eval, "desc": "Evaluates a JS expression"},
@@ -30,14 +27,31 @@ usr_bin = {
 }
 
 
+
+
+
+// === Environment Variables ===
+env = {
+  "USERDIR": "/home/user/",
+  "DIR": "/home/user/",
+  "USERNAME": "user"
+}
+
+// === Background Functions ===
+// Function to parse terminal commands.
 function parse(command) {
+  // Splits commands between the "&&" operator
   andcmds = command.split("&&");
   for (andcmd in andcmds) {
+    // Separates commands that have pipes. Returns a single list item if there is no pipe
     pipecmds = andcmds[andcmd].trim().split("|");
     o = "";
     for (pipecmd in pipecmds) {
+      // Get and clean up command
       fullcommand = pipecmds[pipecmd].trim().split(" ");
       cmd = fullcommand.shift()
+
+      // Runs commands if in /bin/ or /usr/bin/ and returns an error if not
       if (cmd == "") {}
       else if (cmd in builtin) {
         o = builtin[cmd].exec(fullcommand.join(" ")+o);
@@ -54,32 +68,39 @@ function parse(command) {
 }
 
 
-
+// Function that prints to the terminal
 function print(output, html=false) {
+  // Ignores empty stings
   if(!(output=="" || output=="<br>" || output=="\n" || output==undefined)){
-    cmdprompt.innerHTML += "<br>" + output;
+    // Prints to the terminal after replacing all fake newlines with real newlines
+    cmdprompt.innerHTML += "<br>" + output.split("\\n").join("<br>");
   }
 }
 
 
 
-// Commands
+// === Commands ===
+// "echo" command to print a string
 function cmd_echo(args) {
   return args;
 }
 
-
+// Clears the terminal
 function cmd_clear(args) {
   cmdprompt.innerHTML = "";
 }
 
+// Prints a help message
 function cmd_help(args) {
+  // Checks arguments
   if (args == "--usr") {
+    // Prints /usr/bin/ commands
     text = color("Showing the following "+color(Object.keys(usr_bin).length, "yellow")+" user commands:<br>--------", "green");
     for (x in usr_bin) {
       text += "<br>" + color(x, "yellow") + " - " + usr_bin[x].desc;
     }
   } else {
+    // Prints /bin/ commands
     text = color("Showing the following "+color(Object.keys(builtin).length, "yellow")+" builtin commands:<br>--------", "green");
     for (x in builtin) {
       text += "<br>" + color(x, "yellow") + " - " + builtin[x].desc;
@@ -95,26 +116,36 @@ function cmd_man(args) {
 }
 */
 
+// Pseudo-`bash` command `vmsh`
 function cmd_vmsh(args) {
   parse(args);
 }
 
+// Command with info about BrowserLinux project
 function cmd_info(args) {
   if (args == ""){
+    // Prints information about the projectf
     return color("BrowserLinux is a free and open source project aiming to get a linux environment into the standard user's browser. It is licensed under the GPLv3 license. The git repository is located at https://github.com/Froggo8311/BrowserLinux", "blue");
   } else if (args == "--contributors") {
+    // Prints contributors
     return color("Currently the only contributor is Froggo. How about you help out!<br>Type `info --gh` to go to the github page.", "orange");
   } else if (args == "--gh") {
+    // Opens the GitHub
     window.open("https://github.com/Froggo8311/BrowserLinux", "_blank");
   } else if (args == "--help" || args == "-h") {
+    // Prints arguments
     return color("-h --help", "yellow")+" Displays this help message.<br>"+color("--contributors", "yellow")+" Lists the contributors<br>"+color("--gh", "yellow")+" Opens the GitHub page in a new tab.";
   } else {
+    // Returns error for unknown argument
     return color("info has no command '"+args+"'. Type `info --help` for help on this command.", "red");
   }
 }
 
+// Command for reading and writing to environment variables
 function cmd_export(args) {
+  // Checks arguments
   if(args=="") {
+    // Prints environment variables
     text = "";
     for(envvar in env) {
       text += color(envvar, "yellow") + " = " + color(env[envvar], "orange") + "<br>";
@@ -123,28 +154,35 @@ function cmd_export(args) {
   } else if (args.includes("-u") || args.includes("--unset")) {
     // unset environment variable
   } else if (args == "-h" || args == "--help") {
+    // Prints help message
     return "`export [variable]=[value]` Sets an environment variable<br>`export [variable]` Returns the value of an environment variable<br>`export` Returns all variables and values<br><br>-h --help Displays this help message"
-  }else if (args.includes("=")) {
+  } else if (args.includes("=")) {
+    // Sets an environment variable
     statement = args.split("=");
     env[statement[0].toUpperCase().trim()] = statement[1].trim();
     return statement[0].toUpperCase().trim() + " = " + statement[1].trim();
   } else {
+    // Prints a specific environment variable
     return env[args.toUpperCase().trim()];
   }
 }
 
+// Prints a todo list for the BrowserLinux project. Could be moved to `info --todo`.
 function cmd_todo(args) {
   return "TODO List:<br>- Add env var fetch using `$VARIABLE`<br>- Add useful environment variables<br>- Make pipes less buggy when using `vmsh` as it is a problem instigator<br>- Fix `cd` command<br>- Add `wget`/`curl` command<br>- Maybe add python/c compiler (!!)";
 }
 
+// Reloads the BrowserLinux webpage
 function cmd_reload(args) {
   location.reload();
 }
 
+// Prints the working directory
 function cmd_pwd(args) {
   return env["DIR"];
 }
 
+// Changes the working directory
 function cmd_cd(args) {
   if(args == "" || args == "~") {
     env["DIR"] = env["USERDIR"];
@@ -164,6 +202,7 @@ function cmd_cd(args) {
   if (env["DIR"].substring(-1)!="/") {env["DIR"]+="/"}
 }
 
+// A virtual display. Not an immediate concern, but could potentially be a feature later on.
 function cmd_display(args) {
   if (args == "") {
     return "This command closes this terminal and opens a graphical display. " + color("The graphical display currently does nothing.", "orange") + "<br>" + color("Use `display --yes` to switch to the graphical display.", "yellow");
@@ -193,10 +232,12 @@ function cmd_cmdset(args) {
 }
 */
 
+// Search the internet with DuckDuckGo in the user's browser
 function cmd_search(args) {
   window.open("https://duckduckgo.com/?q="+args, "_blank");
 }
 
+// Evaluates a javascript expression. Can be used for math
 function cmd_eval(args) {
   if (args != "") {
     try {
@@ -209,27 +250,31 @@ function cmd_eval(args) {
   }
 }
 
+// Prints the current user's name
 function cmd_whoami(args) {
   return env["USERNAME"];
 }
 
+// Opens a webpage in the user's browser
 function cmd_open(args){
   window.open(args, "_blank")
 }
 
+// Changes the color of input text in the terminal
 function cmd_color(args) {
   consolecolor=args;
 }
 
+// A work-in-progress function to fetch the content of a webpage using a GET request
 function cmd_curl(args) {
   var req = new XMLHttpRequest();
   req.open("GET", args);
   req.onreadystatechange = function() {
     if (req.readyState === XMLHttpRequest.DONE) {
       if (req.status === 0 || (req.status >= 200 && req.status < 400)) {
-        return req.responseText;
+        print(req.responseText);
       } else {
-        return color("curl: ")
+        return print(color("curl: ", "red"));
       }
     }
   }
