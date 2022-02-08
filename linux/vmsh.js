@@ -19,10 +19,7 @@ usr_bin = {
   "todo": {"exec": cmd_todo, "desc": "Prints the TODO List for BrowserLinux", "ver": "0.1"},
   "eval": {"exec": cmd_eval, "desc": "Evaluates a JS expression", "ver": "0.1"},
   "whoami": {"exec": cmd_whoami, "desc": "Print the current user", "ver": "0.1"},
-  "search": {"exec": cmd_search, "desc": "Search the internet", "ver": "0.1"},
   "reload": {"exec": cmd_reload, "desc": "Reload the browser window", "ver": "0.1"},
-  "open": {"exec": cmd_open, "desc": "Open a webpage", "ver": "0.1"},
-  "curl": {"exec": cmd_curl, "desc": "CURL", "ver": "0.1"},
   "blpm": {"exec": cmd_blpm, "desc": "BrowserLinux Package Manager", "ver": "0.1"}
 }
 
@@ -224,28 +221,6 @@ function cmd_display(args) {
   }
 }
 
-/* Disabled `cmdset`
-function cmd_cmdset(args) {
-  if (args == "" || args == "-h" || args == "--help") {
-    return "USAGE: `cmdset [ENVVAR] as [command name] as [description]`";
-  } else if (args.includes(" as ")) {
-    kw = args.split(" as ");
-    constructed = {
-      "exec": function(args) { cmd_vmsh(env[kw[1].trim().toUpperCase()]); },
-      "desc": kw[2].trim()
-    }
-    usr_bin[kw[0].trim()] = constructed;
-    delete(env[kw[1].trim()]);
-    return kw[1].trim().toUpperCase() + ": "+ kw[2].trim();
-  }
-}
-*/
-
-// Search the internet with DuckDuckGo in the user's browser
-function cmd_search(args) {
-  window.open("https://duckduckgo.com/?q="+args, "_blank");
-}
-
 // Evaluates a javascript expression. Can be used for math
 function cmd_eval(args) {
   if (args != "") {
@@ -264,29 +239,9 @@ function cmd_whoami(args) {
   return env["USERNAME"];
 }
 
-// Opens a webpage in the user's browser
-function cmd_open(args){
-  window.open(args, "_blank")
-}
-
 // Changes the color of input text in the terminal
 function cmd_color(args) {
   consolecolor=args;
-}
-
-// A work-in-progress function to fetch the content of a webpage using a GET request
-function cmd_curl(args) {
-  var req = new XMLHttpRequest();
-  req.open("GET", args);
-  req.onreadystatechange = function() {
-    if (req.readyState === XMLHttpRequest.DONE) {
-      if (req.status === 0 || (req.status >= 200 && req.status < 400)) {
-        print(req.responseText);
-      } else {
-        return print(color("curl: ", "red"));
-      }
-    }
-  }
 }
 
 // BrowserLinux Package Manager
@@ -299,7 +254,7 @@ function cmd_blpm(args) {
       xhr = new XMLHttpRequest();
       xhr.open("GET", "/blpm/"+arglist[i]+"/install");
       xhr.timeout = 2000;
-      function finishLoad() {
+      finishLoad = function() {
         if (xhr.readyState == 4) {
           installcmd = JSON.parse(xhr.responseText);
           if (installcmd["Error"] == "Package not present") {
@@ -320,7 +275,6 @@ function cmd_blpm(args) {
               print(color("The command '"+bold(arglist[i])+"' was found, but has no valid 'type' attribute.<br>", "red"));
               return;
             }
-            return;
           }
         } else {
           setTimeout(finishLoad, 50);

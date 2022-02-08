@@ -1,0 +1,1 @@
+{"exec": "window.open(args, \"_blank\")", "type": "js", "desc": "Open a webpage", "ver": "0.1"}
