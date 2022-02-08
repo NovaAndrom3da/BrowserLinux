@@ -2,11 +2,11 @@
 function scroll(){window.scrollTo(0,document.body.scrollHeight);}
 
 // For future graphical display
-var canvas = document.querySelector("#display");
+/*var canvas = document.querySelector("#display");
 setInterval(function(){
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-}, 5000);
+}, 5000);*/
 
 // Timeout to ensure document is fully loaded before initialization      
 setTimeout(function(){
@@ -14,7 +14,8 @@ setTimeout(function(){
   cmdprompt = document.querySelector("#cmdprompt");
 
   // Welcome message
-  cmdprompt.innerHTML = color("Welcome to BrowserLinux! Type `help` for help or `info --contributors` for contributors.", "violet") + "<br>"+color("Start typing...", "green") + " " + color(">>", "lightblue") + " ";
+  welcomeText = color("Welcome to BrowserLinux! Type `help` for help or `info --contributors` for contributors.", "violet");
+  cmdprompt.innerHTML = welcomeText + "<br>"+color("Start typing...", "green") + " " + color(">>", "lightblue") + " ";
 
   // Current command line
   currline = "";
@@ -25,6 +26,7 @@ setTimeout(function(){
 
   // WIP. For functions to capture user keyboard input
   cmdkeybind = undefined;
+  userHasAccess = true;
 
   // Change the color of the console input text
   consolecolor = "white";
@@ -98,7 +100,13 @@ setTimeout(function(){
       }
 
       // Sets command to the last line of the terminal
-      cmdlist[cmdlist.length-1] = color(env["DIR"], "green") + " " + color(">>", "lightblue") + " " + color(currline, consolecolor);
+      currlineTemp = color(env["DIR"], "green") + " " + color(">>", "lightblue") + " " + color(currline, consolecolor);
+      if (userHasAccess) {
+/*        if (cmdlist[cmdlist.length-1] == "" || cmdlist[cmdlist.length-1].startsWith("<div style='coloredtext fore_green>/")) {} else {
+          cmdlist.push("");
+        } */
+        cmdlist[cmdlist.length-1] = currlineTemp;
+      }
 
       cmdprompt.innerHTML = cmdlist.join("<br>");
     } else {
@@ -135,11 +143,12 @@ function tab() {
 }
 
 // Adds a command to /usr/bin/ with the provided javascript
-function addCommandFromJS(cmd=function(args){}, name="", description="No description provided.") {
+function addCommandFromJS(cmd=function(args){}, name="", description="No description provided.", ver="0.1") {
   if(typeof(usr_bin[name])=="undefined") {
     usr_bin[name] = {
       "exec": cmd,
-      "desc": description
+      "desc": description,
+      "ver": ver
     };
     return 1;
   } else {
@@ -147,14 +156,28 @@ function addCommandFromJS(cmd=function(args){}, name="", description="No descrip
   }
 }
 
+function addCommandFromJSStr(cmd="", name, description, ver="0.1") {
+  if(typeof(usr_bin[name]) == "undefined") {
+    usr_bin[name] = {
+      "exec": Function(String(cmd)),
+      "desc": description,
+      "ver": ver
+    }
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
 // Adds a command to /usr/bin/ with the provided vmshell script
-function addCommandFromVMSH(cmd="", name="", description="No description provided.") {
+function addCommandFromVMSH(cmd="", name="", description="No description provided.", ver="0.1") {
   if(typeof(usr_bin[name])=="undefined") {
     usr_bin[name] = {
       "exec": function(args) {
         parse(cmd + " " + args);
       },
-      "desc": description
+      "desc": description,
+      "ver": ver
     }
     return 1;
   } else {

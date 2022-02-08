@@ -1,0 +1,1 @@
+{"desc": "A test JS function", "type": "js", "exec": "print('this is a test program for running javascript programs in BrowserLinux'); print(\"the only change required is in the program's 'type' paramater in its json file\");", "ver": "0.1"}

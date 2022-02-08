@@ -1,6 +1,6 @@
 // === Command Setup ===
 // "Emulating" /bin/
-builtin = {
+bin = {
   "clear": {"exec": cmd_clear, "desc": "Clears the console."},
   "echo": {"exec": cmd_echo, "desc": "Prints the content provided to it"},
   "help": {"exec": cmd_help, "desc": "Shows this help message"},
@@ -9,7 +9,7 @@ builtin = {
   "info": {"exec": cmd_info, "desc": "Provides information about the software. Type `info -h` for more options"},
   "export": {"exec": cmd_export, "desc": "Reads and writes environment variables"},
   "pwd": {"exec": cmd_pwd, "desc": "Prints the working directory"},
-  "display": {"exec": cmd_display, "desc": "Connect to a virtual display"},
+//  "display": {"exec": cmd_display, "desc": "Connect to a virtual display"},
   "color": {"exec": cmd_color, "desc": "Change color"}
 //  "cd": {"exec": cmd_cd, "desc": "Changes the directory"}
 }
@@ -38,8 +38,13 @@ env = {
 }
 
 // === Background Functions ===
+function cmdexec(from, command, args) {
+  return from[command].exec(args);
+}
+
 // Function to parse terminal commands.
 function parse(command) {
+  userHasAccess = false;
   // Splits commands between the "&&" operator
   andcmds = command.split("&&");
   for (andcmd in andcmds) {
@@ -53,17 +58,19 @@ function parse(command) {
 
       // Runs commands if in /bin/ or /usr/bin/ and returns an error if not
       if (cmd == "") {}
-      else if (cmd in builtin) {
-        o = builtin[cmd].exec(fullcommand.join(" ")+o);
+      else if (cmd in bin) {
+        o = cmdexec(bin, cmd, fullcommand.join(" ")+o);
       } else if (cmd in usr_bin) {
-        o = usr_bin[cmd].exec(fullcommand.join(" ")+o);
+        o = cmdexec(usr_bin, cmd, fullcommand.join(" ")+o);
       } else {
-        print(color("vmsh: <strong>"+cmd.split("<br>").join(" ")+"</strong>: command not found", "red"), true);
+        print(color("vmsh: <strong>"+cmd.split("<br>").join(" ").split(tab()).join(" ")+"</strong>: command not found", "red"), true);
+        userHasAccess = true;
         return "";
       }
     }
     print(o);
   }
+  userHasAccess = true;
   return "";
 }
 
@@ -101,9 +108,9 @@ function cmd_help(args) {
     }
   } else {
     // Prints /bin/ commands
-    text = color("Showing the following "+color(Object.keys(builtin).length, "yellow")+" builtin commands:<br>--------", "green");
-    for (x in builtin) {
-      text += "<br>" + color(x, "yellow") + tab() + tab() + builtin[x].desc;
+    text = color("Showing the following "+color(Object.keys(bin).length, "yellow")+" bin commands:<br>--------", "green");
+    for (x in bin) {
+      text += "<br>" + color(x, "yellow") + tab() + tab() + bin[x].desc;
     }
     text += "<br>" + color("--------", "green") + "<br>" + color("Type `help --usr` to view all", "green") + " " + color(Object.keys(usr_bin).length, "yellow") + " " + color("user commands.", "green")
   }
@@ -135,6 +142,8 @@ function cmd_info(args) {
   } else if (args == "--help" || args == "-h") {
     // Prints arguments
     return color("-h --help", "yellow")+tab()+tab()+"Displays this help message.\n"+color("--contributors", "yellow")+ tab() + tab() +"Lists the contributors\n"+color("--gh", "yellow") + tab() + tab() + "Opens the GitHub page in a new tab.";
+  } else if (args == "-w") {
+    return welcomeText;
   } else {
     // Returns error for unknown argument
     return color("info has no command '"+bold(args)+"'. Type `info --help` for help on this command.", "red");
@@ -285,7 +294,41 @@ function cmd_blpm(args) {
   arglist = args.split(" ");
   blpmcmd = arglist.shift();
   if (blpmcmd == "install") {
-    return "nope :/";
+    print("Checking package databases...");
+    for (i in arglist) {
+      xhr = new XMLHttpRequest();
+      xhr.open("GET", "/blpm/"+arglist[i]+"/install");
+      xhr.timeout = 2000;
+      function finishLoad() {
+        if (xhr.readyState == 4) {
+          installcmd = JSON.parse(xhr.responseText);
+          if (installcmd["Error"] == "Package not present") {
+            print(color("There is no package with the name '"+bold(arglist[i])+"'<br>", "red"));
+            return;
+          }
+          if (arglist[i] in usr_bin) {
+            print("The package '"+bold(arglist[i])+"' is already installed.");
+          } else {
+            print("Downloaded. Installing...");
+            if (installcmd["type"] == "vmsh") {
+              addCommandFromVMSH(installcmd.exec, arglist[i], installcmd.desc, installcmd.ver);
+              print("Successfully installed '"+bold(arglist[i])+"'<br>");
+            } else if (installcmd["type"] == "js") {
+              addCommandFromJSStr(installcmd.exec, arglist[i], installcmd.desc, installcmd.ver);
+              print("Successfully installed '"+bold(arglist[i])+"'<br>");
+            } else {
+              print(color("The command '"+bold(arglist[i])+"' was found, but has no valid 'type' attribute.<br>", "red"));
+              return;
+            }
+            return;
+          }
+        } else {
+          setTimeout(finishLoad, 50);
+        }
+      }
+      xhr.send();
+      finishLoad();
+    }
   } else if (blpmcmd == "remove" || blpmcmd == "purge") {
     for (i in arglist) {
       if (arglist[i] in usr_bin) {

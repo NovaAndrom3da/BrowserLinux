@@ -1,6 +1,6 @@
 # Import modules
 from flask import Flask, request
-# import os, json    # Where are these modules used?
+import os, json
 
 app = Flask(__name__)
 
@@ -18,6 +18,22 @@ def assets(f):
 @app.route("/bin/<f>")
 def binasset(f):
   return open("bin/"+f, "rb").read()
+
+# Send information of a package, returns an error if package is nonexistant
+@app.route("/blpm/<package>")
+def packageExists(package):
+  if ((package + ".json") in os.listdir("packages")):
+    file = open("packages/"+package+".json").read();
+    desc = json.loads(file)["desc"]
+    return json.dumps({"desc": desc})
+  return json.dumps({"Error": "Package not present"})
+
+# Send full package
+@app.route("/blpm/<package>/install")
+def installPackage(package):
+  if 'Error' in json.loads(packageExists(package)):
+    return packageExists(package)
+  return open("packages/"+package+".json").read()
 
 # Run the server
 app.run('0.0.0.0', 80)
