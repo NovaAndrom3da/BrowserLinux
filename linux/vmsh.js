@@ -17,7 +17,6 @@ bin = {
 // "Emulating" /usr/bin/
 usr_bin = {
   "todo": {"exec": cmd_todo, "desc": "Prints the TODO List for BrowserLinux", "ver": "0.1"},
-  "eval": {"exec": cmd_eval, "desc": "Evaluates a JS expression", "ver": "0.1"},
   "whoami": {"exec": cmd_whoami, "desc": "Print the current user", "ver": "0.1"},
   "reload": {"exec": cmd_reload, "desc": "Reload the browser window", "ver": "0.1"},
   "blpm": {"exec": cmd_blpm, "desc": "BrowserLinux Package Manager", "ver": "0.1"}
@@ -229,9 +228,7 @@ function cmd_eval(args) {
     } catch (err) {
       return color("eval: "+err, "red");
     }
-  } else {
-    
-  }
+  } else {}
 }
 
 // Prints the current user's name
@@ -299,7 +296,23 @@ function cmd_blpm(args) {
       print(color(i, "yellow")+tab()+"v"+usr_bin[i].ver);
     }
   } else if (args == "--help" || args == "-h") {
-    return color("-h --help", "yellow") + tab() + tab() + "Shows this help message\n" + color("install [packages]", "yellow") + tab() + tab() + "Installs a package\n" + color("remove [packages]", "yellow") + tab() + tab() + "Uninstalls a package\n" + color("purge [packages]", "yellow") + tab() + tab() + "Uninstalls a package";
+    return color("-h --help", "yellow") + tab() + tab() + "Shows this help message\n" + color("install [packages]", "yellow") + tab() + tab() + "Installs a package\n" + color("remove [packages]", "yellow") + tab() + tab() + "Uninstalls a package\n" + color("purge [packages]", "yellow") + tab() + tab() + "Uninstalls a package\n" + color("remote", "yellow") + tab() + tab() + "Lists all remote programs to install";
+  } else if (blpmcmd == "remote") {
+    print("Reading remote database...")
+    remotepackages = new XMLHttpRequest();
+    remotepackages.open("GET", "/blpm-listall");
+    remotepackages.onreadystatechange = function() {
+      if(remotepackages.readyState == 4) {
+        o = "";
+        commandstoinstall = JSON.parse(remotepackages.responseText);
+        keys = Object.keys(commandstoinstall);
+        for (i in keys) {
+          o += color(keys[i], "yellow") + tab() + commandstoinstall[keys[i]] + "<br>";
+        }
+        print(o);
+      }
+    }
+    remotepackages.send();
   } else {
     return color("blpm has no command '"+bold(blpmcmd)+"'. Type `blpm --help` for help on this command.", "red");
   }

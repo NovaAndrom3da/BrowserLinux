@@ -21,8 +21,10 @@ setTimeout(function(){
   currline = "";
   
   // A stone-age approach to a command history
-  lastcmd = "";    // The previous command
   pausedcmd = "";  // Whatever the user types before pressing "up"
+  historyindex = 0;
+  cmdhistory = [];
+  
 
   // WIP. For functions to capture user keyboard input
   cmdkeybind = undefined;
@@ -65,17 +67,24 @@ setTimeout(function(){
         // Return key. Runs the command
         parse(currline);
         cmdprompt.innerHTML += "<br>";
-        lastcmd = currline;
+        cmdhistory[cmdhistory.length] = currline;
         currline = "";
+        historyindex = cmdhistory.length-1;
         scroll();
       } else if (e.key == "ArrowUp") {
         // Previous command ("history function")
-        pausedcmd = currline;
-        currline = lastcmd;
+        historyindex-2;
+        if (historyindex < 0) {historyindex = 0}
+        currline = cmdhistory[historyindex];
         scroll();
       } else if (e.key == "ArrowDown") {
         // Previous command ("history function")
-        currline = pausedcmd;
+        if (historyindex == cmdhistory.length) {
+          currline = pausedcmd;
+        } else {
+          historyindex++;
+          currline = cmdhistory[historyindex];
+        }        
         scroll();
       } else if (e.key == "Tab") {
         // Autocomplete command function.
@@ -159,7 +168,7 @@ function addCommandFromJS(cmd=function(args){}, name="", description="No descrip
 function addCommandFromJSStr(cmd="", name, description, ver="0.1") {
   if(typeof(usr_bin[name]) == "undefined") {
     usr_bin[name] = {
-      "exec": Function(String(cmd)),
+      "exec": Function("args", String(cmd)),
       "desc": description,
       "ver": ver
     }

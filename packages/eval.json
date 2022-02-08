@@ -1,0 +1,1 @@
+{"exec": "\n  if (args != \"\") {\n    try {\n      return color(Function('\"use strict\"; return (' + String(args) + ')')(), \"yellow\");\n    } catch (err) {\n      return color(\"eval: \"+err, \"red\");}} else {}", "type": "js", "desc": "Evaluates a JS expression", "ver": "0.1"}
