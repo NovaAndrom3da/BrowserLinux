@@ -19,6 +19,11 @@ html, body {
   display: inline-block;
 }
 
+.tab {
+  display: inline-block;
+  width: 28pt;
+}
+
 
 /* Predefined font colors for the color() command */
 .fore_red {
@@ -26,11 +31,15 @@ html, body {
 }
 
 .fore_orange {
-  color: orange !important;
+  color: #ffa500 !important;
 }
 
 .fore_yellow {
   color: yellow !important;
+}
+
+.fore_lightgreen {
+  color: #16d804 !important;
 }
 
 .fore_green {
@@ -77,11 +86,15 @@ html, body {
 }
 
 .back_orange {
-  background-color: orange !important;
+  background-color: #ffa500 !important;
 }
 
 .back_yellow {
   background-color: yellow !important;
+}
+
+.back_lightgreen {
+  background-color: #16d804 !important;
 }
 
 .back_green {

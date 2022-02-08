@@ -11,19 +11,19 @@ builtin = {
   "pwd": {"exec": cmd_pwd, "desc": "Prints the working directory"},
   "display": {"exec": cmd_display, "desc": "Connect to a virtual display"},
   "color": {"exec": cmd_color, "desc": "Change color"}
-//  "cmdset": {"exec": cmd_cmdset, "desc": "Sets a command stored in an environment variable"},
 //  "cd": {"exec": cmd_cd, "desc": "Changes the directory"}
 }
 
 // "Emulating" /usr/bin/
 usr_bin = {
-  "todo": {"exec": cmd_todo, "desc": "Prints the TODO List for BrowserLinux"},
-  "eval": {"exec": cmd_eval, "desc": "Evaluates a JS expression"},
-  "whoami": {"exec": cmd_whoami, "desc": "Print the current user"},
-  "search": {"exec": cmd_search, "desc": "Search the internet"},
-  "reload": {"exec": cmd_reload, "desc": "Reload the browser window"},
-  "open": {"exec": cmd_open, "desc": "Open a webpage"},
-  "curl": {"exec": cmd_curl, "desc": "CURL"}
+  "todo": {"exec": cmd_todo, "desc": "Prints the TODO List for BrowserLinux", "ver": "0.1"},
+  "eval": {"exec": cmd_eval, "desc": "Evaluates a JS expression", "ver": "0.1"},
+  "whoami": {"exec": cmd_whoami, "desc": "Print the current user", "ver": "0.1"},
+  "search": {"exec": cmd_search, "desc": "Search the internet", "ver": "0.1"},
+  "reload": {"exec": cmd_reload, "desc": "Reload the browser window", "ver": "0.1"},
+  "open": {"exec": cmd_open, "desc": "Open a webpage", "ver": "0.1"},
+  "curl": {"exec": cmd_curl, "desc": "CURL", "ver": "0.1"},
+  "blpm": {"exec": cmd_blpm, "desc": "BrowserLinux Package Manager", "ver": "0.1"}
 }
 
 
@@ -58,7 +58,7 @@ function parse(command) {
       } else if (cmd in usr_bin) {
         o = usr_bin[cmd].exec(fullcommand.join(" ")+o);
       } else {
-        print(color("vmsh: <strong>"+cmd+"</strong>: command not found", "red"), true);
+        print(color("vmsh: <strong>"+cmd.split("<br>").join(" ")+"</strong>: command not found", "red"), true);
         return "";
       }
     }
@@ -73,7 +73,7 @@ function print(output, html=false) {
   // Ignores empty stings
   if(!(output=="" || output=="<br>" || output=="\n" || output==undefined)){
     // Prints to the terminal after replacing all fake newlines with real newlines
-    cmdprompt.innerHTML += "<br>" + output.split("\\n").join("<br>");
+    cmdprompt.innerHTML += "<br>" + output.split("\n").join("<br>").split("\\n").join("<br>").split("\\t").join("<div class='tab'></div>");
   }
 }
 
@@ -97,13 +97,13 @@ function cmd_help(args) {
     // Prints /usr/bin/ commands
     text = color("Showing the following "+color(Object.keys(usr_bin).length, "yellow")+" user commands:<br>--------", "green");
     for (x in usr_bin) {
-      text += "<br>" + color(x, "yellow") + " - " + usr_bin[x].desc;
+      text += "<br>" + color(x, "yellow") + tab() + tab() + usr_bin[x].desc;
     }
   } else {
     // Prints /bin/ commands
     text = color("Showing the following "+color(Object.keys(builtin).length, "yellow")+" builtin commands:<br>--------", "green");
     for (x in builtin) {
-      text += "<br>" + color(x, "yellow") + " - " + builtin[x].desc;
+      text += "<br>" + color(x, "yellow") + tab() + tab() + builtin[x].desc;
     }
     text += "<br>" + color("--------", "green") + "<br>" + color("Type `help --usr` to view all", "green") + " " + color(Object.keys(usr_bin).length, "yellow") + " " + color("user commands.", "green")
   }
@@ -134,10 +134,10 @@ function cmd_info(args) {
     window.open("https://github.com/Froggo8311/BrowserLinux", "_blank");
   } else if (args == "--help" || args == "-h") {
     // Prints arguments
-    return color("-h --help", "yellow")+" Displays this help message.<br>"+color("--contributors", "yellow")+" Lists the contributors<br>"+color("--gh", "yellow")+" Opens the GitHub page in a new tab.";
+    return color("-h --help", "yellow")+tab()+tab()+"Displays this help message.\n"+color("--contributors", "yellow")+ tab() + tab() +"Lists the contributors\n"+color("--gh", "yellow") + tab() + tab() + "Opens the GitHub page in a new tab.";
   } else {
     // Returns error for unknown argument
-    return color("info has no command '"+args+"'. Type `info --help` for help on this command.", "red");
+    return color("info has no command '"+bold(args)+"'. Type `info --help` for help on this command.", "red");
   }
 }
 
@@ -155,7 +155,7 @@ function cmd_export(args) {
     // unset environment variable
   } else if (args == "-h" || args == "--help") {
     // Prints help message
-    return "`export [variable]=[value]` Sets an environment variable<br>`export [variable]` Returns the value of an environment variable<br>`export` Returns all variables and values<br><br>-h --help Displays this help message"
+    return color("export [variable]=[value]", "yellow") + tab() + tab() + "Sets an environment variable`export [variable]` Returns the value of an environment variable<br>`export` Returns all variables and values<br><br>-h --help Displays this help message"
   } else if (args.includes("=")) {
     // Sets an environment variable
     statement = args.split("=");
@@ -209,7 +209,7 @@ function cmd_display(args) {
   } else if (args == "--yes" || args == "-y") {
     return color("Not yet implemented.", "yellow");
   } else if (args == "-h" || args == "--help") {
-    return "`-h` `--help` Shows this help message<br>`--yes` `-y` Opens the graphical display";
+    return "`-h` `--help`"+tab()+"Shows this help message<br>`--yes` `-y`"+tab()+"Opens the graphical display";
   } else {
     return color("display has no command '"+args+"'. Type `display --help` for help on this command.", "red");
   }
@@ -277,5 +277,33 @@ function cmd_curl(args) {
         return print(color("curl: ", "red"));
       }
     }
+  }
+}
+
+// BrowserLinux Package Manager
+function cmd_blpm(args) {
+  arglist = args.split(" ");
+  blpmcmd = arglist.shift();
+  if (blpmcmd == "install") {
+    return "nope :/";
+  } else if (blpmcmd == "remove" || blpmcmd == "purge") {
+    for (i in arglist) {
+      if (arglist[i] in usr_bin) {
+        print("Removing "+arglist[i]+"...");
+        delete(usr_bin[arglist[i]]);
+        print("Done.");
+      } else {
+        return "blpm: could not find package '"+arglist[i]+"'";
+      }
+    }
+    return "Finished removing packages.";
+  } else if (blpmcmd == "list") {
+    for (i in usr_bin) {
+      print(color(i, "yellow")+tab()+"v"+usr_bin[i].ver);
+    }
+  } else if (args == "--help" || args == "-h") {
+    return color("-h --help", "yellow") + tab() + tab() + "Shows this help message\n" + color("install [packages]", "yellow") + tab() + tab() + "Installs a package\n" + color("remove [packages]", "yellow") + tab() + tab() + "Uninstalls a package\n" + color("purge [packages]", "yellow") + tab() + tab() + "Uninstalls a package";
+  } else {
+    return color("blpm has no command '"+bold(blpmcmd)+"'. Type `blpm --help` for help on this command.", "red");
   }
 }

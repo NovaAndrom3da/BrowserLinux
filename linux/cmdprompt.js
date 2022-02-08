@@ -129,6 +129,11 @@ function bold(text="") {
   return "<strong>"+text+"</strong>";
 }
 
+// A tab
+function tab() {
+  return "<div class='tab'></div>";
+}
+
 // Adds a command to /usr/bin/ with the provided javascript
 function addCommandFromJS(cmd=function(args){}, name="", description="No description provided.") {
   if(typeof(usr_bin[name])=="undefined") {
