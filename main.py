@@ -38,7 +38,9 @@ def installPackage(package):
 @app.route("/blpm-listall")
 def listallRemote():
   allpackages = {}
-  for i in os.listdir("packages").sort():
+  dir = os.listdir("packages")
+  dir.sort();
+  for i in dir:
     file = open("packages/"+i).read()
     name = i.rstrip("json").rstrip(".")
     allpackages[name] = json.loads(file)["desc"]
