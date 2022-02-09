@@ -132,7 +132,7 @@ function cmd_vmsh(args) {
 function cmd_info(args) {
   if (args == ""){
     // Prints information about the projectf
-    return color("BrowserLinux is a free and open source project aiming to get a linux environment into the standard user's browser. It is licensed under the GPLv3 license. The git repository is located at https://github.com/Froggo8311/BrowserLinux", "blue");
+    return color("BrowserLinux is a free and open source project aiming to get a linux environment into the standard user's browser. It is licensed under the GPLv3 license.<br>The git repository is located at https://github.com/Froggo8311/BrowserLinux but can be quickly accessed using `info --gh`", "blue");
   } else if (args == "--contributors") {
     // Prints contributors
     return color("Currently the only contributor is Froggo. How about you help out!<br>Type `info --gh` to go to the github page.", "orange");
@@ -309,7 +309,13 @@ function cmd_blpm(args) {
     remotepackages.onreadystatechange = function() {
       if(remotepackages.readyState == 4) {
         o = "";
-        commandstoinstall = JSON.parse(remotepackages.responseText);
+        try {
+          commandstoinstall = JSON.parse(remotepackages.responseText);
+        } catch {
+          print(color("There was an error when trying to connect to the server<br>", "red"));
+          return;
+        }
+        
         keys = Object.keys(commandstoinstall);
         for (i in keys) {
           o += color(keys[i], "yellow") + tab() + commandstoinstall[keys[i]] + "<br>";
