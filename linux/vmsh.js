@@ -301,7 +301,7 @@ function cmd_blpm(args) {
       print(color(i, "yellow")+tab()+"v"+usr_bin[i].ver);
     }
   } else if (args == "--help" || args == "-h") {
-    return color("-h --help", "yellow") + tab() + tab() + "Shows this help message\n" + color("install [packages]", "yellow") + tab() + tab() + "Installs a package\n" + color("remove [packages]", "yellow") + tab() + tab() + "Uninstalls a package\n" + color("purge [packages]", "yellow") + tab() + tab() + "Uninstalls a package\n" + color("remote", "yellow") + tab() + tab() + "Lists all remote programs to install";
+    return color("-h --help", "yellow") + tab() + tab() + "Shows this help message\n" + color("install [packages]", "yellow") + tab() + tab() + "Installs a package\n" + color("remove [packages]", "yellow") + tab() + tab() + "Uninstalls a package\n" + color("purge [packages]", "yellow") + tab() + tab() + "Uninstalls a package\n" + color("list", "yellow") + tab() + tab() + "Lists all currently installed packages\n" + color("remote", "yellow") + tab() + tab() + "Lists all remote programs to install";
   } else if (blpmcmd == "remote") {
     print("Reading remote database...")
     remotepackages = new XMLHttpRequest();

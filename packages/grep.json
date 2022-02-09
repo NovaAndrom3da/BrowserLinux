@@ -1,1 +1,1 @@
-{"exec": "arglist = args.split(\" \"); search = arglist.shift(); args.join(\" \"); olist = []; bylines = arglist.split(\"\n\"); for(i in bylines){if(search in bylines[i]) {olist.push(bylines[i]);}}; return olist.join(\"\n\");", "type": "js", "desc": "", "ver": "0.1"}
+{"exec": "arglist = args.split(' '); search = arglist.shift(); args.join(' '); olist = []; bylines = arglist.split('\n'); for(i in bylines){if(search in bylines[i]) {olist.push(bylines[i]);}}; return olist.join('\n');", "type": "js", "desc": "No description provided", "ver": "0.1"}

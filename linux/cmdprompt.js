@@ -95,7 +95,7 @@ setTimeout(function(){
         } else if (keywords.length == 1) {
           currline = keywords[0] + " ";
         } else if (currline == "") {
-          setTimeout(function(){cmdprompt.innerHTML += "<br>" + color(Object.keys(builtin).concat(Object.keys(usr_bin)).join(" "), "yellow");}, 200);
+          setTimeout(function(){cmdprompt.innerHTML += "<br>" + color(Object.keys(bin).concat(Object.keys(usr_bin)).join(" "), "yellow");}, 200);
         }
         cmdprompt.focus();
       }
@@ -201,7 +201,7 @@ function kwsearch(cmd) {
     return [];
   }
   var reg = new RegExp(cmd)
-  return (Object.keys(builtin).concat(Object.keys(usr_bin))).filter(function(term) {
+  return (Object.keys(bin).concat(Object.keys(usr_bin))).filter(function(term) {
 	  if (term.match(reg)) {
   	  return term;
 	  }
