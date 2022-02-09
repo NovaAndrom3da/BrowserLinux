@@ -90,7 +90,11 @@ function cmd_echo(args) {
 
 // Clears the terminal
 function cmd_clear(args) {
-  cmdprompt.innerHTML = "";
+  if (args == "-r") {
+    parse("clear && info -w");
+  } else {
+    cmdprompt.innerHTML = "";
+  }
 }
 
 // Prints a help message
