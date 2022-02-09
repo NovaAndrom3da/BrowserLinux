@@ -42,7 +42,7 @@ def listallRemote():
     file = open("packages/"+i).read()
     name = i.rstrip("json").rstrip(".")
     allpackages[name] = json.loads(file)["desc"]
-  return json.dumps(allpackages)
+  return json.dumps(allpackages.sort())
 
 # Run the server
 app.run('0.0.0.0', 80)
