@@ -143,6 +143,7 @@ function cmd_info(args) {
     // Prints arguments
     return color("-h --help", "yellow")+tab()+tab()+"Displays this help message.\n"+color("--contributors", "yellow")+ tab() + tab() +"Lists the contributors\n"+color("--gh", "yellow") + tab() + tab() + "Opens the GitHub page in a new tab.";
   } else if (args == "-w") {
+    // Display welcome message
     return welcomeText;
   } else {
     // Returns error for unknown argument
