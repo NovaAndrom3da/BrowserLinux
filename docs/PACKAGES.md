@@ -8,4 +8,6 @@ Packages are stored in `.json` files in the `packages` folder. They are identifi
 
 `ver`: The command version
 
+`require`: Any packages required for the program to run, inside a list
+
 See the commands inside of the packages folder for examples.
