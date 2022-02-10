@@ -247,43 +247,76 @@ function cmd_color(args) {
 }
 
 // BrowserLinux Package Manager
+blpm_background_process = setInterval(function(){
+  if (blpm_install_queue.length > 0) {
+    pkg = blpm_install_queue[0];
+    if (pkg in usr_bin) {
+      print("The package '"+bold(pkg)+"' is already installed.<br>");
+      return;
+    }
+    xhr = new XMLHttpRequest();
+    xhr.open("GET", "/blpm/"+pkg+"/install");
+    xhr.timeout = 2000;
+    finishLoad = function() {
+      if (xhr.readyState == 4) {
+        installcmd = JSON.parse(xhr.responseText);
+        if (installcmd["Error"] == "Package not present") {
+          print(color("There is no package with the name '"+bold(pkg)+"'<br>", "red"));
+          blpm_install_queue.shift();
+          return;
+        }
+        if (pkg in usr_bin) {
+          print("The package '"+bold(pkg)+"' is already installed.<br>");
+          blpm_install_queue.shift();
+        } else {
+          print("Downloaded '"+bold(pkg)+"'. Installing...");
+          if (installcmd["type"] == "vmsh") {
+            try {
+              addCommandFromVMSH(installcmd.exec, pkg, installcmd.desc, installcmd.ver);
+              blpm_install_queue.shift();
+              print("Successfully installed '"+bold(pkg)+"'<br>");
+            } catch {
+              print(color("There was an issue installing '"+bold(pkg)+"'. Perhaps there is an error in the program?<br>", "red"));
+              blpm_install_queue.shift();
+              return;
+            }
+          } else if (installcmd["type"] == "js") {
+            try {
+              addCommandFromJSStr(installcmd.exec, pkg, installcmd.desc, installcmd.ver);
+              blpm_install_queue.shift();
+              print("Successfully installed '"+bold(pkg)+"'<br>");
+            } catch {
+              print(color("There was an issue installing '"+bold(pkg)+"'. Perhaps there is an error in the program?<br>", "red"));
+              blpm_install_queue.shift();
+              return;
+            }
+          } else {
+            print(color("The command '"+bold(pkg)+"' was found, but has no valid 'type' attribute.<br>", "red"));
+            return;
+          }
+          if (typeof(installcmd.require)=="undefined" || installcmd.require == 0) {
+            for (i in installcmd.require) {
+              blpm_install_queue.push(installcmd.require[i]);
+            }
+          }
+        }
+      } else {
+        setTimeout(finishLoad, 50);
+      }
+    }
+    xhr.send();
+    finishLoad();
+  }
+}, 2500);
+
+blpm_install_queue = [];
 function cmd_blpm(args) {
   arglist = args.split(" ");
   blpmcmd = arglist.shift();
   if (blpmcmd == "install") {
     print("Checking package databases...");
     for (i in arglist) {
-      xhr = new XMLHttpRequest();
-      xhr.open("GET", "/blpm/"+arglist[i]+"/install");
-      xhr.timeout = 2000;
-      finishLoad = function() {
-        if (xhr.readyState == 4) {
-          installcmd = JSON.parse(xhr.responseText);
-          if (installcmd["Error"] == "Package not present") {
-            print(color("There is no package with the name '"+bold(arglist[i])+"'<br>", "red"));
-            return;
-          }
-          if (arglist[i] in usr_bin) {
-            print("The package '"+bold(arglist[i])+"' is already installed.");
-          } else {
-            print("Downloaded. Installing...");
-            if (installcmd["type"] == "vmsh") {
-              addCommandFromVMSH(installcmd.exec, arglist[i], installcmd.desc, installcmd.ver);
-              print("Successfully installed '"+bold(arglist[i])+"'<br>");
-            } else if (installcmd["type"] == "js") {
-              addCommandFromJSStr(installcmd.exec, arglist[i], installcmd.desc, installcmd.ver);
-              print("Successfully installed '"+bold(arglist[i])+"'<br>");
-            } else {
-              print(color("The command '"+bold(arglist[i])+"' was found, but has no valid 'type' attribute.<br>", "red"));
-              return;
-            }
-          }
-        } else {
-          setTimeout(finishLoad, 50);
-        }
-      }
-      xhr.send();
-      finishLoad();
+      blpm_install_queue.push(arglist[i]);
     }
   } else if (blpmcmd == "remove" || blpmcmd == "purge") {
     for (i in arglist) {
