@@ -34,7 +34,7 @@ setTimeout(function(){
   consolecolor = "white";
 
   // Command line text input
-  cmdprompt.addEventListener('keydown', function(e){
+  window.cmdprompt_keydown = function(e){
     // Check if command has access to keyboard input
     if (typeof(cmdkeybind)=="undefined") {
 
@@ -122,7 +122,11 @@ setTimeout(function(){
       // Command capture keyboard input
       cmdkeybind(e);
     }
-  });
+  }
+  cmdprompt.addEventListener('keydown', cmdprompt_keydown);
+  window.triggerPrompt = function() {
+    cmdprompt_keydown({"key": "", "shiftKey": false, "ctrlKey": false});
+  }
 
   setInterval(function(){
     // Ensure command prompt uses whole window

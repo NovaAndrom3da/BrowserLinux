@@ -1,1 +1,1 @@
-{"exec": "echo test", "type": "vmsh", "desc": "This is a template package",  "ver": "0.1"}
+{"exec": "echo this is an example program made in vmsh for BrowserLinux", "type": "vmsh", "desc": "This is a template package",  "ver": "0.1", "require": [""]}

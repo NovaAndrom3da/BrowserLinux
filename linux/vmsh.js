@@ -247,11 +247,18 @@ function cmd_color(args) {
 }
 
 // BrowserLinux Package Manager
+blpm_install_queue = []; // items to be installed
+blpm_remote_cache = []; // cache generated from `blpm remote` for the `blpm install-all` command.
+env["BLPM_REMOTE_CACHE_DELETE"] = String(120000); // Default (120000 = 2 minutes), timer for deleting blpm_remote_cache
+env["BLPM_INSTALL_DELAY"] = String(2000); // installer delay, in milliseconds
+
 blpm_background_process = setInterval(function(){
   if (blpm_install_queue.length > 0) {
     pkg = blpm_install_queue[0];
+    if (pkg == '') {return;}
     if (pkg in usr_bin) {
       print("The package '"+bold(pkg)+"' is already installed.<br>");
+      blpm_install_queue.shift();
       return;
     }
     xhr = new XMLHttpRequest();
@@ -294,10 +301,13 @@ blpm_background_process = setInterval(function(){
             print(color("The command '"+bold(pkg)+"' was found, but has no valid 'type' attribute.<br>", "red"));
             return;
           }
-          if (typeof(installcmd.require)=="undefined" || installcmd.require == 0) {
-            for (i in installcmd.require) {
-              blpm_install_queue.push(installcmd.require[i]);
+          try {
+            if (installcmd.require.filter(blankstring => blankstring).length > 0) {
+              print("This packages requires the following packages:<br>"+color(installcmd.require.join(" "), "yellow")+"<br>");
             }
+            blpm_install_queue = blpm_install_queue.concat(installcmd.require.filter(blankstring => blankstring));
+          } catch {
+            print("The package will still be installed, but '"+pkg+"' does not have a valid 'require' parameter.<br>")
           }
         }
       } else {
@@ -306,10 +316,11 @@ blpm_background_process = setInterval(function(){
     }
     xhr.send();
     finishLoad();
+    setTimeout(function(){if (blpm_install_queue.length == 0) {print("Finished installing packages.<br>"); triggerPrompt();}}, 1000);
   }
-}, 2500);
+}, Number(env["BLPM_INSTALL_DELAY"]));
 
-blpm_install_queue = [];
+
 function cmd_blpm(args) {
   arglist = args.split(" ");
   blpmcmd = arglist.shift();
@@ -350,6 +361,8 @@ function cmd_blpm(args) {
         }
         
         keys = Object.keys(commandstoinstall);
+        blpm_remote_cache = keys;
+        setTimeout(function(){blpm_remote_cache = [];}, Number(env["BLPM_REMOTE_CACHE_DELETE"]));
         for (i in keys) {
           o += color(keys[i], "yellow") + tab() + commandstoinstall[keys[i]] + "<br>";
         }
@@ -357,6 +370,13 @@ function cmd_blpm(args) {
       }
     }
     remotepackages.send();
+  } else if (blpmcmd == "install-all") {
+    print("Installing ALL packages... (this may take a while)");
+    if (blpm_remote_cache.length == 0) {
+//      if (env["BLPM_INSTALL_DELAY"])
+      cmd_blpm("remote");
+    }
+    setTimeout(function(){blpm_install_queue = blpm_remote_cache;},500);
   } else {
     return color("blpm has no command '"+bold(blpmcmd)+"'. Type `blpm --help` for help on this command.", "red");
   }
