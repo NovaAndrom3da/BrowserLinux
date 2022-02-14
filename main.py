@@ -1,6 +1,6 @@
 # Import modules
 from flask import Flask, request
-import os, json
+import os, json, socket
 
 app = Flask(__name__)
 
@@ -46,5 +46,13 @@ def listallRemote():
     allpackages[name] = json.loads(file)["desc"]
   return json.dumps(allpackages)
 
+@app.route("/gethostbyname/<domain>")
+def gethostbyname(domain):
+  return socket.gethostbyname(domain)
+
+@app.route("/gethostname/<address>")
+def gethostname(address):
+  return json.dumps(socket.gethostbyaddr(address))
+  
 # Run the server
 app.run('0.0.0.0', 80)

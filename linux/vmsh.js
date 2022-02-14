@@ -179,7 +179,7 @@ function cmd_export(args) {
 
 // Prints a todo list for the BrowserLinux project. Could be moved to `info --todo`.
 function cmd_todo(args) {
-  return "TODO List:<br>- Add env var fetch using `$VARIABLE`<br>- Add useful environment variables<br>- Make pipes less buggy when using `vmsh` as it is a problem instigator<br>- Fix `cd` command<br>- Add `wget`/`curl` command<br>- Maybe add python/c compiler (!!)";
+  return color("TODO List:<br>-"+tab()+"Add env var fetch using `$VARIABLE`<br>-"+tab()+"Add useful environment variables<br>-"+tab()+"Make pipes less buggy when using `vmsh` as it is a problem instigator<br>-"+tab()+"Fix `cd` command<br>-"+tab()+"Add `wget`/`curl` command<br>-"+tab()+"Maybe add python/c compiler (!!)<br>-"+tab()+"Add a filesystem using IndexedDB","yellow");
 }
 
 // Reloads the BrowserLinux webpage
@@ -279,7 +279,9 @@ blpm_background_process = setInterval(function(){
           print("Downloaded '"+bold(pkg)+"'. Installing...");
           if (installcmd["type"] == "vmsh") {
             try {
-              addCommandFromVMSH(installcmd.exec, pkg, installcmd.desc, installcmd.ver);
+              if (installcmd.exec != "") {
+                addCommandFromVMSH(installcmd.exec, pkg, installcmd.desc, installcmd.ver);
+              }
               blpm_install_queue.shift();
               print("Successfully installed '"+bold(pkg)+"'<br>");
             } catch {
@@ -289,11 +291,13 @@ blpm_background_process = setInterval(function(){
             }
           } else if (installcmd["type"] == "js") {
             try {
-              addCommandFromJSStr(installcmd.exec, pkg, installcmd.desc, installcmd.ver);
+              if (installcmd.exec != "") {
+                addCommandFromJSStr(installcmd.exec, pkg, installcmd.desc, installcmd.ver);
+              }
               blpm_install_queue.shift();
               print("Successfully installed '"+bold(pkg)+"'<br>");
             } catch {
-              print(color("There was an issue installing '"+bold(pkg)+"'. Perhaps there is an error in the program?<br>", "red"));
+              print(color("There was an issue installing '"+bold(pkg)+"'. Perhaps there is an error in the program?<br><br>", "red"));
               blpm_install_queue.shift();
               return;
             }
@@ -307,7 +311,7 @@ blpm_background_process = setInterval(function(){
             }
             blpm_install_queue = blpm_install_queue.concat(installcmd.require.filter(blankstring => blankstring));
           } catch {
-            print("The package will still be installed, but '"+pkg+"' does not have a valid 'require' parameter.<br>")
+            print("The package will still be installed, but '"+bold(pkg)+"' does not have a valid 'require' parameter.<br>")
           }
         }
       } else {
@@ -345,7 +349,7 @@ function cmd_blpm(args) {
       print(color(i, "yellow")+tab()+"v"+usr_bin[i].ver);
     }
   } else if (args == "--help" || args == "-h") {
-    return color("-h --help", "yellow") + tab() + tab() + "Shows this help message\n" + color("install [packages]", "yellow") + tab() + tab() + "Installs a package\n" + color("remove [packages]", "yellow") + tab() + tab() + "Uninstalls a package\n" + color("purge [packages]", "yellow") + tab() + tab() + "Uninstalls a package\n" + color("list", "yellow") + tab() + tab() + "Lists all currently installed packages\n" + color("remote", "yellow") + tab() + tab() + "Lists all remote programs to install";
+    return color("-h --help", "yellow") + tab() + tab() + "Shows this help message\n" + color("install [packages]", "yellow") + tab() + tab() + "Installs a package\n" + color("remove [packages]", "yellow") + tab() + tab() + "Uninstalls a package\n" + color("purge [packages]", "yellow") + tab() + tab() + "Uninstalls a package\n" + color("list", "yellow") + tab() + tab() + "Lists all currently installed packages\n" + color("remote", "yellow") + tab() + tab() + "Lists all remote programs to install\n" + color("install-all", "yellow") + tab() + tab() + "Installs "+bold("ALL")+" of the packages available to install";
   } else if (blpmcmd == "remote") {
     print("Reading remote database...")
     remotepackages = new XMLHttpRequest();
@@ -367,6 +371,7 @@ function cmd_blpm(args) {
           o += color(keys[i], "yellow") + tab() + commandstoinstall[keys[i]] + "<br>";
         }
         print(o);
+        triggerPrompt();
       }
     }
     remotepackages.send();
