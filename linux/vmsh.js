@@ -10,7 +10,8 @@ bin = {
   "export": {"exec": cmd_export, "desc": "Reads and writes environment variables"},
   "pwd": {"exec": cmd_pwd, "desc": "Prints the working directory"},
 //  "display": {"exec": cmd_display, "desc": "Connect to a virtual display"},
-  "color": {"exec": cmd_color, "desc": "Change color"}
+  "color": {"exec": cmd_color, "desc": "Change color"},
+  "unset": {"exec": cmd_unset, "desc": "Remove an environment variable"}
 //  "cd": {"exec": cmd_cd, "desc": "Changes the directory"}
 }
 
@@ -76,7 +77,7 @@ function print(output, html=false) {
   // Ignores empty stings
   if(!(output=="" || output=="<br>" || output=="\n" || output==undefined)){
     // Prints to the terminal after replacing all fake newlines with real newlines
-    cmdprompt.innerHTML += "<br>" + output.split("\n").join("<br>").split("\\n").join("<br>").split("\\t").join("<div class='tab'></div>");
+    cmdprompt.innerHTML += "<br>" + String(output).split("\n").join("<br>").split("\\n").join("<br>").split("\\t").join("<div class='tab'></div>");
   }
 }
 
@@ -384,5 +385,12 @@ function cmd_blpm(args) {
     setTimeout(function(){blpm_install_queue = blpm_remote_cache;},500);
   } else {
     return color("blpm has no command '"+bold(blpmcmd)+"'. Type `blpm --help` for help on this command.", "red");
+  }
+}
+
+function cmd_unset(args) {
+  arglist = args.split(" ");
+  for (i in arglist) {
+    return delete(env[arglist[i]]);
   }
 }

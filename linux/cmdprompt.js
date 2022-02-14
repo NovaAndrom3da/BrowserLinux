@@ -138,7 +138,6 @@ setInterval(function(){
   cmdprompt.focus();
 }, 0);
 
-
 // Color command to add color to a printed statement
 function color(text="", forecolor="white", backcolor="black") {
   return "<div class='coloredtext fore_"+forecolor+" back_"+backcolor+"'>"+text+"</div>";

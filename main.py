@@ -53,6 +53,11 @@ def gethostbyname(domain):
 @app.route("/gethostname/<address>")
 def gethostname(address):
   return json.dumps(socket.gethostbyaddr(address))
+
+
+@app.route("/pip/<f>")
+def pip(f):
+  return open("pip/"+f).read()
   
 # Run the server
 app.run('0.0.0.0', 80)
