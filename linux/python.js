@@ -31,3 +31,13 @@ function install_pip_module(module) {
 function cmd_pip(args) {
   
 }
+
+function python_interpreter_quit(){
+  userHasAccess = true;
+  delete(cmdkeybind);
+  currline = "";
+  print(" ");
+  triggerPrompt();
+  return;
+}
+

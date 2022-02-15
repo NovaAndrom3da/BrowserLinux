@@ -5,14 +5,11 @@ bin = {
   "echo": {"exec": cmd_echo, "desc": "Prints the content provided to it"},
   "help": {"exec": cmd_help, "desc": "Shows this help message"},
   "vmsh": {"exec": cmd_vmsh, "desc": "Runs the command in VM Shell"},
-//  "man": {"exec": cmd_man, "desc": "Returns detailed information on a specific command"},
   "info": {"exec": cmd_info, "desc": "Provides information about the software. Type `info -h` for more options"},
   "export": {"exec": cmd_export, "desc": "Reads and writes environment variables"},
   "pwd": {"exec": cmd_pwd, "desc": "Prints the working directory"},
-//  "display": {"exec": cmd_display, "desc": "Connect to a virtual display"},
   "color": {"exec": cmd_color, "desc": "Change color"},
   "unset": {"exec": cmd_unset, "desc": "Remove an environment variable"}
-//  "cd": {"exec": cmd_cd, "desc": "Changes the directory"}
 }
 
 // "Emulating" /usr/bin/
@@ -133,7 +130,7 @@ function cmd_vmsh(args) {
 function cmd_info(args) {
   if (args == ""){
     // Prints information about the projectf
-    return color("BrowserLinux is a free and open source project aiming to get a linux environment into the standard user's browser. It is licensed under the GPLv3 license.<br>The git repository is located at https://github.com/Froggo8311/BrowserLinux but can be quickly accessed using `info --gh`", "blue");
+    return color("BrowserLinux is a free and open source project aiming to get a linux environment into the standard user's browser. It is licensed under the GPLv3 license.<br>The git repository is located at https://github.com/Froggo8311/BrowserLinux but can be quickly accessed using `info --gh`", "lightblue");
   } else if (args == "--contributors") {
     // Prints contributors
     return color("Currently the only contributor is Froggo. How about you help out!<br>Type `info --gh` to go to the github page.", "orange");

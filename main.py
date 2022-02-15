@@ -46,18 +46,19 @@ def listallRemote():
     allpackages[name] = json.loads(file)["desc"]
   return json.dumps(allpackages)
 
-@app.route("/gethostbyname/<domain>")
-def gethostbyname(domain):
-  return socket.gethostbyname(domain)
+#@app.route("/gethostbyname/<domain>")
+#def gethostbyname(domain):
+ # return socket.gethostbyname(domain)
 
-@app.route("/gethostname/<address>")
-def gethostname(address):
-  return json.dumps(socket.gethostbyaddr(address))
+#@app.route("/gethostname/<address>")
+#def gethostname(address):
+ # return json.dumps(socket.gethostbyaddr(address))
 
 
-@app.route("/pip/<f>")
-def pip(f):
-  return open("pip/"+f).read()
+#@app.route("/pip/<f>")
+#def pip(f):
+ # return open("pip/"+f).read()
   
 # Run the server
 app.run('0.0.0.0', 80)
+

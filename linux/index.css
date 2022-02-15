@@ -132,3 +132,12 @@ html, body {
 .back_trublack {
   background-color: rgb(0,0,0) !important;
 }
+
+#cursor {
+  background-color: rgb(225,225,225,0.5);
+  position: absolute;
+  width: 9px;
+  height: 16px;
+  /*display: block;*/
+  display: none;
+}

@@ -7,12 +7,6 @@ tab = window.tab
 console = window.console
 scroll = window.scroll
 
-def python_interpreter_quit():
-  window.userHasAccess = True
-  window.cmdkeybind = None
-  window.triggerPrompt()
-  return
-
 python_env_template = {
   "window": window,
   "document": document,
@@ -25,8 +19,10 @@ python_env_template = {
   "__spec__": None,
   "print": print,
   "color": color,
+  "bold": bold,
   "tab": tab,
-  "quit": python_interpreter_quit
+  "quit": window.python_interpreter_quit,
+  "reload": window.cmd_reload
 }
 
 def pyeval(args, vars={}):
@@ -81,22 +77,51 @@ def cmd_python_text(e):
 def cmd_python(args):
   if "-" in args:
     if args.startswith("-c"):
-      o = pyeval(args.lstrip("-c "))
+      o = pyeval(args.lstrip("-c "), python_env_template)
       if o == None:
         return
       return color(o, "yellow")
     if args.startswith("-m"):
-      return "Run a runnable python module"
+      return "Run a runnable python module (coming soon)"
   else:
     if args == "":
+      window.triggerPrompt()
       window.userHasAccess = False
-      print("Python 3.9 on BrowserLinux. Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.")
-      window.cmd_eval('setTimeout({print(color(">>", "blue"));}, 150);')
+      print("Python "+version_main+"."+version_minor+"."+version_micro+" on BrowserLinux. Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.")
+      window.cmd_eval('setTimeout({print(color(">>", "blue")); triggerPrompt();}, 150);')
       window.cmdkeybind = cmd_python_text
       window.triggerPrompt()
       return
     else:
-      return "Running python files coming soon (with introduction of a filesystem)"
+      return "Running python files (coming soon with introduction of a filesystem)"
 
-window.addCommandFromJS(cmd_python, "python", "Python interpreter", "3.9.x-bl0.1")
+version = window.__BRYTHON__.implementation
+version_main = str(version[0])
+version_minor = str(version[1])
+version_micro = str(version[2])
+version_blpm = "0.1"
 
+window.addCommandFromJS(cmd_python, "python", "Python interpreter", version_main+"."+version_minor+"."+version_micro+"-bl"+version_blpm)
+
+class open():
+  def __init__(self, file, mode="r"):
+    self.file = file
+    self.mode = mode
+
+  def read():
+    if self.mode == "r":
+      return
+    elif self.mode == "rb":
+      return
+    else:
+      raise(FileExistsError)
+
+  def write(c):
+    if self.mdoe == "w":
+      return
+    if self.mode == "wb":
+      return
+    if self.mode == "a":
+      return
+    else:
+      raise(FileExistsError)
