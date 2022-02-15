@@ -1,4 +1,4 @@
-![]
+![BrowserLinux Logo](https://raw.githubusercontent.com/Froggo8311/BrowserLinux/main/docs/logo.svg)
 
 BrowserLinux is an application aiming to enable a linux environment completely in the browser. The project currently has a pseudo-terminal for the linux environment.
 
