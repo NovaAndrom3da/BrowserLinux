@@ -12,7 +12,7 @@
       }
     </style>
   </defs>
-  <text font-size="16" x="10" y="20" style="font-family: Profont;">
+  <text font-size="34" x="10" y="20" style="font-family: Profont;">
     <tspan fill="rgb(170,170,255)">&#60;&#60;</tspan> <tspan fill="rgb(190,190,190)">BrowserLinux</tspan> <tspan fill="rgb(170,170,255)">&#62;&#62;</tspan>
   </text>
 </svg>
