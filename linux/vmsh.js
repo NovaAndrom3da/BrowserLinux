@@ -180,7 +180,7 @@ function cmd_export(args) {
 
 // Prints a todo list for the BrowserLinux project. Could be moved to `info --todo`.
 function cmd_todo(args) {
-  return color("TODO List:<br>-"+tab()+"Add env var fetch using `$VARIABLE`<br>-"+tab()+"Add useful environment variables<br>-"+tab()+"Make pipes less buggy when using `vmsh` as it is a problem instigator<br>-"+tab()+"Fix `cd` command<br>-"+tab()+"Add `wget`/`curl` command<br>-"+tab()+"Maybe add python/c compiler (!!)<br>-"+tab()+"Add a filesystem using IndexedDB","yellow");
+  return color("TODO List:<br>-"+tab()+"Add env var fetch using `$VARIABLE`<br>-"+tab()+"Add useful environment variables<br>-"+tab()+"Make pipes less buggy when using `vmsh` as it is a problem instigator<br>-"+tab()+"Fix `cd` command<br>-"+tab()+"Add `wget`/`curl` command<br>-"+tab()+"Add C/C++ compiler<br>-"+tab()+"Add a filesystem using IndexedDB<br>-"+tab()+"Figure out what is wrong with the `python` command","yellow");
 }
 
 // Reloads the BrowserLinux webpage
