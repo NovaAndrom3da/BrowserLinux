@@ -25,6 +25,7 @@ def assets(f):
   except:
     return 404
 
+# Add cpython lib (https://github.com/Froggo8311/cpython)
 @app.route("/Lib/<lib>")
 def cpythonlib(lib):
   try:
