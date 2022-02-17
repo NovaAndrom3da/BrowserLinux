@@ -140,11 +140,11 @@ setTimeout(function(){
 }, 500);
 
 
-setTimeout(function(){
-  setInterval(function(){
+setInterval(function(){
+  try {
     cmdprompt.focus();
-  }, 0);
-}, 100);
+  } catch {}
+}, 0);
 
 
 // Color command to add color to a printed statement
