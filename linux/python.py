@@ -1,4 +1,5 @@
 from browser import window, document
+#import sys
 
 print = window.print
 color = window.color
@@ -25,16 +26,22 @@ python_env_template = {
   "reload": window.cmd_reload
 }
 
+def printerror(e):
+  print(color(e, "red"))
+  return 1
+
+#sys.stderr = printerror
+
 def pyeval(args, vars={}):
   try:
     return exec(args, vars)
   except Exception as e:
+    console.error(str(e))
     return color(str(e), "red")
 
 window.pyeval = pyeval
 
 def cmd_python_text(e):
-  console.log(e)
   if not (e.key=="Control" or e.key=="Shift" or e.key=="Escape" or e.key=="Tab" or e.key=="Backspace" or e.key=="Enter" or e.key.startswith("Arrow") or e.key=="Meta" or e.key=="Alt"):
     if not e.ctrlKey:
       window.currline += e.key
@@ -87,7 +94,7 @@ def cmd_python(args):
     if args == "":
       window.triggerPrompt()
       window.userHasAccess = False
-      print("Python "+version_main+"."+version_minor+"."+version_micro+" on BrowserLinux. Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.")
+      print("Python "+version_main+"."+version_minor+"."+version_micro+" on BrowserLinux "+window.__BLVERSION__+". Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.")
       window.cmd_eval('setTimeout({print(color(">>", "blue")); triggerPrompt();}, 150);')
       window.cmdkeybind = cmd_python_text
       window.triggerPrompt()
@@ -125,3 +132,10 @@ class open():
       return
     else:
       raise(FileExistsError)
+
+def cmd_pip(args):
+  return ""
+
+
+console.log("Python loaded.")
+

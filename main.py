@@ -1,18 +1,41 @@
 # Import modules
-from flask import Flask, request
-import os, json, socket
+from flask import Flask, request, Response
+import os, json, socket, urllib.request
 
 app = Flask(__name__)
+
+mimetypes = {
+  "js": "text/javascript",
+  "css": "text/css",
+  "py": "text/python",
+  "html": "text/html"
+}
 
 # Add the html file
 @app.route("/")
 def index():
-  return open("linux/index.html").read()
+  return Response(open("linux/index.html").read(), mimetype="text/html")
 
 # Adds the *.js and *.css files
 @app.route("/assets/<f>")
 def assets(f):
-  return open('linux/'+f).read()
+  nl = f.split(".")
+  try:
+    return Response(open('linux/'+f).read(), mimetype=mimetypes[nl[len(nl)-1]])
+  except:
+    return 404
+
+@app.route("/Lib/<lib>")
+def cpythonlib(lib):
+  try:
+    return open("Lib/"+lib).read()
+  except:
+    return 404
+
+@app.route("/pip/<lib>")
+def pipinstall(lib):
+  page = urllib.request.urlopen('https://pypi.org/simple')
+  return str(str(">"+lib+"<") in str(page.read()))
 
 # Adds any binary or bytes files
 @app.route("/bin/<f>")
@@ -25,8 +48,8 @@ def packageExists(package):
   if ((package + ".json") in os.listdir("packages")):
     file = open("packages/"+package+".json").read();
     desc = json.loads(file)["desc"]
-    return json.dumps({"desc": desc})
-  return json.dumps({"Error": "Package not present"})
+    return Response(json.dumps({"desc": desc}), mimetype="text/json")
+  return Response(json.dumps({"Error": "Package not present"}), mimetype="text/json")
 
 # Send full package
 @app.route("/blpm/<package>/install")
@@ -48,7 +71,7 @@ def listallRemote():
 
 #@app.route("/gethostbyname/<domain>")
 #def gethostbyname(domain):
- # return socket.gethostbyname(domain)
+ # return json.dumps(socket.gethostbyname_ex(domain))
 
 #@app.route("/gethostname/<address>")
 #def gethostname(address):

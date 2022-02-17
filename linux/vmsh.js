@@ -1,3 +1,5 @@
+__BLVERSION__ = "0.0.1"
+
 // === Command Setup ===
 // "Emulating" /bin/
 bin = {
@@ -47,8 +49,14 @@ function parse(command) {
     o = "";
     for (pipecmd in pipecmds) {
       // Get and clean up command
-      fullcommand = pipecmds[pipecmd].trim().split(" ");
-      cmd = fullcommand.shift()
+      if (pipecmds[pipecmd] == undefined) {
+        pipedcommand = "";
+      } else {
+        pipedcommand = pipecmds[pipecmd];
+      }
+      fullcommand = pipedcommand.trim().split(" ");
+      cmd = fullcommand.shift();
+      
 
       // Runs commands if in /bin/ or /usr/bin/ and returns an error if not
       if (cmd == "") {}
@@ -67,6 +75,7 @@ function parse(command) {
   userHasAccess = true;
   return "";
 }
+
 
 
 // Function that prints to the terminal
@@ -123,7 +132,7 @@ function cmd_man(args) {
 
 // Pseudo-`bash` command `vmsh`
 function cmd_vmsh(args) {
-  parse(args);
+  return bparse(args);
 }
 
 // Command with info about BrowserLinux project
@@ -380,6 +389,8 @@ function cmd_blpm(args) {
       cmd_blpm("remote");
     }
     setTimeout(function(){blpm_install_queue = blpm_remote_cache;},500);
+  } else if (args == "") {
+    return "Type '"+bold("blpm --help")+"' for help.";
   } else {
     return color("blpm has no command '"+bold(blpmcmd)+"'. Type `blpm --help` for help on this command.", "red");
   }

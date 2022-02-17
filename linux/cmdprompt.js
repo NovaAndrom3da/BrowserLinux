@@ -129,14 +129,23 @@ setTimeout(function(){
   }
 
   setInterval(function(){
+    try {
     // Ensure command prompt uses whole window
-    cmdprompt.style.width = String(Number(window.innerWidth) - 4);
-    cmdprompt.style.height = String(window.innerHeight);
+      cmdprompt.style.width = String(Number(window.innerWidth) - 4);
+      cmdprompt.style.height = String(window.innerHeight);
+    } catch {
+      console.log("Could not resize HTML element. Retrying in 5 seconds...");
+    }
   }, 5000);
 }, 500);
-setInterval(function(){
-  cmdprompt.focus();
-}, 0);
+
+
+setTimeout(function(){
+  setInterval(function(){
+    cmdprompt.focus();
+  }, 0);
+}, 100);
+
 
 // Color command to add color to a printed statement
 function color(text="", forecolor="white", backcolor="black") {
