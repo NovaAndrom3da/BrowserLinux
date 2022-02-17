@@ -129,8 +129,9 @@ setTimeout(function(){
   }
 
   setInterval(function(){
+    // Ignore HTML not finished loading error
     try {
-    // Ensure command prompt uses whole window
+      // Ensure command prompt uses whole window
       cmdprompt.style.width = String(Number(window.innerWidth) - 4);
       cmdprompt.style.height = String(window.innerHeight);
     } catch {
@@ -141,6 +142,7 @@ setTimeout(function(){
 
 
 setInterval(function(){
+  // Ignore HTML not finished loading error
   try {
     cmdprompt.focus();
   } catch {}
