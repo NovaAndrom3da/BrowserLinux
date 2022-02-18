@@ -96,7 +96,7 @@ def cmd_python(args):
     if args == "":
       window.triggerPrompt()
       window.userHasAccess = False
-      print("Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+") on BrowserLinux "+window.__BLVERSION__+". Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.")
+      print("Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+") on BrowserLinux "+window.env["BLVERSION"]+". Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.")
       window.cmd_eval('setTimeout({print(color(">>", "blue")); triggerPrompt();}, 150);')
       window.cmdkeybind = cmd_python_text
       window.triggerPrompt()
@@ -110,7 +110,8 @@ version_minor = str(version[1])
 version_micro = str(version[2])
 version_blpm = "0.1"
 
-window.addCommandFromJS(cmd_python, "python", "Python interpreter", version_main+"."+version_minor+"."+version_micro+"-bl"+version_blpm)
+window.usr_bin["python"]["exec"] = cmd_python
+window.usr_bin["python"]["ver"] = version_main+"."+version_minor+"."+version_micro+"-bl"+version_blpm
 
 class open():
   def __init__(self, file, mode="r"):

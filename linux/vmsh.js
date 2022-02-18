@@ -1,5 +1,3 @@
-__BLVERSION__ = "0.0.1"
-
 // === Command Setup ===
 // "Emulating" /bin/
 bin = {
@@ -19,7 +17,8 @@ usr_bin = {
   "todo": {"exec": cmd_todo, "desc": "Prints the TODO List for BrowserLinux", "ver": "0.1"},
   "whoami": {"exec": cmd_whoami, "desc": "Print the current user", "ver": "0.1"},
   "reload": {"exec": cmd_reload, "desc": "Reload the browser window", "ver": "0.1"},
-  "blpm": {"exec": cmd_blpm, "desc": "BrowserLinux Package Manager", "ver": "0.1"}
+  "blpm": {"exec": cmd_blpm, "desc": "BrowserLinux Package Manager", "ver": "0.1"},
+  "python": {"exec": cmd_pythonunloaded, "desc": "Python interpreter", "ver": "0.0"}
 }
 
 
@@ -30,8 +29,9 @@ usr_bin = {
 env = {
   "USERDIR": "/home/user/",
   "DIR": "/home/user/",
-  "USERNAME": "user"
-}
+  "USERNAME": "user",
+  "BLVERSION": "0.1.0"
+};
 
 // === Background Functions ===
 function cmdexec(from, command, args) {
@@ -401,4 +401,8 @@ function cmd_unset(args) {
   for (i in arglist) {
     return delete(env[arglist[i]]);
   }
+}
+
+function cmd_pythonunloaded(args) {
+  return color("Python has not finished loading. Please wait a second and then try again.", "yellow");
 }
