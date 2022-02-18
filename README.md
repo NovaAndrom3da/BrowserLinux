@@ -2,7 +2,7 @@
 
 BrowserLinux is an application aiming to enable a linux environment completely in the browser. The project currently has a pseudo-terminal for the linux environment.
 
-Contributions are welcomed and appreciated. Feel free to make pull requests.
+Please contribute if you feel you can help the development of this software! We are currently looking for people willing to bring good and useful changes.
 
 A running version of this software is available on [replit](https://browserlinux.froggo8311.repl.co) (If it shows a "running repl..." screen, just give it a minute then reload.)
 
