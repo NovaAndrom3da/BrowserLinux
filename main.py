@@ -49,8 +49,8 @@ def packageExists(package):
   if ((package + ".json") in os.listdir("packages")):
     file = open("packages/"+package+".json").read();
     desc = json.loads(file)["desc"]
-    return Response(json.dumps({"desc": desc}), mimetype="text/json")
-  return Response(json.dumps({"Error": "Package not present"}), mimetype="text/json")
+    return json.dumps({"desc": desc})
+  return json.dumps({"Error": "Package not present"})
 
 # Send full package
 @app.route("/blpm/<package>/install")

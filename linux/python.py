@@ -83,18 +83,20 @@ def cmd_python_text(e):
 
 def cmd_python(args):
   if "-" in args:
-    if args.startswith("-c"):
+    if "-c" in args.split(" "):
       o = pyeval(args.lstrip("-c "), python_env_template)
       if o == None:
         return
       return color(o, "yellow")
-    if args.startswith("-m"):
+    if "-m" in args.split(" "):
       return "Run a runnable python module (coming soon)"
+    if "-V" in args.split(" "):
+      return "Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+")"
   else:
     if args == "":
       window.triggerPrompt()
       window.userHasAccess = False
-      print("Python "+version_main+"."+version_minor+"."+version_micro+" on BrowserLinux "+window.__BLVERSION__+". Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.")
+      print("Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+") on BrowserLinux "+window.__BLVERSION__+". Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.")
       window.cmd_eval('setTimeout({print(color(">>", "blue")); triggerPrompt();}, 150);')
       window.cmdkeybind = cmd_python_text
       window.triggerPrompt()
