@@ -61,10 +61,14 @@ def cmd_python_text(e):
     else:
       window.currline = window.currline.rstrip(window.currline[-1])
   elif e.key == "Enter":
-    print(pyeval(window.currline, python_env_template))
-    window.cmdprompt.innerHTML += "<br>" + color(">>", "blue")
-    pyhistory = window.currline
-    window.currline = ""
+    if not window.currline.endswith(":"):
+      print(pyeval(window.currline, python_env_template))
+      window.cmdprompt.innerHTML += "<br>" + color(">>", "blue")
+      pyhistory = window.currline
+      window.currline = ""
+    else:
+      window.cmdprompt.innerHTML += "<br>" + color("...", "blue") + tab()
+      window.currline += "\n"
     scroll()
   elif e.key == "ArrowUp":
     pyback = currline
