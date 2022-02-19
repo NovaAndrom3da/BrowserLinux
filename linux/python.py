@@ -7,6 +7,7 @@ bold = window.bold
 tab = window.tab
 console = window.console
 scroll = window.scroll
+clear = window.cmd_clear
 
 python_env_template = {
   "window": window,
@@ -23,7 +24,8 @@ python_env_template = {
   "bold": bold,
   "tab": tab,
   "quit": window.python_interpreter_quit,
-  "reload": window.cmd_reload
+  "reload": window.cmd_reload,
+  "clear": clear
 }
 
 def printerror(e):
@@ -36,8 +38,12 @@ def pyeval(args, vars={}):
   try:
     return exec(args, vars)
   except Exception as e:
-    console.error(str(e))
-    return color(str(e), "red")
+    if "import" in args:
+      if " " in str(e):
+        return color("Traceback (most recent call back):\n"+tab()+str(e), "red")
+      return color("Could not import the '"+bold(str(e))+"' module.", "red")
+    else:
+      return color(str(e), "red")
 
 window.pyeval = pyeval
 
@@ -56,17 +62,16 @@ def cmd_python_text(e):
       window.currline = window.currline.rstrip(window.currline[-1])
   elif e.key == "Enter":
     print(pyeval(window.currline, python_env_template))
-    window.cmdprompt.innerHTML += "<br>"
-    pyhistory = currline
-    currline = ""
     window.cmdprompt.innerHTML += "<br>" + color(">>", "blue")
+    pyhistory = window.currline
+    window.currline = ""
     scroll()
   elif e.key == "ArrowUp":
     pyback = currline
-    currline = pyhistory
+    window.currline = pyhistory
   elif e.key == "ArrowDown":
-    pyhistory = currline
-    currline = pyback
+    pyhistory = window.currline
+    window.currline = pyback
   elif e.key == "Tab":
     e.preventDefault()
     window.cmdprompt.focus()
@@ -77,7 +82,8 @@ def cmd_python_text(e):
 
   currlineTemp = color(">>", "blue") + " " + window.currline
 
-  cmdlist[len(window.cmdlist)-1] = currlineTemp;
+  cmdlist[-1] = currlineTemp;
+  #cmdlist.append(currlineTemp)
 
   window.cmdprompt.innerHTML = '<br>'.join(map(str, cmdlist))
 
@@ -94,13 +100,12 @@ def cmd_python(args):
       return "Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+")"
   else:
     if args == "":
-      window.triggerPrompt()
+      window.currline = ""
       window.userHasAccess = False
-      print("Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+") on BrowserLinux "+window.env["BLVERSION"]+". Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.")
-      window.cmd_eval('setTimeout({print(color(">>", "blue")); triggerPrompt();}, 150);')
+      print("Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+") on BrowserLinux "+window.env["BLVERSION"]+". Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.\n")
       window.cmdkeybind = cmd_python_text
       window.triggerPrompt()
-      return
+      #print(color(">>", "blue"))
     else:
       return "Running python files (coming soon with introduction of a filesystem)"
 

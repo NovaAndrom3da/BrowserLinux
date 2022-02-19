@@ -21,13 +21,7 @@ function installBrython(){
   }
 }
 
-setTimeout(installBrython, 500);
-
-
-
-function install_pip_module(module) {
-  
-}
+setTimeout(installBrython, 1500);
 
 function cmd_pip(args) {
   arglist = args.split(" ");
