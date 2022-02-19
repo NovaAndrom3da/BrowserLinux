@@ -1,5 +1,6 @@
+# === Initialize ===
 from browser import window, document
-#import sys
+import sys
 
 print = window.print
 color = window.color
@@ -9,6 +10,8 @@ console = window.console
 scroll = window.scroll
 clear = window.cmd_clear
 
+
+# === Python Execution Environment ===
 python_env_template = {
   "window": window,
   "document": document,
@@ -28,12 +31,32 @@ python_env_template = {
   "clear": clear
 }
 
-def printerror(e):
-  print(color(e, "red"))
-  return 1
+# === Add Standard IO ===
+class stdout():
+  def __init__(self):
+    pass
 
-#sys.stderr = printerror
+  def write(self, a):
+    print(a)
 
+  def close(self):
+    pass
+
+class stderr():
+  def __init__(self):
+    pass
+
+  def write(self, a):
+    print(color(a, "red"))
+
+  def close(self):
+    pass
+
+sys.stdout = stdout()
+sys.stderr = stderr()
+
+
+# === Python Interpreter ===
 def pyeval(args, vars={}):
   try:
     return exec(args, vars)
