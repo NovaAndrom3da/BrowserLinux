@@ -29,7 +29,7 @@ def assets(f):
 @app.route("/Lib/<lib>")
 def cpythonlib(lib):
   try:
-    return open("Lib/"+lib).read()
+    return open("cpython/Lib/"+lib).read()
   except:
     return Response(404)
 

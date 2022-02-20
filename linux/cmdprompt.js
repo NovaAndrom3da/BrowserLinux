@@ -162,7 +162,7 @@ function bold(text="") {
 
 // A tab
 function tab() {
-  return "<div class='tab'></div>";
+  return "<div class='tab'>&#9;</div>";
 }
 
 // Adds a command to /usr/bin/ with the provided javascript

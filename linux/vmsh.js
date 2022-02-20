@@ -80,8 +80,8 @@ function parse(command) {
 
 // Function that prints to the terminal
 function print(output, html=false) {
-  // Ignores empty stings
-  if(!(output=="" || output=="<br>" || output=="\n" || output==undefined)){
+  // Ignores empty stings and vague [object Object]
+  if(!(output=="" || output=="<br>" || output=="\n" || output==undefined || output=="[object Object]")){
     // Prints to the terminal after replacing all fake newlines with real newlines
     cmdprompt.innerHTML += "<br>" + String(output).split("\n").join("<br>").split("\\n").join("<br>").split("\\t").join("<div class='tab'></div>");
   }

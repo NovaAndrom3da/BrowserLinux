@@ -12,6 +12,22 @@ clear = window.cmd_clear
 
 
 # === Python Execution Environment ===
+class open():
+  def __init__(self, filename="", mode="r"):
+    self.filename = filename
+    self.mode = mode
+
+  def read(self):
+    if self.mode == "r" or self.mode == "rw":
+      return "Read object"
+
+    else:
+       return color("FileReadWriteError: Can not read file on operation '"+bold(self.mode)+"'", "red")
+
+  #def
+
+
+
 python_env_template = {
   "window": window,
   "document": document,
@@ -28,8 +44,11 @@ python_env_template = {
   "tab": tab,
   "quit": window.python_interpreter_quit,
   "reload": window.cmd_reload,
-  "clear": clear
+  "clear": clear,
+  "open": open
 }
+
+module_env_template = python_env_template.copy()
 
 # === Add Standard IO ===
 class stdout():
@@ -37,7 +56,7 @@ class stdout():
     pass
 
   def write(self, a):
-    print(a)
+    print(a+"<br>")
 
   def close(self):
     pass
@@ -47,13 +66,14 @@ class stderr():
     pass
 
   def write(self, a):
-    print(color(a, "red"))
+    print(color(a+"<br>", "red"))
 
   def close(self):
     pass
 
 sys.stdout = stdout()
 sys.stderr = stderr()
+sys.exit = window.python_interpreter_quit
 
 
 # === Python Interpreter ===
@@ -122,7 +142,7 @@ def cmd_python(args):
         return
       return color(o, "yellow")
     if "-m" in args.split(" "):
-      return "Run a runnable python module (coming soon)"
+      return pyeval("import "+args.lstrip("-m "), module_env_template.copy())
     if "-V" in args.split(" "):
       return "Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+")"
   else:
