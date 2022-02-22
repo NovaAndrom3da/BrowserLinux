@@ -26,6 +26,8 @@ class open():
 
   #def
 
+def help_command(args=help):
+  help(args)
 
 
 python_env_template = {
@@ -45,7 +47,8 @@ python_env_template = {
   "quit": window.python_interpreter_quit,
   "reload": window.cmd_reload,
   "clear": clear,
-  "open": open
+  "open": open,
+  "help": help_command
 }
 
 module_env_template = python_env_template.copy()
@@ -137,7 +140,7 @@ def cmd_python_text(e):
 def cmd_python(args):
   if "-" in args:
     if "-c" in args.split(" "):
-      o = pyeval(args.lstrip("-c "), python_env_template)
+      o = pyeval(args.split("-c ")[1], python_env_template)
       if o == None:
         return
       return color(o, "yellow")
@@ -152,6 +155,7 @@ def cmd_python(args):
       print("Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+") on BrowserLinux "+window.env["BLVERSION"]+". Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.\n")
       window.cmdkeybind = cmd_python_text
       window.triggerPrompt()
+      return None
       #print(color(">>", "blue"))
     else:
       return "Running python files (coming soon with introduction of a filesystem)"
@@ -161,9 +165,20 @@ version_main = str(version[0])
 version_minor = str(version[1])
 version_micro = str(version[2])
 version_blpm = "0.1"
+python_version = version_main+"."+version_minor+"."+version_micro+"-bl"+version_blpm
 
 window.usr_bin["python"]["exec"] = cmd_python
-window.usr_bin["python"]["ver"] = version_main+"."+version_minor+"."+version_micro+"-bl"+version_blpm
+window.usr_bin["python"]["ver"] = python_version
+python_command_constructor = {
+  "exec": cmd_python,
+  "type": "js",
+  "desc": "Python interpreter",
+  "ver": python_version
+}
+window.silent_usr_bin["py"] = python_command_constructor
+window.silent_usr_bin["python3"] = python_command_constructor
+window.silent_usr_bin["python3.10"] = python_command_constructor
+
 
 class open():
   def __init__(self, file, mode="r"):

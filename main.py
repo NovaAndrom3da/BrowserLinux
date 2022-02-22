@@ -1,5 +1,5 @@
 # Import modules
-from flask import Flask, request, Response
+from flask import Flask, request, Response, abort
 import os, json, socket, urllib.request
 
 app = Flask(__name__)
@@ -15,7 +15,7 @@ mimetypes = {
 @app.route("/")
 def index():
   return Response(open("linux/index.html").read(), mimetype="text/html")
-
+  
 # Adds the *.js and *.css files
 @app.route("/assets/<f>")
 def assets(f):
@@ -23,7 +23,7 @@ def assets(f):
   try:
     return Response(open('linux/'+f).read(), mimetype=mimetypes[nl[len(nl)-1]])
   except:
-    return Response(404)
+    return abort(404)
 
 # Add cpython lib (https://github.com/Froggo8311/cpython)
 @app.route("/Lib/<lib>")
@@ -31,7 +31,7 @@ def cpythonlib(lib):
   try:
     return open("cpython/Lib/"+lib).read()
   except:
-    return Response(404)
+    return abort(404)
 
 """ # Now is not your time. Your day of greatness will arrive soon.
 @app.route("/pip/<lib>")

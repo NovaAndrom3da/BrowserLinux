@@ -13,7 +13,7 @@ head_element.appendChild(brython_stdlib_js);
 
 function installBrython(){
   try {
-    brython({debug: 1, pythonpath: ["/Lib", "/pip"], indexedDB: true});
+    brython({debug: 0, pythonpath: ["/Lib", "/pip"], indexedDB: true});
     console.log("Brython loaded.")
   } catch {
     console.log("Couldn't load brython. Retrying in half a second...");
@@ -21,7 +21,7 @@ function installBrython(){
   }
 }
 
-setTimeout(installBrython, 1600);
+setTimeout(installBrython, 1700);
 
 function cmd_pip(args) {
   arglist = args.split(" ");

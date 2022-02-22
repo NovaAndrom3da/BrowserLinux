@@ -179,7 +179,7 @@ function addCommandFromJS(cmd=function(args){}, name="", description="No descrip
   }
 }
 
-function addCommandFromJSStr(cmd="", name, description, ver="0.1") {
+function addCommandFromJSStr(cmd="", name="", description="No description provided.", ver="0.1") {
   if(typeof(usr_bin[name]) == "undefined") {
     usr_bin[name] = {
       "exec": Function("args", String(cmd)),

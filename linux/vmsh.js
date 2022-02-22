@@ -10,19 +10,20 @@ bin = {
   "pwd": {"exec": cmd_pwd, "desc": "Prints the working directory"},
   "color": {"exec": cmd_color, "desc": "Change color"},
   "unset": {"exec": cmd_unset, "desc": "Remove an environment variable"}
-}
+};
 
 // "Emulating" /usr/bin/
 usr_bin = {
-  "todo": {"exec": cmd_todo, "desc": "Prints the TODO List for BrowserLinux", "ver": "0.1"},
   "whoami": {"exec": cmd_whoami, "desc": "Print the current user", "ver": "0.1"},
   "reload": {"exec": cmd_reload, "desc": "Reload the browser window", "ver": "0.1"},
   "blpm": {"exec": cmd_blpm, "desc": "BrowserLinux Package Manager", "ver": "0.1"},
   "python": {"exec": cmd_pythonunloaded, "desc": "Python interpreter", "ver": "0.0"}
-}
+};
 
+// like usr_bin, but does not show the content in `blpm list` or `help --usr`
+silent_usr_bin = {
 
-
+};
 
 
 // === Environment Variables ===
@@ -64,6 +65,8 @@ function parse(command) {
         o = cmdexec(bin, cmd, fullcommand.join(" ")+o);
       } else if (cmd in usr_bin) {
         o = cmdexec(usr_bin, cmd, fullcommand.join(" ")+o);
+      } else if (cmd in silent_usr_bin) {
+        o = cmdexec(silent_usr_bin, cmd, fullcommand.join(" ")+o);
       } else {
         print(color("vmsh: <strong>"+cmd.split("<br>").join(" ").split(tab()).join(" ")+"</strong>: command not found", "red"), true);
         userHasAccess = true;
@@ -79,16 +82,18 @@ function parse(command) {
 
 
 // Function that prints to the terminal
-function print(output, html=false) {
+function print(output) {
   // Ignores empty stings and vague [object Object]
-  if(!(output=="" || output=="<br>" || output=="\n" || output==undefined || output=="[object Object]")){
+  if (!(output=="" || output=="<br>" || output=="\n" || output==undefined || output=="[object Object]")) {
     // Prints to the terminal after replacing all fake newlines with real newlines
-    cmdprompt.innerHTML += "<br>" + String(output).split("\n").join("<br>").split("\\n").join("<br>").split("\\t").join("<div class='tab'></div>");
+    cmdprompt.innerHTML += "<br>" + String(output).split("\n").join("<br>").split("\\n").join("<br>").split("\\t").join(tab());
+  } else if (output=="[object Object]") {
+    // Tries to convert python objects that only return "[object Object]" to strings
+    print(JSON.stringify(output));
   }
 }
 
-
-
+                                                          
 // === Commands ===
 // "echo" command to print a string
 function cmd_echo(args) {
@@ -124,15 +129,9 @@ function cmd_help(args) {
   return text;
 }
 
-/* disabled `man`
-function cmd_man(args) {
-  return "There are currently no manpages. Check later."
-}
-*/
-
 // Pseudo-`bash` command `vmsh`
 function cmd_vmsh(args) {
-  return bparse(args);
+  return parse(args);
 }
 
 // Command with info about BrowserLinux project
@@ -148,10 +147,13 @@ function cmd_info(args) {
     window.open("https://github.com/Froggo8311/BrowserLinux", "_blank");
   } else if (args == "--help" || args == "-h") {
     // Prints arguments
-    return color("-h --help", "yellow")+tab()+tab()+"Displays this help message.\n"+color("--contributors", "yellow")+ tab() + tab() +"Lists the contributors\n"+color("--gh", "yellow") + tab() + tab() + "Opens the GitHub page in a new tab.";
+    return color("-h --help", "yellow") + tab() + tab() +"Displays this help message.\n" + color("--contributors", "yellow") + tab() + tab() +"Lists the contributors\n" + color("--gh", "yellow") + tab() + tab() + "Opens the GitHub page in a new tab.\n" + color("-t --todo", "yellow") + tab() + tab() + "Shows the todo list for BrowserLinux's development.";
   } else if (args == "-w") {
     // Display welcome message
     return welcomeText;
+  } else if (args == "-t" || args == "--todo") {
+    // Prints a todo list for the BrowserLinux project.
+    return color("TODO List:<br>-"+tab()+"Add env var fetch using `$VARIABLE`<br>-"+tab()+"Make pipes less buggy when using `vmsh` as it is a problem instigator<br>-"+tab()+"Add `wget`/`curl` command<br>-"+tab()+"Add C/C++ compiler using emscrypten<br>-"+tab()+"Add a filesystem using IndexedDB & add `cd` command");
   } else {
     // Returns error for unknown argument
     return color("info has no command '"+bold(args)+"'. Type `info --help` for help on this command.", "red");
@@ -182,11 +184,6 @@ function cmd_export(args) {
     // Prints a specific environment variable
     return env[args.toUpperCase().trim()];
   }
-}
-
-// Prints a todo list for the BrowserLinux project. Could be moved to `info --todo`.
-function cmd_todo(args) {
-  return color("TODO List:<br>-"+tab()+"Add env var fetch using `$VARIABLE`<br>-"+tab()+"Add useful environment variables<br>-"+tab()+"Make pipes less buggy when using `vmsh` as it is a problem instigator<br>-"+tab()+"Fix `cd` command<br>-"+tab()+"Add `wget`/`curl` command<br>-"+tab()+"Add C/C++ compiler<br>-"+tab()+"Add a filesystem using IndexedDB<br>-"+tab()+"Figure out what is wrong with the `python` command","yellow");
 }
 
 // Reloads the BrowserLinux webpage
