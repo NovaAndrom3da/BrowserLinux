@@ -8,20 +8,26 @@ mimetypes = {
   "js": "text/javascript",
   "css": "text/css",
   "py": "text/python",
-  "html": "text/html"
+  "html": "text/html",
+  "ts": "text/javascript",
+  "svelte": "text/javascript",
+  "scss": "text/javascript"
 }
+
+def mimetyper(c, f):
+  nl = f.split(".")
+  return Response(c, mimetype=mimetypes[nl[len(nl)-1]])
 
 # Add the html file
 @app.route("/")
 def index():
-  return Response(open("linux/index.html").read(), mimetype="text/html")
+  return mimetyper(open("linux/index.html").read(), ".html")
   
 # Adds the *.js and *.css files
 @app.route("/assets/<f>")
 def assets(f):
-  nl = f.split(".")
   try:
-    return Response(open('linux/'+f).read(), mimetype=mimetypes[nl[len(nl)-1]])
+    return mimetyper(open('linux/'+f).read(), f)
   except:
     return abort(404)
 
@@ -29,7 +35,7 @@ def assets(f):
 @app.route("/Lib/<lib>")
 def cpythonlib(lib):
   try:
-    return open("cpython/Lib/"+lib).read()
+    return mimetyper(open("cpython/Lib/"+lib).read(), lib)
   except:
     return abort(404)
 
@@ -44,6 +50,10 @@ def pipinstall(lib):
 @app.route("/bin/<f>")
 def binasset(f):
   return open("bin/"+f, "rb").read()
+
+@app.route("/backgrounds/<f>")
+def backgrounds(f):
+  return open("bin/backgrounds/"+f, "rb").read()
 
 # Send information of a package, returns an error if package is nonexistant
 @app.route("/blpm/<package>")
@@ -60,6 +70,14 @@ def installPackage(package):
   if 'Error' in json.loads(packageExists(package)):
     return packageExists(package)
   return open("packages/"+package+".json").read()
+
+@app.route("/components/<folder>/<file>")
+def components_folder_file(folder, file):
+  return mimetyper(open("linux/src/components/"+folder+"/"+file).read(), file)
+
+@app.route("/components/<folder1>/<folder2>/<file>")
+def components_folder_folder_file(folder1, folder2, file):
+  return mimetyper(open("linux/src/components/"+folder1+"/"+folder2+"/"+file).read(), file)
 
 @app.route("/blpm-listall")
 def listallRemote():

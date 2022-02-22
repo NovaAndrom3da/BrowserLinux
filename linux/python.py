@@ -209,3 +209,4 @@ def cmd_pip(args):
 
 console.log("Python loaded.")
 
+window.__PYTHONREADY__ = True

@@ -1,3 +1,4 @@
+window.__PYTHONREADY__ = false;
 // This file is for integrating brython (brython.js, brythin_stdlib.js)
 // into the BrowserLinux environment.
 
@@ -21,7 +22,16 @@ function installBrython(){
   }
 }
 
-setTimeout(installBrython, 1700);
+if(brython_stdlib_js.readyState) {
+  brython_stdlib_js.onreadystatechange = function() {
+    if (brython_stdlib_js.readyState === "loaded" || brython_stdlib_js.readyState === "complete") {
+      brython_stdlib_js.onreadystatechange = null;
+      callback();
+    }
+  };
+} else {
+  brython_stdlib_js.onload = installBrython;
+}
 
 function cmd_pip(args) {
   arglist = args.split(" ");
