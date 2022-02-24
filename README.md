@@ -11,3 +11,4 @@ This project uses the following sources:
 * [cpython](https://github.com/Froggo8311/cpython)
 * [Brython](https://github.com/brython-dev/brython)
 * [ProFont for Powerline](https://github.com/powerline/fonts)
+* [macos-web](https://github.com/Froggo8311/BrowserLinux)
