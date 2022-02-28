@@ -1,0 +1,8 @@
+/node_modules/
+/dist/
+/.vscode/
+.DS_Store
+.idea/
+poetry.lock
+pyproject.toml
+.replit

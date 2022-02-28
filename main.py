@@ -1,7 +1,12 @@
 # Import modules
-from flask import Flask, request, Response, abort
-import os, json, socket, urllib.request
+import os, json, socket, urllib.request, subprocess, time
 
+# Ensure modules are installed & load them
+subprocess.Popen(["pip", "install", "flask"]).communicate()
+from flask import Flask, request, Response, abort, redirect
+
+# Start Flask server
+time.sleep(10)
 app = Flask(__name__)
 
 mimetypes = {
@@ -18,6 +23,7 @@ def mimetyper(c, f):
   nl = f.split(".")
   return Response(c, mimetype=mimetypes[nl[len(nl)-1]])
 
+""" # Content delivery
 # Add the html file
 @app.route("/")
 def index():
@@ -30,6 +36,7 @@ def assets(f):
     return mimetyper(open('linux/'+f).read(), f)
   except:
     return abort(404)
+"""
 
 # Add cpython lib (https://github.com/Froggo8311/cpython)
 @app.route("/Lib/<lib>")
@@ -39,13 +46,14 @@ def cpythonlib(lib):
   except:
     return abort(404)
 
-""" # Now is not your time. Your day of greatness will arrive soon.
+""" # Packages
 @app.route("/pip/<lib>")
 def pipinstall(lib):
   page = urllib.request.urlopen('https://pypi.org/simple')
   return str(str(">"+lib+"<") in str(page.read()))
 """
 
+""" # Content delivery
 # Adds any binary or bytes files
 @app.route("/bin/<f>")
 def binasset(f):
@@ -54,6 +62,7 @@ def binasset(f):
 @app.route("/backgrounds/<f>")
 def backgrounds(f):
   return open("bin/backgrounds/"+f, "rb").read()
+"""
 
 # Send information of a package, returns an error if package is nonexistant
 @app.route("/blpm/<package>")
@@ -71,14 +80,6 @@ def installPackage(package):
     return packageExists(package)
   return open("packages/"+package+".json").read()
 
-@app.route("/components/<folder>/<file>")
-def components_folder_file(folder, file):
-  return mimetyper(open("linux/src/components/"+folder+"/"+file).read(), file)
-
-@app.route("/components/<folder1>/<folder2>/<file>")
-def components_folder_folder_file(folder1, folder2, file):
-  return mimetyper(open("linux/src/components/"+folder1+"/"+folder2+"/"+file).read(), file)
-
 @app.route("/blpm-listall")
 def listallRemote():
   allpackages = {}
@@ -90,19 +91,7 @@ def listallRemote():
     allpackages[name] = json.loads(file)["desc"]
   return json.dumps(allpackages)
 
-#@app.route("/gethostbyname/<domain>")
-#def gethostbyname(domain):
- # return json.dumps(socket.gethostbyname_ex(domain))
-
-#@app.route("/gethostname/<address>")
-#def gethostname(address):
- # return json.dumps(socket.gethostbyaddr(address))
-
-
-#@app.route("/pip/<f>")
-#def pip(f):
- # return open("pip/"+f).read()
   
 # Run the server
-app.run('0.0.0.0', 80)
+app.run('localhost', 5456)
 
