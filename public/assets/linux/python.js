@@ -15,7 +15,7 @@ setTimeout(function(){
 
   function installBrython(){
     try {
-      brython({debug: 0, pythonpath: ["/cpython/Lib", "/BrowserLinux-extlib", "/pip"], indexedDB: true});
+      brython({debug: 0, pythonpath: ["/browserlinux-lib/Lib", "/browserlinux-lib/extlib", "/pip"], indexedDB: true});
       console.log("Brython loaded.")
     } catch {
       console.log("Couldn't load brython. Retrying in half a second...");
