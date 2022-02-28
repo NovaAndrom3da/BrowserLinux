@@ -8,14 +8,7 @@ A running version of this software is available on [replit](https://browserlinux
 
 # Sources
 This project uses the following sources:
-<<<<<<< HEAD
 * [cpython](https://github.com/Froggo8311/cpython) | [License](https://github.com/Froggo8311/cpython/blob/3.10/LICENSE)
 * [Brython](https://github.com/brython-dev/brython) | [BSD 3-Clause](https://github.com/brython-dev/brython/blob/master/LICENCE.txt)
 * [ProFont for Powerline](https://github.com/powerline/fonts) | No License Provided
 * [macos-web](https://github.com/PuruVJ/macos-web) | [MIT](https://github.com/Froggo8311/BrowserLinux/blob/main/docs/LICENSE-MIT.md)
-=======
-* [cpython](https://github.com/Froggo8311/cpython)
-* [Brython](https://github.com/brython-dev/brython)
-* [ProFont for Powerline](https://github.com/powerline/fonts)
-* [macos-web](https://github.com/Froggo8311/macos-web)
->>>>>>> origin/main
