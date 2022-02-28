@@ -1,11 +1,12 @@
 import { createAppConfig } from '🍎/helpers/create-app-config';
 
-/*const wallpaper = createAppConfig({
+const wallpapers = createAppConfig({
   title: 'Wallpapers',
   resizable: true,
+
   height: 600,
-  width: 800
-});*/
+  width: 800,
+});
 
 const vscode = createAppConfig({
   title: 'VSCode',
@@ -40,6 +41,7 @@ const terminal = createAppConfig({
 });
 
 export const appsConfig = {
+  wallpapers,
   vscode,
   files,
   safari,
