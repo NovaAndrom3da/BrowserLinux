@@ -65,6 +65,7 @@ export default defineConfig({
     minify: 'terser',
   },
   server: {
+    port: 80,
     hmr: {
       clientPort: 442,
     },
