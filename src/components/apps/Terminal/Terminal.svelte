@@ -10,7 +10,10 @@
   setTimeout(function(){
     window.cmdprompt = document.querySelector("#cmdprompt");
     cmdprompt.addEventListener('keydown', cmdprompt_keydown);
-    cmdprompt.innerHTML = color("Start typing...", "green") + " " + color(">>", "lightblue");
+    cmdprompt.innerHTML = color(window.env["USERDIR"], "green") + " " + color(">>", "lightblue");
+    window.triggerPrompt = function() {
+      window.cmdprompt_keydown({"key": "", "shiftKey": false, "ctrlKey": false});
+    }
   }, 50);
 </script>
 
@@ -37,5 +40,9 @@
   #cmdprompt {
     background-color: rgb(15, 15, 15, 0);
     outline: none;
+  }
+
+  #cmdprompt {
+    box-shadow: none;
   }
 </style>

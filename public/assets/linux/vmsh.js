@@ -20,11 +20,15 @@ usr_bin = {
   "python": {"exec": cmd_pythonunloaded, "desc": "Python interpreter", "ver": "0.0"}
 };
 
-// like usr_bin, but does not show the content in `blpm list` or `help --usr`
+// like usr_bin, but does not show the content in `blpm list` or `help --usr`, for aliases
 silent_usr_bin = {
-  "py": {"exec": cmd_pythonunloaded, "desc": "Python interpreter", "ver": "0.0"},
-  "python3": {"exec": cmd_pythonunloaded, "desc": "Python interpreter", "ver": "0.0"},
-  "python3.10": {"exec": cmd_pythonunloaded, "desc": "Python interpreter", "ver": "0.0"}
+  "py": {"exec": cmd_pythonunloaded, "desc": "Python interpreter"},
+  "python3": {"exec": cmd_pythonunloaded, "desc": "Python interpreter"},
+  "python3.10": {"exec": cmd_pythonunloaded, "desc": "Python interpreter"},
+  "sh": {"exec": cmd_vmsh, "desc": "Shell"},
+  "bash": {"exec": cmd_vmsh, "desc": "Bourne-again Shell"},
+  "apt": {"exec": cmd_blpm, "desc": "Wrapper program for blpm, apt"},
+  "sudo": {"exec": cmd_vmsh, "desc": "Superuser Shell"}
 };
 
 
@@ -104,11 +108,7 @@ function cmd_echo(args) {
 
 // Clears the terminal
 function cmd_clear(args) {
-  if (args == "-r") {
-    parse("clear && info -w");
-  } else {
-    cmdprompt.innerHTML = "";
-  }
+  cmdprompt.innerHTML = "";
 }
 
 // Prints a help message
@@ -150,9 +150,6 @@ function cmd_info(args) {
   } else if (args == "--help" || args == "-h") {
     // Prints arguments
     return color("-h --help", "yellow") + tab() + tab() +"Displays this help message.\n" + color("--contributors", "yellow") + tab() + tab() +"Lists the contributors\n" + color("--gh", "yellow") + tab() + tab() + "Opens the GitHub page in a new tab.\n" + color("-t --todo", "yellow") + tab() + tab() + "Shows the todo list for BrowserLinux's development.";
-  } else if (args == "-w") {
-    // Display welcome message
-    return welcomeText;
   } else if (args == "-t" || args == "--todo") {
     // Prints a todo list for the BrowserLinux project.
     return color("TODO List:<br>-"+tab()+"Add env var fetch using `$VARIABLE`<br>-"+tab()+"Make pipes less buggy when using `vmsh` as it is a problem instigator<br>-"+tab()+"Add `wget`/`curl` command<br>-"+tab()+"Add C/C++ compiler using emscrypten<br>-"+tab()+"Add a filesystem using IndexedDB & add `cd` command");
@@ -216,19 +213,6 @@ function cmd_cd(args) {
   }
 
   if (env["DIR"].substring(-1)!="/") {env["DIR"]+="/"}
-}
-
-// A virtual display. Not an immediate concern, but could potentially be a feature later on.
-function cmd_display(args) {
-  if (args == "") {
-    return "This command closes this terminal and opens a graphical display. " + color("The graphical display currently does nothing.", "orange") + "<br>" + color("Use `display --yes` to switch to the graphical display.", "yellow");
-  } else if (args == "--yes" || args == "-y") {
-    return color("Not yet implemented.", "yellow");
-  } else if (args == "-h" || args == "--help") {
-    return "`-h` `--help`"+tab()+"Shows this help message<br>`--yes` `-y`"+tab()+"Opens the graphical display";
-  } else {
-    return color("display has no command '"+args+"'. Type `display --help` for help on this command.", "red");
-  }
 }
 
 // Evaluates a javascript expression. Can be used for math
@@ -405,3 +389,4 @@ function cmd_unset(args) {
 function cmd_pythonunloaded(args) {
   return color("Python has not finished loading. Please wait a second and then try again.", "yellow");
 }
+

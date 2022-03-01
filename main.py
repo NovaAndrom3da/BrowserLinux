@@ -23,21 +23,6 @@ def mimetyper(c, f):
   nl = f.split(".")
   return Response(c, mimetype=mimetypes[nl[len(nl)-1]])
 
-""" # Content delivery
-# Add the html file
-@app.route("/")
-def index():
-  return mimetyper(open("linux/index.html").read(), ".html")
-  
-# Adds the *.js and *.css files
-@app.route("/assets/<f>")
-def assets(f):
-  try:
-    return mimetyper(open('linux/'+f).read(), f)
-  except:
-    return abort(404)
-"""
-
 # Add cpython lib (https://github.com/Froggo8311/cpython)
 @app.route("/Lib/<lib>")
 def cpythonlib(lib):
@@ -51,17 +36,6 @@ def cpythonlib(lib):
 def pipinstall(lib):
   page = urllib.request.urlopen('https://pypi.org/simple')
   return str(str(">"+lib+"<") in str(page.read()))
-"""
-
-""" # Content delivery
-# Adds any binary or bytes files
-@app.route("/bin/<f>")
-def binasset(f):
-  return open("bin/"+f, "rb").read()
-
-@app.route("/backgrounds/<f>")
-def backgrounds(f):
-  return open("bin/backgrounds/"+f, "rb").read()
 """
 
 # Send information of a package, returns an error if package is nonexistant

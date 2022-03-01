@@ -1,19 +1,4 @@
-// Function to scroll the window to the end of the terminal
-//function scroll(){window.scrollTo(0,document.body.scrollHeight);}
-
-// For future graphical display
-/*var canvas = document.querySelector("#display");
-setInterval(function(){
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}, 5000);*/
-
-// Timeout to ensure document is fully loaded before initialization      
 setTimeout(function(){
-  // Welcome message
-  welcomeText = color("Welcome to BrowserLinux! Type `help` for help or `info --contributors` for contributors.", "violet");
-  //cmdprompt.innerHTML = welcomeText + "<br>"+color("Start typing...", "green") + " " + color(">>", "lightblue") + " ";
-
   // Current command line
   currline = "";
   
