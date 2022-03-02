@@ -1,4 +1,4 @@
-tempfs = {
+var tempfs = {
   "rootfs": "/",
   "/": {type: "folder", children: {
     "bin": {type: "folder", children: {}},

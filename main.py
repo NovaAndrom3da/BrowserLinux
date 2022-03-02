@@ -1,35 +1,20 @@
+# === Server Config ===
+install = False
+wait = 10
+
+
+# === Server Program ===
 # Import modules
 import os, json, socket, urllib.request, subprocess, time
 
 # Ensure modules are installed & load them
-subprocess.Popen(["pip", "install", "flask"]).communicate()
+if install:
+  subprocess.Popen(["pip", "install", "flask"]).communicate()
 from flask import Flask, request, Response, abort, redirect
 
 # Start Flask server
-time.sleep(10)
+time.sleep(wait)
 app = Flask(__name__)
-
-mimetypes = {
-  "js": "text/javascript",
-  "css": "text/css",
-  "py": "text/python",
-  "html": "text/html",
-  "ts": "text/javascript",
-  "svelte": "text/javascript",
-  "scss": "text/javascript"
-}
-
-def mimetyper(c, f):
-  nl = f.split(".")
-  return Response(c, mimetype=mimetypes[nl[len(nl)-1]])
-
-# Add cpython lib (https://github.com/Froggo8311/cpython)
-@app.route("/Lib/<lib>")
-def cpythonlib(lib):
-  try:
-    return mimetyper(open("cpython/Lib/"+lib).read(), lib)
-  except:
-    return abort(404)
 
 """ # Packages
 @app.route("/pip/<lib>")

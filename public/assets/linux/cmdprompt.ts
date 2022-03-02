@@ -6,7 +6,7 @@ document.querySelectorAll("html")[0].onkeydown = function(e) {
 
 setTimeout(function(){
   // Current command line
-  currline = "";
+  var currline = "";
   
   // A stone-age approach to a command history
   pausedcmd = "";  // Whatever the user types before pressing "up"

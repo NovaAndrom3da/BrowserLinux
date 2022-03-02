@@ -1,6 +1,6 @@
 // === Command Setup ===
 // "Emulating" /bin/
-bin = {
+var bin = {
   "clear": {"exec": cmd_clear, "desc": "Clears the console."},
   "echo": {"exec": cmd_echo, "desc": "Prints the content provided to it"},
   "help": {"exec": cmd_help, "desc": "Shows this help message"},
@@ -9,36 +9,37 @@ bin = {
   "export": {"exec": cmd_export, "desc": "Reads and writes environment variables"},
   "pwd": {"exec": cmd_pwd, "desc": "Prints the working directory"},
   "color": {"exec": cmd_color, "desc": "Change color"},
-  "unset": {"exec": cmd_unset, "desc": "Remove an environment variable"}
+  "unset": {"exec": cmd_unset, "desc": "Remove an environment variable"},
+  ""
 };
 
 // "Emulating" /usr/bin/
-usr_bin = {
+var usr_bin = {
   "whoami": {"exec": cmd_whoami, "desc": "Print the current user", "ver": "0.1"},
   "reload": {"exec": cmd_reload, "desc": "Reload the browser window", "ver": "0.1"},
   "blpm": {"exec": cmd_blpm, "desc": "BrowserLinux Package Manager", "ver": "0.1"},
-  "python": {"exec": cmd_pythonunloaded, "desc": "Python interpreter", "ver": "0.0"}
+  "python": {"exec": cmd_pythonunloaded, "desc": "Python interpreter", "ver": "0.0"},
 };
 
 // like usr_bin, but does not show the content in `blpm list` or `help --usr`, for aliases
-silent_usr_bin = {
+var silent_usr_bin = {
   "py": {"exec": cmd_pythonunloaded, "desc": "Python interpreter"},
   "python3": {"exec": cmd_pythonunloaded, "desc": "Python interpreter"},
   "python3.10": {"exec": cmd_pythonunloaded, "desc": "Python interpreter"},
   "sh": {"exec": cmd_vmsh, "desc": "Shell"},
   "bash": {"exec": cmd_vmsh, "desc": "Bourne-again Shell"},
   "apt": {"exec": cmd_blpm, "desc": "Wrapper program for blpm, apt"},
-  "sudo": {"exec": cmd_vmsh, "desc": "Superuser Shell"}
+  "sudo": {"exec": cmd_vmsh, "desc": "Superuser Shell"},
 };
 
 // === Environment Variables ===
-env = {
+var env = {
   "USERDIR": "/home/user/",
   "DIR": "/home/user/",
   "USERNAME": "user",
   "BLVERSION": "0.1.0",
   "BLPM_REMOTE_CACHE_DELETE": String(120000), // Default (120000 = 2 minutes), timer for deleting blpm_remote_cache
-  "BLPM_INSTALL_DELAY": String(500) // installer delay, in milliseconds. Default (500 = 1/2 second)
+  "BLPM_INSTALL_DELAY": String(500), // installer delay, in milliseconds. Default (500 = 1/2 second)
 };
 
 // === Background Functions ===
@@ -238,10 +239,10 @@ function cmd_color(args) {
 }
 
 // BrowserLinux Package Manager
-blpm_install_queue = []; // items to be installed
-blpm_remote_cache = []; // cache generated from `blpm remote` for the `blpm install-all` command.
+var blpm_install_queue = []; // items to be installed
+var blpm_remote_cache = []; // cache generated from `blpm remote` for the `blpm install-all` command.
 
-blpm_background_process = setInterval(function(){
+var blpm_background_process = setInterval(function(){
   if (blpm_install_queue.length > 0) {
     pkg = blpm_install_queue[0];
     if (pkg == '') {return;}
