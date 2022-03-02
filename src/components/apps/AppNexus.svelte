@@ -5,17 +5,17 @@
   export let isBeingDragged: boolean;
 </script>
 
-{#if appID === 'calendar'}
-  {#await import('./Calendar/Calendar.svelte') then { default: Calendar }}
-    <Calendar />
+{#if appID === 'files'}
+  {#await import('./Files/Files.svelte') then { default: Files }}
+    <Files {isBeingDragged} />
   {/await}
 {:else if appID === 'vscode'}
   {#await import('./VSCode/VSCode.svelte') then { default: VSCode }}
     <VSCode {isBeingDragged} />
   {/await}
-{:else if appID === 'calculator'}
-  {#await import('./Calculator/Calculator.svelte') then { default: Calculator }}
-    <Calculator />
+{:else if appID === 'settings'}
+  {#await import('./Settings/Settings.svelte') then { default: Settings }}
+    <Settings {isBeingDragged} />
   {/await}
 {:else if appID === 'wallpapers'}
   {#await import('./WallpaperApp/WallpaperSelectorApp.svelte') then { default: WallpaperSelector }}
@@ -27,7 +27,7 @@
     <Terminal {isBeingDragged} />
   {/await}
 {:else}
-  {#await import('./Placeholder/Placeholder.svelte') then { default: Placeholder }}
-    <Placeholder {appID} />
+  {#await import('./Browser/Browser.svelte') then { default: Browser }}
+    <Browser {isBeingDragged} />
   {/await}
 {/if}

@@ -31,13 +31,14 @@ silent_usr_bin = {
   "sudo": {"exec": cmd_vmsh, "desc": "Superuser Shell"}
 };
 
-
 // === Environment Variables ===
 env = {
   "USERDIR": "/home/user/",
   "DIR": "/home/user/",
   "USERNAME": "user",
-  "BLVERSION": "0.1.0"
+  "BLVERSION": "0.1.0",
+  "BLPM_REMOTE_CACHE_DELETE": String(120000), // Default (120000 = 2 minutes), timer for deleting blpm_remote_cache
+  "BLPM_INSTALL_DELAY": String(500) // installer delay, in milliseconds. Default (500 = 1/2 second)
 };
 
 // === Background Functions ===
@@ -239,8 +240,6 @@ function cmd_color(args) {
 // BrowserLinux Package Manager
 blpm_install_queue = []; // items to be installed
 blpm_remote_cache = []; // cache generated from `blpm remote` for the `blpm install-all` command.
-env["BLPM_REMOTE_CACHE_DELETE"] = String(120000); // Default (120000 = 2 minutes), timer for deleting blpm_remote_cache
-env["BLPM_INSTALL_DELAY"] = String(2000); // installer delay, in milliseconds
 
 blpm_background_process = setInterval(function(){
   if (blpm_install_queue.length > 0) {
