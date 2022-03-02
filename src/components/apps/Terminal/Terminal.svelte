@@ -1,7 +1,7 @@
-<section class="container">
-  <header class="titlebar app-window-drag-handle" />
+<section class="container" onclick="window.cmdprompt.focus();">
+  <header class="titlebar app-window-drag-handle" onclick="window.cmdprompt.focus();" />
   <section class="content main-area" style="margin-top: 5px;">
-    <div id="cmdprompt" style="width: 98%; height: 100%; overflow-x: hidden;" tabindex="0"></div>
+    <div id="cmdprompt" style="width: 98%; height: 100%; overflow-x: hidden;" tabindex="0" autofocus></div>
   </section>
 </section>
 
@@ -14,6 +14,10 @@
     window.triggerPrompt = function() {
       window.cmdprompt_keydown({"key": "", "shiftKey": false, "ctrlKey": false});
     }
+    setTimeout(function(){
+      cmdprompt.clientWidth = String(cmdprompt.parentElement.clientWidth);
+      cmdprompt.clientHeight = String(cmdprompt.parentElement.clientHeight);
+    }, 50);
   }, 50);
 </script>
 
@@ -26,6 +30,9 @@
 
     display: grid;
     grid-template-rows: auto 1fr;
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow-x: hidden;
   }
 
   header {
@@ -40,9 +47,6 @@
   #cmdprompt {
     background-color: rgb(15, 15, 15, 0);
     outline: none;
-  }
-
-  #cmdprompt {
     box-shadow: none;
   }
 </style>

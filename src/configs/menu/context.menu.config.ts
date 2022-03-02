@@ -32,5 +32,9 @@ export const contextMenuConfig = {
       title: 'Show View Options',
       breakAfter: false,
     },
+    reload: {
+      title: 'Reload',
+      onclick: window.cmd_reload,
+    }
   },
 };

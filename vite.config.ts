@@ -68,6 +68,7 @@ export default defineConfig({
     hmr: {
       clientPort: 442,
     },
+    //hmr: false,
     proxy: {
       '/blpm': 'http://localhost:5456',
       '/blpm-listall': 'http://localhost:5456',

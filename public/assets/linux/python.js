@@ -8,10 +8,13 @@ brython_js = document.createElement("script");
 brython_js.src = "/assets/linux/brython.js";
 head_element.appendChild(brython_js);
 setTimeout(function(){
-  brython_stdlib_js = document.createElement("script");
-  brython_stdlib_js.src = "/assets/linux/brython_stdlib.js";
-  head_element.appendChild(brython_stdlib_js);
-
+  try {
+    brython_stdlib_js = document.createElement("script");
+    brython_stdlib_js.src = "/assets/linux/brython_stdlib.js";
+    head_element.appendChild(brython_stdlib_js);
+  } catch {
+    cmd_reload();
+  }
 
   function installBrython(){
     try {

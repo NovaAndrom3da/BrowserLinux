@@ -26,15 +26,11 @@
     $theme.scheme = $theme.scheme === 'light' ? 'dark' : 'light';
   }
 
-  function toggleMotionPreference() {
-    $prefersReducedMotion = !$prefersReducedMotion;
+  function openBackgroundSettings() {
+    $openApps.settings = true;
+    $activeApp = 'settings';
   }
-
-  function openWallpapersApp() {
-    $openApps.wallpapers = true;
-    $activeApp = 'wallpapers';
-  }
-
+  
   onMount(() => containerEl?.focus());
 </script>
 
@@ -65,12 +61,7 @@
       [1, 2],
     ]}
   >
-    <ActionCenterTile grid={[1, 1]} on:click={toggleMotionPreference}>
-      <span class="toggle-icon" class:filled={!$prefersReducedMotion}>
-        <TransitionMaskedIcon />
-      </span>
-      Animations
-    </ActionCenterTile>
+    
   </ActionCenterSurface>
 
   <ActionCenterSurface
@@ -107,17 +98,17 @@
       [5, 3],
     ]}
   >
-    <ActionCenterTile grid={[1, 1]} on:click={openWallpapersApp}>
+
+  <ActionCenterTile grid={[1, 1]} on:click={openBackgroundSettings}>
       <div class="wallpaper-tile">
         <img
           class="wallpaper-thumbnail"
           src="/assets/wallpapers/{wallpapersConfig[$wallpaper.id].thumbnail}.jpg"
           alt="Current wallpaper"
         />
-
         <div class="wallpaper-info">
           <h3>{wallpapersConfig[$wallpaper.id].name}</h3>
-          <p>{wallpapersConfig[$wallpaper.id].type} wallpaper</p>
+          <p>{wallpapersConfig[$wallpaper.id].type} Background</p>
         </div>
       </div>
     </ActionCenterTile>

@@ -1,3 +1,9 @@
+document.querySelectorAll("html")[0].onkeydown = function(e) {
+  try {
+    e.preventDefault();
+  } catch {}
+}
+
 setTimeout(function(){
   // Current command line
   currline = "";
@@ -17,7 +23,9 @@ setTimeout(function(){
 
   // Command line text input
   window.cmdprompt_keydown = function(e){
-    e.preventDefault();
+    try {
+      e.preventDefault();
+    } catch {}
     // Check if command has access to keyboard input
     if (typeof(cmdkeybind)=="undefined") {
 
