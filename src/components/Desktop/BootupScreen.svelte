@@ -13,13 +13,16 @@
   onMount(async () => {
     $progressVal = 0;
     await waitFor(3000);
-    hiddenSplashScreen = true;
+    hiddenSplashScreen = false;
+    setTimeout(function(){
+      hiddenSplashScreen = true;
+    }, 500);
   });
 </script>
 
-{#if !(hiddenSplashScreen || import.meta.env.DEV)}
+{#if !(hiddenSplashScreen )}//|| import.meta.env.DEV)}
   <div out:fadeOut={{ duration: 500 }} class="splash-screen" use:elevation={'bootup-screen'}>
-    <AppleIcon />
+    <h1 class="splash_title"><b>BrowserLinux</b></h1>
 
     <div
       class="progress"
@@ -27,22 +30,11 @@
       aria-valuenow={100 - $progressVal}
       aria-valuemin={0}
       aria-valuemax={100}
-      aria-valuetext="Loading up macOS Web"
+      aria-valuetext="Loading BrowserLinux"
     >
       <div class="indicator" style:transform="translateX(-{$progressVal}%)" />
     </div>
   </div>
-{/if}
-
-<!-- iframe => firefox support: will always make sound available on start or F5 -->
-{#if import.meta.env.PROD}
-  <iframe
-    id="audio"
-    src="/assets/sounds/mac-startup-sound.mp3"
-    type="audio/mp3"
-    allow="autoplay"
-    title="hello"
-  />
 {/if}
 
 <style lang="scss">
@@ -54,7 +46,7 @@
     height: 100vh;
     width: 100vw;
 
-    cursor: none;
+    cursor: none !important;
 
     display: flex;
     flex-direction: column;
@@ -84,7 +76,7 @@
   }
 
   .indicator {
-    background-color: var(--system-color-grey-100);
+    background-color: lightblue; /*var(--system-color-grey-100);*/
 
     border-radius: inherit;
 
@@ -94,10 +86,10 @@
     transform: translateX(-0%);
   }
 
-  #audio {
-    position: absolute;
-    z-index: -9999;
-
-    display: none;
+  .splash_title {
+    color: #ffffff;
+    font-family: Profont;
+    font-size: 16pt;
+    color: lightblue;
   }
 </style>

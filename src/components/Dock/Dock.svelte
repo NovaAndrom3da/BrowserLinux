@@ -3,11 +3,12 @@
   import { appsConfig } from '🍎/configs/apps/apps-config';
   import { appsInFullscreen } from '🍎/stores/apps.store';
   import { systemNeedsUpdate } from '🍎/stores/system.store';
+  import { autohideDock } from '🍎/stores/system.store';
   import DockItem from './DockItem.svelte';
 
   let mouseX: number | null = null;
 
-  $: isDockAutoHidden = Object.values($appsInFullscreen).some(Boolean);
+  $: isDockAutoHidden = Object.values($appsInFullscreen).some(Boolean) || Object.values($autohideDock).some(Boolean);
 </script>
 
 <section class="dock-container" use:elevation={'dock'}>
@@ -19,12 +20,19 @@
     on:mousemove={(event) => (mouseX = event.x)}
     on:mouseleave={() => (mouseX = null)}
   >
-    {#each Object.entries(appsConfig) as [appID, config]}
-      {#if config.dockBreaksBefore}
-        <div class="divider" aria-hidden="true" />
-      {/if}
-      <DockItem {mouseX} {appID} needsUpdate={$systemNeedsUpdate} />
-    {/each}
+    <div class="dock_side_segment">
+      <button class="homebtn"><div class="homebtn_outline"></div></button>
+    </div>
+    <div class="dock_apps">
+      {#each Object.entries(appsConfig) as [appID, config]}
+        {#if config.dockBreaksBefore}
+          <div class="divider" aria-hidden="true" />
+        {/if}
+        <DockItem {mouseX} {appID} needsUpdate={$systemNeedsUpdate} />
+      {/each}
+    </div>
+    <div class="dock_side_segment">
+    </div>
   </div>
 </section>
 
@@ -106,8 +114,16 @@
 
       z-index: -1;
     }
+    width: 95%;
   }
 
+  .dock_apps {
+    justify-content: center;
+    width: 100%;
+    align-items: flex-end;
+    display: flex;
+  }
+  
   .divider {
     height: 100%;
     width: 0.2px;
@@ -115,5 +131,35 @@
     background-color: hsla(var(--system-color-dark-hsl), 0.3);
 
     margin: 0 4px;
+  }
+
+  .homebtn {
+    width: 4rem;
+    height: 4rem;
+    color: var(--system-color-dark);
+    border-radius: 50px;
+    transition-duration: 0.15s;
+  }
+
+  .homebtn:hover {
+    background-color: rgb(100,100,100,0.5);
+  }
+
+  .homebtn:active {
+    background-color: rgb(150,150,150,0.5);
+  }
+
+  .homebtn_outline {
+    border-radius: 50px;
+    border: 4px solid hsl(240, 24%, 100%);
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .dock_side_segment {
+    width: 15rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
 </style>

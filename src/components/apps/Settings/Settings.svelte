@@ -1,69 +1,286 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { spring } from 'svelte/motion';
-  import { waitFor } from '🍎/helpers/wait-for';
-  import type { AppID } from '🍎/stores/apps.store';
-  import { prefersReducedMotion } from '🍎/stores/prefers-motion.store';
+  import { WallpaperID, wallpapersConfig } from '🍎/configs/wallpapers/wallpaper.config';
+  import { wallpaper } from '🍎/stores/wallpaper.store';
 
-  export let appID: AppID;
+  const dynamicWallpapers = Object.entries(wallpapersConfig).filter(
+    ([, { type }]) => type === 'dynamic',
+  );
 
-  const motionVal = spring(0, { damping: 0.28, stiffness: 0.1 });
+  const standaloneWallpapers = Object.entries(wallpapersConfig).filter(
+    ([, { type }]) => type === 'standalone',
+  );
 
-  onMount(async () => {
-    await waitFor(100);
+  $: currentWallpaperThumb = `url(/assets/wallpapers/${
+    wallpapersConfig[$wallpaper.id].thumbnail
+  }.jpg)`;
 
-    $motionVal = 1;
-  });
-
-  $: imageTransform = !$prefersReducedMotion
-    ? `rotate(${180 * ($motionVal + 1)}deg) scale(${$motionVal}) translateZ(0px)`
-    : 'initial';
+  function changeWallpaper(wallpaperName: WallpaperID) {
+    $wallpaper.id = wallpaperName;
+  }
 </script>
 
 <section class="container">
-  <header class="titlebar app-window-drag-handle" />
+  <header class="titlebar app-window-drag-handle">
+    <span>Wallpapers</span>
+  </header>
+
+  <aside>
+    <nav>
+      <button>Test</button>
+    </nav>
+  </aside>
+  
   <section class="main-area">
-    <img
-      style:transform={imageTransform}
-      src="/assets/app-icons/{appID}/256.webp"
-      alt="Placeholder App"
-    />
-    <h1>Apps coming soon!</h1>
+    <section class="selected-wallpaper-section">
+      <div class="image" style:background-image={currentWallpaperThumb} />
+
+      <div class="info">
+        <h2>{wallpapersConfig[$wallpaper.id].name}</h2>
+        <p class="wallpaper-type">{wallpapersConfig[$wallpaper.id].type} wallpaper</p>
+
+        <br /> <br />
+
+        {#if wallpapersConfig[$wallpaper.id].type !== 'standalone'}
+          <label>
+            <input type="checkbox" bind:checked={$wallpaper.canControlTheme} />
+            Change dark/light mode as wallpapers change
+          </label>
+        {/if}
+      </div>
+    </section>
+
+    <br /><br /><br /><br />
+
+    <section class="dynamic-wallpapers">
+      <h2>Dynamic Wallpapers</h2>
+
+      <div class="wallpapers">
+        {#each dynamicWallpapers as [id, { thumbnail, name }]}
+          <div class="wallpaper-button">
+            <button on:click={() => changeWallpaper(id)}>
+              <img
+                src="/assets/wallpapers/{thumbnail}.jpg"
+                alt="MacOS {name} Wallpapers, dynamic"
+              />
+            </button>
+            <p>{name}</p>
+          </div>
+        {/each}
+      </div>
+    </section>
+
+    <br /><br /><br />
+
+    <section class="standalone-wallpapers">
+      <h2>Standalone Wallpapers</h2>
+
+      <div class="wallpapers">
+        {#each standaloneWallpapers as [id, { thumbnail, name }]}
+          <div class="wallpaper-button">
+            <button on:click={() => changeWallpaper(id)}>
+              <img
+                src="/assets/wallpapers/{thumbnail}.jpg"
+                alt="MacOS {name} Wallpapers, dynamic"
+              />
+            </button>
+            <p>{name}</p>
+          </div>
+        {/each}
+      </div>
+    </section>
   </section>
 </section>
 
 <style lang="scss">
+  // h1 {
+  //   font-size: 2.2rem;
+  //   line-height: 1.618;
+
+  //   margin: 0 0 1rem 0;
+  // }
+
+  h2 {
+    line-height: 1.618;
+    font-size: 1.618rem;
+
+    margin: 0 0 1rem 0;
+  }
+
   .container {
     background-color: var(--system-color-light);
 
     border-radius: inherit;
+
+    display: grid;
+    grid-template-rows: auto 1fr;
+
+    min-height: auto;
+    height: 100% !important;
+    max-height: 100%;
+
+    overflow-y: hidden;
   }
 
   .titlebar {
-    padding: 1rem 1rem;
+    display: flex;
+    justify-content: center;
+
+    padding: 0.9rem 1rem;
 
     width: 100%;
 
-    position: absolute;
-    top: 0;
-    left: 0;
+    border-bottom: solid 0.9px hsla(var(--system-color-dark-hsl), 0.3);
+
+    span {
+      color: hsla(var(--system-color-dark-hsl), 0.8);
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
   }
 
   .main-area {
-    font-size: 1.618rem;
+    font-size: 1rem;
     color: var(--system-color-light-contrast);
 
     height: 100%;
     width: 100%;
 
+    overflow-y: auto;
+
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+
+    padding: 1rem;
+
+    &::-webkit-scrollbar {
+      background-color: transparent;
+      width: 18px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: hsla(var(--system-color-dark-hsl), 0.8);
+      border: 6px solid transparent;
+      border-radius: 16px;
+      background-clip: content-box;
+      transition: all 200ms;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: hsla(var(--system-color-dark-hsl), 1);
+    }
   }
 
-  img {
-    max-width: 8rem;
-    aspect-ratio: 1 / 1;
+  .selected-wallpaper-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    .image {
+      width: 30rem;
+      height: auto;
+
+      border-radius: 1rem;
+
+      aspect-ratio: 16 / 10;
+
+      will-change: background-image;
+
+      transition: background-image 150ms ease-in;
+
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    h2 {
+      margin-bottom: 0;
+    }
+
+    .wallpaper-type {
+      color: hsla(var(--system-color-dark-hsl), 0.7);
+      text-transform: capitalize;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      input {
+        margin-left: 0;
+
+        height: 1.2rem;
+        width: 1.2rem;
+
+        accent-color: var(--system-color-primary);
+      }
+    }
+  }
+
+  .dynamic-wallpapers,
+  .standalone-wallpapers {
+    .wallpapers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+      gap: 1rem;
+    }
+  }
+
+  .standalone-wallpapers .wallpapers {
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)) !important;
+  }
+
+  .wallpaper-button {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    border-radius: 0.75rem;
+
+    button {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      border-radius: 0.75rem;
+
+      &:hover,
+      &:focus-visible {
+        img {
+          box-shadow: 0 0 0 0.25rem hsla(var(--system-color-primary-hsl), 0.7);
+        }
+      }
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      border-radius: inherit;
+
+      transition: box-shadow 100ms ease-in;
+    }
+
+    p {
+      width: 100%;
+      text-align: center;
+    }
   }
 </style>

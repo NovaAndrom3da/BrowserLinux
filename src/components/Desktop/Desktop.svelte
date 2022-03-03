@@ -1,7 +1,7 @@
 <script lang="ts">
   import Dock from '🍎/components/Dock/Dock.svelte';
   import TopBar from '🍎/components/TopBar/TopBar.svelte';
-  import Wallpaper from '../apps/WallpaperApp/Wallpaper.svelte';
+  import Wallpaper from '../apps/Settings/Wallpaper.svelte';
   import BootupScreen from './BootupScreen.svelte';
   import ContextMenu from './ContextMenu.svelte';
   import SystemUpdate from './SystemUpdate.svelte';

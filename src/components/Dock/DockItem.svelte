@@ -86,7 +86,7 @@
 
   async function bounceEffect() {
     // Animate the icon
-    await appOpenIconBounceTransform.set(-40);
+    await appOpenIconBounceTransform.set(-35);
 
     // Now animate it back to its place
     appOpenIconBounceTransform.set(0);

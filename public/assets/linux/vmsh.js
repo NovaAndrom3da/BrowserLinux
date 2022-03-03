@@ -10,7 +10,6 @@ var bin = {
   "pwd": {"exec": cmd_pwd, "desc": "Prints the working directory"},
   "color": {"exec": cmd_color, "desc": "Change color"},
   "unset": {"exec": cmd_unset, "desc": "Remove an environment variable"},
-  ""
 };
 
 // "Emulating" /usr/bin/
