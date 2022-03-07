@@ -16,13 +16,6 @@ from flask import Flask, request, Response, abort, redirect
 time.sleep(wait)
 app = Flask(__name__)
 
-""" # Packages
-@app.route("/pip/<lib>")
-def pipinstall(lib):
-  page = urllib.request.urlopen('https://pypi.org/simple')
-  return str(str(">"+lib+"<") in str(page.read()))
-"""
-
 # Send information of a package, returns an error if package is nonexistant
 @app.route("/blpm/<package>")
 def packageExists(package):

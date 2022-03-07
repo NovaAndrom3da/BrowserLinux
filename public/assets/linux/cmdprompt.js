@@ -185,13 +185,13 @@ function addCommandFromVMSH(cmd="", name="", description="No description provide
 }
 
 // Command autocompletion search for "Tab" key
-function kwsearch(cmd) {
+function kwsearch(query='', param=Object.keys(bin).concat(Object.keys(usr_bin))) {
   
-  if (cmd == '') {
+  if (query == '') {
     return [];
   }
-  var reg = new RegExp(cmd)
-  return (Object.keys(bin).concat(Object.keys(usr_bin))).filter(function(term) {
+  var reg = new RegExp(query)
+  return (param).filter(function(term) {
 	  if (term.match(reg)) {
   	  return term;
 	  }

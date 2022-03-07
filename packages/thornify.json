@@ -1,0 +1,7 @@
+{
+  "desc": "Makes text sound like like you came from the midevil times",
+  "type": "js",
+  "exec": "return cmd_echo(args.split(\"th\").join(\"þ\"));",
+  "ver": "0.1",
+  "require": [""]
+}

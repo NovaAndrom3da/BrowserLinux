@@ -4,11 +4,9 @@ import type { WallpaperID } from '🍎/configs/wallpapers/wallpaper.config';
 type WallpaperSettings = {
   id: WallpaperID;
   image: string;
-  canControlTheme: boolean;
 };
 
 export const wallpaper = writable<WallpaperSettings>('macos:wallpaper-settings', {
-  image: '37-2',
-  id: 'monterey',
-  canControlTheme: true,
+  image: '0',
+  id: '0',
 });

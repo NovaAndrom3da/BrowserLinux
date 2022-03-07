@@ -1,4 +1,5 @@
 window.__PYTHONREADY__ = false;
+window.__PYTHONCMDS__ = false;
 // This file is for integrating brython (brython.js, brythin_stdlib.js)
 // into the BrowserLinux environment.
 
@@ -18,7 +19,7 @@ setTimeout(function(){
 
   function installBrython(){
     try {
-      brython({debug: 0, pythonpath: ["/browserlinux-lib/Lib", "/browserlinux-lib/extlib", "/pip"], indexedDB: true});
+      brython({debug: 0, pythonpath: ["/browserlinux-lib/Lib", "/browserlinux-lib/extlib"], indexedDB: true});
       console.log("Brython loaded.")
     } catch {
       console.log("Couldn't load brython. Retrying in half a second...");

@@ -1,13 +1,5 @@
 import { createAppConfig } from '🍎/helpers/create-app-config';
 
-const wallpapers = createAppConfig({
-  title: 'Wallpapers',
-  resizable: true,
-
-  height: 600,
-  width: 800,
-});
-
 const vscode = createAppConfig({
   title: 'VSCode',
   resizable: true,

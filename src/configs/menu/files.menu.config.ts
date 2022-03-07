@@ -1,6 +1,6 @@
 import { createMenuConfig } from '🍎/helpers/create-menu-config';
 
-export const finderMenuConfig = createMenuConfig({
+export const filesMenuConfig = createMenuConfig({
   default: {
     title: 'Files',
     menu: {

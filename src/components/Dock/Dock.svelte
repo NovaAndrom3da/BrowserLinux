@@ -20,7 +20,7 @@
     on:mousemove={(event) => (mouseX = event.x)}
     on:mouseleave={() => (mouseX = null)}
   >
-    <div class="dock_side_segment">
+    <div class="dock_side_segment_left">
       <button class="homebtn"><div class="homebtn_outline"></div></button>
     </div>
     <div class="dock_apps">
@@ -31,7 +31,7 @@
         <DockItem {mouseX} {appID} needsUpdate={$systemNeedsUpdate} />
       {/each}
     </div>
-    <div class="dock_side_segment">
+    <div class="dock_side_segment_right">
     </div>
   </div>
 </section>
@@ -134,11 +134,16 @@
   }
 
   .homebtn {
-    width: 4rem;
-    height: 4rem;
+    width: 3.5rem;
+    height: 3.5rem;
     color: var(--system-color-dark);
     border-radius: 50px;
     transition-duration: 0.15s;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
   }
 
   .homebtn:hover {
@@ -156,10 +161,15 @@
     height: 2rem;
   }
 
-  .dock_side_segment {
+  .dock_side_segment_left, .dock_side_segment_right {
     width: 15rem;
     height: 100%;
     display: flex;
     align-items: center;
   }
+
+  .dock_side_segment_right {
+    justify-content: right;
+  }
+  
 </style>

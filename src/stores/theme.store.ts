@@ -6,7 +6,7 @@ export type Theme = {
   primaryColor: keyof typeof colors;
 };
 
-export const theme = writable<Theme>('macos:theme-settings', {
+export const theme = writable<Theme>('bl:theme-settings', {
   scheme: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
   primaryColor: 'blue',
 });

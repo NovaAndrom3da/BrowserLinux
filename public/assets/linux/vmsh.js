@@ -43,7 +43,12 @@ var env = {
 
 // === Background Functions ===
 function cmdexec(from, command, args) {
-  return from[command].exec(args);
+  try {
+    return from[command].exec(args);
+  } catch {
+    print(color("Something went wrong."));
+    return;
+  }
 }
 
 // Function to parse terminal commands.
@@ -96,7 +101,12 @@ function print(output) {
     cmdprompt.innerHTML += "<br>" + String(output).split("\n").join("<br>").split("\\n").join("<br>").split("\\t").join(tab());
   } else if (output=="[object Object]") {
     // Tries to convert python objects that only return "[object Object]" to strings
-    print(JSON.stringify(output));
+    try {
+      print(JSON.stringify(output));
+    } catch {
+      //print(String(output));
+      console.log(output);
+    }
   }
 }
 

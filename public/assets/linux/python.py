@@ -1,6 +1,9 @@
 # === Initialize ===
-from browser import window, document
-import sys
+try:
+  from browser import window, document
+  import sys
+except:
+  window.cmd_reload()
 
 print = window.print
 color = window.color
@@ -145,7 +148,13 @@ def cmd_python(args):
         return
       return color(o, "yellow")
     if "-m" in args.split(" "):
-      return pyeval("import "+args.lstrip("-m "), module_env_template.copy())
+      python_run_module_args = args.lstrip("-m ").split(" ")
+      python_run_module = python_run_module_args.pop(0)
+      sys.argv = python_run_module_args
+      try:
+        return pyeval("import "+python_run_module, module_env_template.copy())
+      except Exception as e:
+        return print(color("ImportError: "+String(e), "red"))
     if "-V" in args.split(" "):
       return "Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+")"
   else:
@@ -158,6 +167,7 @@ def cmd_python(args):
       return None
       #print(color(">>", "blue"))
     else:
+      sys.argv = args.split(" ")
       return "Running python files (coming soon with introduction of a filesystem)"
 
 version = window.__BRYTHON__.implementation
@@ -214,3 +224,6 @@ window.__PYTHONREADY__ = True
 
 
 # === Add Python-Based Internal Commands ===
+
+
+window.__PYTHONCMDS__ = True
