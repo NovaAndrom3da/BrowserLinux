@@ -47,7 +47,6 @@ function cmdexec(from, command, args) {
     return from[command].exec(args);
   } catch {
     print(color("Something went wrong."));
-    return;
   }
 }
 

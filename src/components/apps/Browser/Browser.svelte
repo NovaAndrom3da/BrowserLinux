@@ -23,12 +23,9 @@
 <section class="container">
   <header class="titlebar app-window-drag-handle" />
   <section class="main-area">
-    <img
-      style:transform={imageTransform}
-      src="/assets/app-icons/{appID}/256.webp"
-      alt="Placeholder App"
-    />
-    <h1>Apps coming soon!</h1>
+    <div class="browser_topbar">
+    </div>
+    <iframe src="https://google.com" style="width: 100%; height: 100%;"></iframe>
   </section>
 </section>
 

@@ -32,7 +32,6 @@ class open():
 def help_command(args=help):
   help(args)
 
-
 python_env_template = {
   "window": window,
   "document": document,
@@ -54,7 +53,18 @@ python_env_template = {
   "help": help_command
 }
 
-module_env_template = python_env_template.copy()
+module_env_template = {
+  "__name__": "__main__",
+  "__package__": None,
+  "__builtins__": __builtins__,
+  "__annotations__": None,
+  "__doc__": None,
+  "__loader__": None,
+  "__spec__": None,
+  "print": print,
+  "help": help_command,
+  "open": open
+}
 
 # === Add Standard IO ===
 class stdout():
