@@ -5,7 +5,7 @@ wait = 10
 
 # === Server Program ===
 # Import modules
-import os, json, socket, subprocess, time
+import os, json, subprocess, time
 
 # Ensure modules are installed & load them
 if install:
