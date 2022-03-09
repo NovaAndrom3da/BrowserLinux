@@ -1,7 +1,6 @@
 <script lang="ts">
   import { clickOutside, elevation, focusOutside } from '🍎/actions';
   import { activeMenu, menuBarMenus } from '🍎/stores/menubar.store';
-  import AppleIcon from '~icons/mdi/apple';
   import Menu from './Menu.svelte';
 </script>
 

@@ -44,7 +44,7 @@ function read(directory) {
       console.log(matching);
     } else {
       // No match was found.
-      report(null);
+      console.log("not found");
     }
   };
 }

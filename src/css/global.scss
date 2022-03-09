@@ -18,6 +18,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+iframe {
+  cursor: var(--system-cursor-default), auto;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
 * {
   box-sizing: border-box;
 

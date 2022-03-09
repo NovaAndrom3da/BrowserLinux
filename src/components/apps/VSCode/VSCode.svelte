@@ -8,7 +8,7 @@
     <iframe
       class:iframe-dragged={isBeingDragged}
       src="https://vscode.dev"
-      title="VS Code for macOS Web"
+      title="VS Code for BrowserLinux"
     />
   </div>
 </section>

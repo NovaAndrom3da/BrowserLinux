@@ -25,7 +25,7 @@
     <Terminal {isBeingDragged} />
   {/await}
       
-{:else if appId === "browser"}
+{:else if appID === 'browser'}
   {#await import('./Browser/Browser.svelte') then { default: Browser }}
     <Browser {isBeingDragged} />
   {/await}

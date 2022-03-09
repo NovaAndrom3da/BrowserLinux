@@ -11,11 +11,7 @@ const vscode = createAppConfig({
 const files = createAppConfig({
   title: 'Files',
   resizable: true,
-});
-
-const browser = createAppConfig({
-  title: 'Browser',
-  resizable: true,
+  dockBreaksBefore: true,
 });
 
 const settings = createAppConfig({
@@ -31,10 +27,8 @@ const terminal = createAppConfig({
 });
 
 export const appsConfig = {
-//  wallpapers,
   vscode,
   files,
-  browser,
   terminal,
   settings,
 };
