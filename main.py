@@ -1,5 +1,5 @@
 # === Server Config ===
-install = False
+install = True
 wait = 10
 
 
