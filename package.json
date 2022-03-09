@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
-    "build": "pnpm check && vite build",
-    "serve": "vite preview",
+    "dev": "bash run.sh",
+    "build": "bash run.sh",
+    "serve": "bash run.sh",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
