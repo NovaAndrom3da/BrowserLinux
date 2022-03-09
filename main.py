@@ -1,5 +1,5 @@
 # === Server Config ===
-install = True
+install = False
 wait = 10
 
 
@@ -9,7 +9,7 @@ import os, json, subprocess, time
 
 # Ensure modules are installed & load them
 if install:
-  subprocess.Popen(["python", "-m", "pip", "install", "flask"]).communicate()
+  subprocess.Popen(["pip", "install", "flask"]).communicate()
 from flask import Flask, request, Response, abort, redirect
 
 # Start Flask server
