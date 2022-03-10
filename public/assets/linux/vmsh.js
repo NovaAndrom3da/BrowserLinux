@@ -41,6 +41,16 @@ var env = {
   "BLPM_INSTALL_DELAY": String(500), // installer delay, in milliseconds. Default (500 = 1/2 second)
 };
 
+setInterval(function(){
+  var envdefaults = ["USERDIR", "DIR", "USERNAME", "BLPM_REMOTE_CACHE_DELETE", "BLPM_INSTALL_DELAY"];
+  var envlist = Object.keys(envdefaults);
+  for (x in envlist) {
+    if (env[envlist[x]] == undefined) {
+      env[envlist[x]] = envdefaults[envlist[x]];
+    }
+  }
+}, 150);
+
 // === Background Functions ===
 function cmdexec(from, command, args) {
   return from[command].exec(args);
