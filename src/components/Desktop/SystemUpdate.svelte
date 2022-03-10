@@ -45,16 +45,8 @@
 
 <SystemDialog bind:this={systemUpdateDialog}>
   <section class="system-update-section">
-    <img
-      width="128"
-      height="128"
-      src="/assets/app-icons/system-preferences/256.webp"
-      alt="AppStore app"
-      draggable="false"
-    />
-
     <h3>Updates Available</h3>
-    <p>Do you want to restart to install these updates now?</p>
+    <p>Do you want to reload to install these updates now?</p>
 
     <div class="buttons">
       <button on:click={close}>Later</button>
