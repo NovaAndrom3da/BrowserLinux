@@ -1,3 +1,2 @@
-npx vite --host &
-pip install flask
-python main.py
+vite build
+python main.py &
