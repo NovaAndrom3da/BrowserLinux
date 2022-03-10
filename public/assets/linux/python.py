@@ -173,9 +173,8 @@ def cmd_python(args):
       window.userHasAccess = False
       print("Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+") on BrowserLinux "+window.env["BLVERSION"]+". Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.\n")
       window.cmdkeybind = cmd_python_text
-      window.triggerPrompt()
+      #window.triggerPrompt()
       return None
-      #print(color(">>", "blue"))
     else:
       sys.argv = args.split(" ")
       return "Running python files (coming soon with introduction of a filesystem)"

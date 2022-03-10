@@ -50,11 +50,12 @@ function UserSkeleton() {
 
 function FilesystemInit() {
   usr_bin_mergefolder = MergeFolder(SpecialFolder(window.usr_bin), SpecialFolder(window.silent_usr_bin));
+  all_executables = MergeFolder(usr_bin_mergefolder, window.bin);
   return {
     "/": Folder({
       // / START
-      "bin": SpecialFolder(window.bin),
-      "sbin": SpecialFolder(window.bin),
+      "bin": all_executables,
+      "sbin": all_executables,
       "usr": Folder({
         // /usr START
         "bin": usr_bin_mergefolder,
@@ -120,15 +121,33 @@ filesystem_db.onsuccess = function() {
 
 setTimeout(function(){
   window.fstx = db.transaction("fs", "readwrite");
-  window.storage = fstx.objectStore("fs");
+  window.fsstorage = fstx.objectStore("fs");
 }, 250);
 
 function write() {
   storage.put({"fs": "fs", content: window.fs});
 }
 
+function DirectoryParse(dir) {
+  var olddir = dir.split("/");
+  var newdir = [];
+  for (i in olddir) {
+    if (olddir[i] == "" || olddir[i] == " ") {
+      // maybe return an error about "/path//path"
+    } else {
+      if (olddir[i] == ".") {
+        
+      } else if (olddir[i] == "..") {
+        
+      } else {
+        
+      }
+    }
+  }
+}
 
-function read(directory) {
+
+function FSRead(directory) {
   const request = window.fsstorage.get("/");
   request.onsuccess = function() {
     const matching = request.result;
@@ -137,7 +156,11 @@ function read(directory) {
       console.log(matching);
     } else {
       // No match was found.
-      console.log("not found");
+      return 1;
     }
   };
+}
+
+function FSWrite(directory, file) {
+  return 1;
 }
