@@ -399,7 +399,9 @@ function cmd_blpm(args) {
 function cmd_unset(args) {
   arglist = args.split(" ");
   for (i in arglist) {
-    return delete(env[arglist[i]]);
+    if (!(delete(env[arglist[i].toUpperCase()]))) {
+      return color("Error: Could not unset '"+bold(arglist[i])+"'", "red");
+    }
   }
 }
 
