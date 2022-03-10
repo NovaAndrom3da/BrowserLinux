@@ -56,6 +56,7 @@
     align-items: flex-start;
     margin-top: 40px;
     position: absolute;
+    margin-left: 5px;
   }
   
   .folder-sidebar-icon {
