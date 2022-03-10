@@ -12,6 +12,7 @@ const files = createAppConfig({
   title: 'Files',
   resizable: true,
   dockBreaksBefore: true,
+  icon: 'dde-file-manager.svg',
 });
 
 const settings = createAppConfig({

@@ -13,6 +13,8 @@ export type AppConfig = {
 
   /** Break before this app */
   dockBreaksBefore?: boolean;
+
+  icon: string;
 };
 
 export const createAppConfig = (et: AppConfig) => ({
@@ -24,5 +26,8 @@ export const createAppConfig = (et: AppConfig) => ({
 
   width: 600,
   height: 500,
+
+  icon: "",
+  
   ...et,
 });

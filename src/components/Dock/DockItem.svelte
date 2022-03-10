@@ -113,9 +113,15 @@
   $: isAppStore = appID === 'appstore';
   $: showPwaBadge = isAppStore && needsUpdate;
   $: showPwaBadge && bounceEffect();
+
+  if (appsConfig[appID].icon == "") {
+    var iconSrc = "/assets/app-icons/"+appID+"/256.webp";
+  } else {
+    var iconSrc = "/assets/app-icons/papirus/"+appsConfig[appID];
+  }
 </script>
 
-<button on:click={openApp} aria-label="Launch {title} app" class="dock-open-app-button {appID}">
+<button on:click={openApp} aria-label="Open {title}" class="dock-open-app-button {appID}">
   <p
     class="tooltip"
     class:tooltip-enabled={!$isAppBeingDragged}
@@ -130,7 +136,7 @@
   <span style:transform="translate(0, {$appOpenIconBounceTransform}px)">
     <img
       bind:this={imageEl}
-      src="/assets/app-icons/{appID}/256.webp"
+      src="{iconSrc}"
       alt="{title} app"
       style:width="{$widthPX / 16}rem"
       draggable="false"
