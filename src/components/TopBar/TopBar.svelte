@@ -49,36 +49,6 @@
     }
   }
 
-  .notch {
-    --width: 140px;
-
-    display: grid;
-    place-items: center;
-
-    position: absolute;
-    top: 0;
-    left: 50%;
-
-    width: var(--width);
-    height: 95%;
-
-    background-color: #222;
-    border-radius: 0 0 0.5rem 0.5rem;
-    transform: translateX(-50%);
-
-    & > span {
-      opacity: 0;
-
-      transition: opacity 0.2s ease-in-out;
-    }
-
-    &:hover {
-      & > span {
-        opacity: 1;
-      }
-    }
-  }
-
   header::before {
     content: '';
 
@@ -91,12 +61,5 @@
 
     z-index: 0;
     backdrop-filter: blur(12px);
-  }
-
-  .emoji {
-    height: 1.5em;
-    width: 1.5em;
-
-    vertical-align: middle;
   }
 </style>
