@@ -42,7 +42,13 @@ var env = {
 };
 
 setInterval(function(){
-  var envdefaults = ["USERDIR", "DIR", "USERNAME", "BLPM_REMOTE_CACHE_DELETE", "BLPM_INSTALL_DELAY"];
+  var envdefaults = {
+    "USERDIR": "/home/user/",
+    "DIR": "/home/user/",
+    "USERNAME": "user",
+    "BLPM_REMOTE_CACHE_DELETE": String(120000),
+    "BLPM_INSTALL_DELAY": String(500),
+  };
   var envlist = Object.keys(envdefaults);
   for (x in envlist) {
     if (env[envlist[x]] == undefined) {
