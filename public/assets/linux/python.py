@@ -171,7 +171,7 @@ def cmd_python(args):
     if args == "":
       window.currline = ""
       window.userHasAccess = False
-      print("Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+") on BrowserLinux "+window.env["BLVERSION"]+". Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.")
+      print("Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+") on BrowserLinux "+window.env["BLVERSION"]+". Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.\n")
       window.cmdkeybind = cmd_python_text
       window.triggerPrompt()
       #return None
