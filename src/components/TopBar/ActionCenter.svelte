@@ -272,15 +272,4 @@
       }
     }
   }
-
-  .notch-tile {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-
-    padding: 0 0.6rem;
-
-    width: 100%;
-    height: 100%;
-  }
 </style>

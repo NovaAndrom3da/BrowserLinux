@@ -76,7 +76,7 @@
     raf = requestAnimationFrame(animate);
   }
 
-  const { title, shouldOpenWindow, externalAction } = appsConfig[appID];
+  const { title, shouldOpenWindow, externalAction, icon } = appsConfig[appID];
 
   // Spring animation for the click animation
   const appOpenIconBounceTransform = tweened(0, {
@@ -110,15 +110,9 @@
     cancelAnimationFrame(raf);
   });
 
-  $: isAppStore = appID === 'appstore';
-  $: showPwaBadge = isAppStore && needsUpdate;
+  $: isAppStore = false;
+  $: showPwaBadge = needsUpdate;
   $: showPwaBadge && bounceEffect();
-
-  if (appsConfig[appID].icon == "") {
-    var iconSrc = "/assets/app-icons/"+appID+"/256.webp";
-  } else {
-    var iconSrc = "/assets/app-icons/Papirus/"+appsConfig[appID];
-  }
 </script>
 
 <button on:click={openApp} aria-label="Open {title}" class="dock-open-app-button {appID}">
@@ -136,7 +130,7 @@
   <span style:transform="translate(0, {$appOpenIconBounceTransform}px)">
     <img
       bind:this={imageEl}
-      src="{iconSrc}"
+      src="/assets/app-icons/Papirus/apps/{icon}"
       alt="{title} app"
       style:width="{$widthPX / 16}rem"
       draggable="false"

@@ -1,0 +1,24 @@
+name: Flathub Watcher
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+on:
+  schedule:
+  - cron: "0 */24 * * *"
+
+jobs:
+  flathub_list_updater:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Flatpak and dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install --no-install-recommends curl jq git flatpak
+    - name: Add Flathub repo
+      run: flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    - name: Run Flathub list updater
+      run: bash -x tools/flathub_list_updater.sh
