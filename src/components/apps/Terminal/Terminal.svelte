@@ -1,7 +1,7 @@
 <section class="container" onclick="window.cmdprompt.focus();">
   <header class="titlebar app-window-drag-handle" onclick="window.cmdprompt.focus();" />
   <section class="content main-area" style="margin-top: 5px;">
-    <div id="cmdprompt" style="width: 98%; height: 100%; overflow-x: hidden;" tabindex="0" autofocus></div>
+    <div id="cmdprompt" style="width: 100%; height: 100%; overflow-x: hidden;" tabindex="0" autofocus></div>
   </section>
 </section>
 
