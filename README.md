@@ -4,7 +4,10 @@ BrowserLinux is a web application aiming to enable a linux environment completel
 
 Please contribute if you feel you can help the development of this software! We are currently looking for people who are willing to add improvements and changes.
 
-  A running version is available on [Vercel](https://browser-linux.vercel.app), although it does not have the ability to install `blpm` packages.
+A running version is available on [Vercel](https://browser-linux.vercel.app), although it does not have the ability to install `blpm` packages.
+
+<img src="https://raw.githubusercontent.com/Froggo8311/BrowserLinux/main/docs/screenshot.png" />
+
 # Sources
 This project uses the following sources:
 * [cpython](https://github.com/Froggo8311/cpython) | [License](https://github.com/Froggo8311/cpython/blob/3.10/LICENSE)
