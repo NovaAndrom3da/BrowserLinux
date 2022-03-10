@@ -69,7 +69,7 @@
 
     // pointer-events: initial;
 
-    border-radius: 50%;
+    border-radius: 16px;
 
     background-color: var(--bgcolor);
     box-shadow: 0 0 0 0.5px var(--border-color);
