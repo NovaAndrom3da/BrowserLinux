@@ -27,7 +27,7 @@ var silent_usr_bin = {
   "python3.10": {"exec": cmd_pythonunloaded, "desc": "Python interpreter"},
   "sh": {"exec": cmd_vmsh, "desc": "Shell"},
   "bash": {"exec": cmd_vmsh, "desc": "Bourne-again Shell"},
-  "apt": {"exec": cmd_blpm, "desc": "Wrapper program for blpm, apt"},
+  "apt": {"exec": cmd_blpm, "desc": "Wrapper program for blpm, apt. WIP"},
   "sudo": {"exec": cmd_vmsh, "desc": "Superuser Shell"},
 };
 
@@ -130,6 +130,19 @@ function cmd_help(args) {
     for (x in usr_bin) {
       text += "<br>" + color(x, "yellow") + tab() + tab() + usr_bin[x].desc;
     }
+  } else if (args.split(" ").contains("-a") || args.split(" ").contains("--all")) {
+    text = color("Showing the following "+color(Object.keys(bin).length, "yellow")+" bin commands:<br>--------", "green");
+    for (x in bin) {
+      text += "<br>" + color(x, "yellow") + tab() + tab() + bin[x].desc;
+    }
+    for (x in usr_bin) {
+      text += "<br>" + color(x, "yellow") + tab() + tab() + usr_bin[x].desc;
+    }
+    for (x in silent_usr_bin) {
+      text += "<br>" + color(x, "yellow") + tab() + tab() + silent_usr_bin[x].desc;
+    }
+  } else if (args == "-h" || args == "--help") {
+    text = "Commands for `help`:\n"+color("-h --help"+tab()+"Shows this help message", "yellow")+"\n"+color("-a --all"+tab()+"Lists all commands", "yellow")+"\n"+color("--usr"+tab()+"Shows all commands in `/usr/bin/`", "yellow");
   } else {
     // Prints /bin/ commands
     text = color("Showing the following "+color(Object.keys(bin).length, "yellow")+" bin commands:<br>--------", "green");
