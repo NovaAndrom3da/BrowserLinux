@@ -126,7 +126,7 @@ function cmd_help(args) {
     for (x in usr_bin) {
       text += "<br>" + color(x, "yellow") + tab() + tab() + usr_bin[x].desc;
     }
-  } else if (args.split(" ").contains("-a") || args.split(" ").contains("--all")) {
+  } else if (args.split(" ").includes("-a") || args.split(" ").includes("--all")) {
     text = color("Showing the following "+color(Object.keys(bin).length, "yellow")+" bin commands:<br>--------", "green");
     for (x in bin) {
       text += "<br>" + color(x, "yellow") + tab() + tab() + bin[x].desc;
