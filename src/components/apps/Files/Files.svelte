@@ -7,11 +7,11 @@
   <header class="titlebar app-window-drag-handle" />
     
   <aside class:light={$theme.scheme === 'light'}>
-    <nav>
-      <button class="">Applications</button>
-      <button class="">Desktop</button>
-      <button class="">Documents</button>
-      <button class="">Downloads</button>
+    <nav class="folder-sidebar">
+      <button class="folder-sidebar-item"><img src="/assets/app-icons/Papirus/places/folder-adwaita-applications.svg" class="folder-sidebar-icon"/>Applications</button>
+      <button class="folder-sidebar-item"><img src="/assets/app-icons/Papirus/places/user-adwaita-desktop.svg" class="folder-sidebar-icon" />Desktop</button>
+      <button class="folder-sidebar-item"><img src="/assets/app-icons/Papirus/places/folder-adwaita-documents.svg" class="folder-sidebar-icon" />Documents</button>
+      <button class="folder-sidebar-item"><img src="/assets/app-icons/Papirus/places/folder-adwaita-download.svg" class="folder-sidebar-icon" />Downloads</button>
     </nav>
   </aside>
 
@@ -49,4 +49,18 @@
     justify-content: center;
     align-items: center;
   }
+
+  .folder-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 40px;
+    position: absolute;
+  }
+  
+  .folder-sidebar-icon {
+    width: 48px;
+    height: 48px;
+  }
+  
 </style>
