@@ -117,7 +117,7 @@
   if (appsConfig[appID].icon == "") {
     var iconSrc = "/assets/app-icons/"+appID+"/256.webp";
   } else {
-    var iconSrc = "/assets/app-icons/papirus/"+appsConfig[appID];
+    var iconSrc = "/assets/app-icons/Papirus/"+appsConfig[appID];
   }
 </script>
 
