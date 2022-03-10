@@ -4,6 +4,7 @@
   export let menu: any;
 </script>
 
+<!--
 <section class="container" class:dark={$theme.scheme === 'dark'}>
   {#each Object.entries(menu) as [, val]}
     <button class="menu-item" disabled={val.disabled}>{val.title}</button>
@@ -12,6 +13,7 @@
     {/if}
   {/each}
 </section>
+-->
 
 <style lang="scss">
   .container {

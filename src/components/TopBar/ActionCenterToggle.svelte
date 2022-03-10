@@ -24,7 +24,7 @@
 
 <div class="container" use:clickOutside={{ callback: hide }} use:focusOutside={{ callback: hide }}>
   <button style:--scale={visible ? 1 : 0} on:click={show} on:focus={show}>
-    <SwitchSvg />
+    <img src="/assets/app-icons/Papirus/apps/administration.svg" style="height: 32px; width: 32px;"/>
   </button>
 
   {#if visible}

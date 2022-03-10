@@ -8,7 +8,7 @@
   class="container"
   use:clickOutside={{ callback: () => ($activeMenu = '') }}
   use:focusOutside={{ callback: () => ($activeMenu = '') }}
->
+><!--
   {#each Object.entries($menuBarMenus) as [menuID, menuConfig]}
     <div>
       <div style:height="100%">
@@ -32,7 +32,7 @@
         <Menu menu={menuConfig.menu} />
       </div>
     </div>
-  {/each}
+  {/each}-->
 </div>
 
 <style lang="scss">
