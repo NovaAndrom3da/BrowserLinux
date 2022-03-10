@@ -28,7 +28,7 @@ var silent_usr_bin = {
   "sh": {"exec": cmd_vmsh, "desc": "Shell"},
   "bash": {"exec": cmd_vmsh, "desc": "Bourne-again Shell"},
   "apt": {"exec": cmd_blpm, "desc": "Wrapper program for blpm, apt. WIP"},
-  "sudo": {"exec": cmd_vmsh, "desc": "Superuser Shell"},
+  "sudo": {"exec": cmd_vmsh, "desc": "Pseudo-Superuser Shell"},
 };
 
 // === Environment Variables ===
