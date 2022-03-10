@@ -21,16 +21,18 @@
 </script>
 
 <div class="container" class:unfocused={$activeApp !== appID}>
-  <button class="close-light" on:click={closeApp}> <CloseIcon /> </button>
   <button class="minimize-light"> <MinimizeSvg /> </button>
   <button class="stretch-light" on:click={greenLightAction}>
     <GreenLight expandable={appsConfig[appID].expandable} />
   </button>
+  <button class="close-light" on:click={closeApp}> <CloseIcon /> </button>
 </div>
 
 <style lang="scss">
   .container {
     --button-size: 0.8rem;
+
+    justify-content: right;
 
     // pointer-events: none;
 
