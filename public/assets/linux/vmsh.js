@@ -43,11 +43,7 @@ var env = {
 
 // === Background Functions ===
 function cmdexec(from, command, args) {
-  try {
-    return from[command].exec(args);
-  } catch {
-    print(color("Something went wrong."));
-  }
+  return from[command].exec(args);
 }
 
 // Function to parse terminal commands.
