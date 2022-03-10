@@ -45,11 +45,11 @@
 
 <SystemDialog bind:this={systemUpdateDialog}>
   <section class="system-update-section">
-    <h3>Updates Available</h3>
+    <h3>BrowserLinux Update</h3>
     <p>Do you want to reload to install these updates now?</p>
 
     <div class="buttons">
-      <button on:click={close}>Later</button>
+      <button on:click={close}>Remind later</button>
       <button class="confirm" on:click={handleUpdateApp}> Update </button>
     </div>
   </section>
