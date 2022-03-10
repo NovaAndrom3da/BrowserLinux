@@ -127,7 +127,7 @@ function cmd_help(args) {
       text += "<br>" + color(x, "yellow") + tab() + tab() + usr_bin[x].desc;
     }
   } else if (args.split(" ").includes("-a") || args.split(" ").includes("--all")) {
-    text = color("Showing the following "+color(Object.keys(bin).length, "yellow")+" bin commands:<br>--------", "green");
+    text = color("Showing the following "+color(Object.keys(bin).concat(Object.keys(usr_bin)).concat(Object.keys(silent_usr_bin)).length, "yellow")+" commands:<br>--------", "green");
     for (x in bin) {
       text += "<br>" + color(x, "yellow") + tab() + tab() + bin[x].desc;
     }
