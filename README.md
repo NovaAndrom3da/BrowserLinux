@@ -7,6 +7,7 @@ Please contribute if you feel you can help the development of this software! We 
 A running version is available on [Vercel](https://browser-linux.vercel.app), although it does not have the ability to install `blpm` packages.
 
 <img src="https://github.com/Froggo8311/BrowserLinux/raw/main/docs/screenshot.png" />
+
 # Sources
 This project uses the following sources:
 * [cpython](https://github.com/Froggo8311/cpython) | [License](https://github.com/Froggo8311/cpython/blob/3.10/LICENSE)
