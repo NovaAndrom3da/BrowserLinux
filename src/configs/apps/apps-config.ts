@@ -16,7 +16,7 @@ const files = createAppConfig({
   title: 'Files',
   resizable: true,
   dockBreaksBefore: true,
-  icon: '../places/folder-adwaita.svg',
+  icon: 'dde-file-manager.svg',
   
 });
 
