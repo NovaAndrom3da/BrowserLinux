@@ -12,3 +12,9 @@ This project uses the following sources:
 * [Brython](https://github.com/brython-dev/brython) | [BSD 3-Clause](https://github.com/brython-dev/brython/blob/master/LICENCE.txt)
 * [ProFont for Powerline](https://github.com/powerline/fonts) | [MIT](https://github.com/powerline/fonts/blob/master/ProFont/LICENSE)
 * [macos-web](https://github.com/PuruVJ/macos-web) | [MIT](https://github.com/Froggo8311/BrowserLinux/blob/main/docs/LICENSE-MIT.md)
+
+### Future Sources
+These are sources that are to be eventually added to the list, but do not yet apply:
+* [emception](https://github.com/Froggo8311/browserlinux-emception) | No License Provided
+* [box86](https://github.com/ptitSeb/box86) | (To be added)
+* [box64](https://github.com/ptitSeb/box64) | (To be added)

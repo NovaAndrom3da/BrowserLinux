@@ -24,11 +24,6 @@
   {#await import('./Terminal/Terminal.svelte') then { default: Terminal }}
     <Terminal {isBeingDragged} />
   {/await}
-      
-{:else if appID === 'browser'}
-  {#await import('./Browser/Browser.svelte') then { default: Browser }}
-    <Browser {isBeingDragged} />
-  {/await}
 
 {:else}
   {#await import('./ExternalApp/ExternalApp.svelte') then { default: ExternalApp }}
