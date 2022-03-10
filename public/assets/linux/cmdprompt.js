@@ -82,7 +82,7 @@ setTimeout(function(){
         } else if (keywords.length == 1) {
           currline = keywords[0] + " ";
         } else if (currline == "") {
-          setTimeout(function(){cmdprompt.innerHTML += "<br>" + color(Object.keys(bin).concat(Object.keys(usr_bin)).join(" "), "yellow");}, 200);
+          setTimeout(function(){cmdprompt.innerHTML += "<br>" + color(Object.keys(bin).concat(Object.keys(usr_bin)).concat(Object.keys(silent_usr_bin)).join(" "), "yellow");}, 200);
         }
         cmdprompt.focus();
       }
