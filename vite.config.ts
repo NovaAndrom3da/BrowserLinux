@@ -59,6 +59,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '🍎': new URL('./src/', import.meta.url).pathname,
+      '$sysicon': new URL('./assets/app-data/files', import.meta.url).pathname,
     },
   },
   build: {
