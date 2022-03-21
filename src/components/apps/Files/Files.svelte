@@ -10,12 +10,13 @@
   <aside class:light={$theme.scheme === 'light'}>
     <nav class="folder-sidebar">
       {@import { colors } from '🍎/configs/theme/colors.config'}
-      {@const { contrastHsl, hsl } = colors[colorID][$theme.scheme]}
+      {@const { hsl } = colors[colorID][$theme.scheme]}
       {#each }
       <button class="folder-sidebar-item"><img src="/assets/app-data/Papirus/places/folder-adwaita-applications.svg" class="folder-sidebar-icon"/>Applications</button>
       <button class="folder-sidebar-item"><img src="/assets/app-icons/Papirus/places/user-adwaita-desktop.svg" class="folder-sidebar-icon" />Desktop</button>
       <button class="folder-sidebar-item"><img src="/assets/app-icons/Papirus/places/folder-adwaita-documents.svg" class="folder-sidebar-icon" />Documents</button>
       <button class="folder-sidebar-item"><img src="/assets/app-icons/Papirus/places/folder-adwaita-download.svg" class="folder-sidebar-icon" />Downloads</button>
+      {/each}
     </nav>
   </aside>
 

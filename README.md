@@ -8,8 +8,8 @@ A running version is available on [Vercel](https://browser-linux.vercel.app), al
 
 <img src="https://github.com/Froggo8311/BrowserLinux/raw/main/docs/screenshot.png" />
 
-# Sources
-This project uses the following sources:
+# Dependencies
+This project uses the following dependencies & libraries:
 * [cpython](https://github.com/Froggo8311/cpython) | [License](https://github.com/Froggo8311/cpython/blob/3.10/LICENSE)
 * [Brython](https://github.com/brython-dev/brython) | [BSD 3-Clause](https://github.com/brython-dev/brython/blob/master/LICENCE.txt)
 * [ProFont for Powerline](https://github.com/powerline/fonts) | [MIT](https://github.com/powerline/fonts/blob/master/ProFont/LICENSE)
@@ -18,8 +18,10 @@ This project uses the following sources:
 * [Phinger Cursor](https://github.com/phisch/phinger-cursors) | [CC-BY-SA-4.0](https://github.com/phisch/phinger-cursors/blob/master/LICENSE)
 * [Source Sans Pro Font](https://github.com/adobe-fonts/source-sans) | [SIL Open Font License 1.1](https://github.com/adobe-fonts/source-sans/blob/release/LICENSE.md)
 
-### Future Sources
-These are sources that are to be eventually added to the list, but do not yet apply:
-* [emception](https://github.com/Froggo8311/browserlinux-emception) | No License Provided
-* [box86](https://github.com/ptitSeb/box86) | (To be added)
-* [box64](https://github.com/ptitSeb/box64) | (To be added)
+### Future Dependencies
+These are dependencies that are to be eventually added to the list, but do not yet apply:
+* [emception](https://github.com/Froggo8311/browserlinux-emception)
+* [box86](https://github.com/ptitSeb/box86)
+* [box64](https://github.com/ptitSeb/box64)
+* [Twemoji](https://github.com/twitter/twemoji)
+
