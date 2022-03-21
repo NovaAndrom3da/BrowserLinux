@@ -1,6 +1,6 @@
 {
-  "name": "macos-svelte",
-  "version": "0.0.0",
+  "name": "browserlinux",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
