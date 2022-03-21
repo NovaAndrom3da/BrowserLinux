@@ -45,3 +45,4 @@ export const appsConfig = {
 export function addApp(id, config) {
   extapps[id] = config;
 }
+

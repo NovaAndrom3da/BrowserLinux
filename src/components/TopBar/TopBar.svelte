@@ -3,13 +3,10 @@
   import { shouldShowNotch } from '🍎/stores/menubar.store';
 
   import ActionCenterToggle from './ActionCenterToggle.svelte';
-  import MenuBar from './MenuBar.svelte';
   import TopBarTime from './TopBarTime.svelte';
 </script>
 
 <header>
-  <MenuBar />
-
   <span style:flex="1 1 auto" />
 
   <ActionCenterToggle />

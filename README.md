@@ -15,6 +15,8 @@ This project uses the following sources:
 * [ProFont for Powerline](https://github.com/powerline/fonts) | [MIT](https://github.com/powerline/fonts/blob/master/ProFont/LICENSE)
 * [macos-web](https://github.com/PuruVJ/macos-web) | [MIT](https://github.com/Froggo8311/BrowserLinux/blob/main/docs/LICENSE-MIT.md)
 * [Papirus Icons](https://github.com/Froggo8311/browserlinux-papirus) | [GPLv3](https://github.com/Froggo8311/browserlinux-papirus/blob/master/LICENSE)
+* [Phinger Cursor](https://github.com/phisch/phinger-cursors) | [CC-BY-SA-4.0](https://github.com/phisch/phinger-cursors/blob/master/LICENSE)
+* [Source Sans Pro Font](https://github.com/adobe-fonts/source-sans) | [SIL Open Font License 1.1](https://github.com/adobe-fonts/source-sans/blob/release/LICENSE.md)
 
 ### Future Sources
 These are sources that are to be eventually added to the list, but do not yet apply:

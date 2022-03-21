@@ -11,21 +11,25 @@
 
   const dispatch = createEventDispatcher();
 
+  function minimizeApp() {
+    dispatch('minimize-app');
+  }
+  
   function closeApp() {
     dispatch('close-app');
   }
 
-  function greenLightAction() {
+  function maximizeApp() {
     dispatch('maximize-click');
   }
 </script>
 
 <div class="container" class:unfocused={$activeApp !== appID}>
-  <button class="minimize-light"> <MinimizeSvg /> </button>
-  <button class="stretch-light" on:click={greenLightAction}>
+  <button class="minimize-btn" on:click={minimizeApp}> <MinimizeSvg /> </button>
+  <button class="stretch-btn" on:click={maximizeApp}>
     <GreenLight expandable={appsConfig[appID].expandable} />
   </button>
-  <button class="close-light" on:click={closeApp}> <CloseIcon /> </button>
+  <button class="close-btn" on:click={closeApp}> <CloseIcon /> </button>
 </div>
 
 <style lang="scss">
@@ -77,12 +81,12 @@
     transition: transform 100ms ease-in;
   }
 
-  .close-light {
+  .close-btn {
     --bgcolor: #ff5f56;
     --border-color: #e0443e;
   }
 
-  .stretch-light {
+  .stretch-btn {
     --bgcolor: #27c93f;
     --border-color: #1aab29;
 
@@ -91,7 +95,7 @@
     }
   }
 
-  .minimize-light {
+  .minimize-btn {
     --bgcolor: #ffbd2e;
     --border-color: #dea123;
   }
