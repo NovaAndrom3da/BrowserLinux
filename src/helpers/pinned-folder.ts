@@ -7,7 +7,7 @@ export type PinnedFolder = {
 export const createPinnedFolder = (et: AppConfig) => ({
   title: "Folder",
   directory: "/",
-  icon: 
+  icon: "folder-adwaita.svg",
   
   ...et,
 });

@@ -129,7 +129,6 @@
     style:min-height="300px"
     style:overflow="auto"
     style:resize="both"
-    style:display={["block", "none"][Number(isMinimized)]}
     tabindex="-1"
     bind:this={windowEl}
     use:draggable={{
@@ -144,7 +143,7 @@
     on:click={focusApp}
     out:windowCloseTransition
   >
-    <div class="tl-container {appID} noselect" use:elevation={'window-traffic-lights'}>
+    <div class="tl-container {appID}" use:elevation={'window-traffic-lights'}>
       <TrafficLights {appID} on:maximize-click={maximizeApp} on:close-app={closeApp} on:minimize-app={minimizeApp} />
     </div>
 

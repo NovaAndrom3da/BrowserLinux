@@ -27,7 +27,7 @@
 
 {:else}
   {#await import('./ExternalApp/ExternalApp.svelte') then { default: ExternalApp }}
-    <External {isBeingDragged} />
+    <ExternalApp {isBeingDragged} />
   {/await}
       
 {/if}

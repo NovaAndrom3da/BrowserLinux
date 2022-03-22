@@ -23,33 +23,33 @@ export default defineConfig({
       manifest: {
         name: 'BrowserLinux',
         short_name: 'BrowserLinux',
-        theme_color: '#ffffff',
+        theme_color: '#1e1e1e',
         description: 'A linux environment in the browser.',
         icons: [
           {
-            src: 'assets/app-icons/finder/128.png',
+            src: 'assets/app-icons/Papirus/apps/utilities-x-terminal.svg',
             sizes: '128x128',
-            type: 'image/png',
+            type: 'image/svg',
           },
           {
-            src: 'assets/app-icons/finder/192.png',
+            src: 'assets/app-icons/Papirus/apps/utilities-x-terminal.svg',
             sizes: '192x192',
-            type: 'image/png',
+            type: 'image/svg',
           },
           {
-            src: 'assets/app-icons/finder/256.png',
+            src: 'assets/app-icons/Papirus/apps/utilities-x-terminal.svg',
             sizes: '256x256',
-            type: 'image/png',
+            type: 'image/svg',
           },
           {
-            src: 'assets/app-icons/finder/512.png',
+            src: 'assets/app-icons/Papirus/apps/utilities-x-terminal.svg',
             sizes: '512x512',
-            type: 'image/png',
+            type: 'image/svg',
           },
           {
-            src: 'assets/app-icons/finder/512.png',
+            src: 'assets/app-icons/Papirus/apps/utilities-x-terminal.svg',
             sizes: '512x512',
-            type: 'image/png',
+            type: 'image/svg',
             purpose: 'any maskable',
           },
         ],
@@ -59,7 +59,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '🍎': new URL('./src/', import.meta.url).pathname,
-      '$sysicon': new URL('./assets/app-data/files', import.meta.url).pathname,
+//      '$sysicon': new URL('./assets/app-data/files', import.meta.url).pathname,
     },
   },
   build: {

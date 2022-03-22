@@ -1,7 +1,13 @@
 <script lang="ts">
   export let isBeingDragged: boolean;
   import { theme } from '🍎/stores/theme.store';
-  
+  import { colors } from '🍎/configs/theme/colors.config';
+  const { hsl } = colors[colorID][$theme.scheme];
+  import { pinnedFolders } from '🍎/configs/apps/pinned-folders';
+
+  function openFolder(dir) {
+    console.log(dir);
+  }
 </script>
 
 <section class="container">
@@ -9,13 +15,17 @@
     
   <aside class:light={$theme.scheme === 'light'}>
     <nav class="folder-sidebar">
-      {@import { colors } from '🍎/configs/theme/colors.config'}
-      {@const { hsl } = colors[colorID][$theme.scheme]}
-      {#each }
-      <button class="folder-sidebar-item"><img src="/assets/app-data/Papirus/places/folder-adwaita-applications.svg" class="folder-sidebar-icon"/>Applications</button>
-      <button class="folder-sidebar-item"><img src="/assets/app-icons/Papirus/places/user-adwaita-desktop.svg" class="folder-sidebar-icon" />Desktop</button>
-      <button class="folder-sidebar-item"><img src="/assets/app-icons/Papirus/places/folder-adwaita-documents.svg" class="folder-sidebar-icon" />Documents</button>
-      <button class="folder-sidebar-item"><img src="/assets/app-icons/Papirus/places/folder-adwaita-download.svg" class="folder-sidebar-icon" />Downloads</button>
+      {#each Object.keys(pinnedFolders) as pinnedFolder}
+        <button 
+          class="folder-sidebar-item"
+          onclick="openFolder({pinnedFolders[pinnedFolder][directory]});"
+          >
+            <img 
+              src="/assets/app-data/Papirus/places/{pinnedFolders[pinnedFolder][icon]}"
+              class="folder-sidebar-icon"
+            />
+            {pinnedFolders[pinnedFolder][title]}
+        </button>
       {/each}
     </nav>
   </aside>
@@ -63,10 +73,18 @@
     position: absolute;
     margin-left: 5px;
   }
+
+  .folder-sidebar-item {
+    transition-duration: 0.2s;
+  }
+
+  .folder-sidebar-item:hover {
+    /*background-color: hsl({hsl});*/
+  }
   
   .folder-sidebar-icon {
     width: 48px;
     height: 48px;
   }
-  
+
 </style>
