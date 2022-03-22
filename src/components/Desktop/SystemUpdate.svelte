@@ -45,6 +45,7 @@
 
 <SystemDialog bind:this={systemUpdateDialog}>
   <section class="system-update-section">
+    <img src="/assets/app-icons/Papirus/apps/system-reboot.svg" alt="Reboot Icon" />
     <h3>BrowserLinux Update</h3>
     <p>Do you want to reload to install these updates now?</p>
 

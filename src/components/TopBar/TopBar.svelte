@@ -1,12 +1,15 @@
 <script lang="ts">
   import { fadeIn, fadeOut } from '🍎/helpers/fade';
   import { shouldShowNotch } from '🍎/stores/menubar.store';
+  import { appsInFullscreen } from '🍎/stores/apps.store';
 
   import ActionCenterToggle from './ActionCenterToggle.svelte';
   import TopBarTime from './TopBarTime.svelte';
 </script>
 
-<header>
+<header
+  class:hide={appsInFullscreen}
+>
   <span style:flex="1 1 auto" />
 
   <ActionCenterToggle />
@@ -44,6 +47,19 @@
 
       text-shadow: 0 0 1px hsla(0, 0%, 0%, 0.1);
     }
+
+    /*&.hide {
+      transform: translate3d(0, -100%, 0);
+
+      &::before {
+        width: calc(100% - 2px);
+        height: calc(100% - 2px);
+
+        margin-top: 1px;
+        margin-left: 1px;
+      }
+    }*/
+  
   }
 
   header::before {

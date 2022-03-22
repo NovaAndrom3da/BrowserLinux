@@ -73,7 +73,7 @@
 
       windowEl.style.width = `100%`;
       // windowEl.style.height = 'calc(100vh - 1.7rem - 5.25rem)';
-      windowEl.style.height = 'calc(100vh - 1.7rem)';
+      windowEl.style.height = '100% !important'; //'calc(100vh - 1.7rem)';
     } else {
       draggingEnabled = true;
       windowEl.style.transform = minimizedTransform;
@@ -100,6 +100,8 @@
   function minimizeApp() {
     $appsInFullscreen[appID] = false;
     isMinimized = true;
+    windowEl.className += " minimizedWindow";
+    //windowEl.style.display = "none";
   }
   
   function onAppDragStart() {
@@ -114,40 +116,39 @@
   onMount(() => windowEl?.focus());
 </script>
 
-{#if !(isMinimized)}
-  <section
-    class="container"
-    class:dark={$theme.scheme === 'dark'}
-    class:maximizedWindow={!isMaximized}
-    class:active={$activeApp === appID}
-    style:width="{+width / remModifier}rem"
-    style:height="{+height / remModifier}rem"
-    style:z-index={$appZIndices[appID]}
-    style:min-width="400px"
-    style:min-height="300px"
-    style:overflow="auto"
-    style:resize="both"
-    tabindex="-1"
-    bind:this={windowEl}
-    use:draggable={{
-      defaultPosition,
-      handle: '.app-window-drag-handle',
-      bounds: { bottom: -6000, top: 27.2, left: -6000, right: -6000 },
-      disabled: !draggingEnabled,
-      gpuAcceleration: true,
-    }}
-    on:svelte-drag:start={onAppDragStart}
-    on:svelte-drag:end={onAppDragEnd}
-    on:click={focusApp}
-    out:windowCloseTransition
-  >
-    <div class="tl-container {appID}" use:elevation={'window-traffic-lights'}>
-      <TrafficLights {appID} on:maximize-click={maximizeApp} on:close-app={closeApp} on:minimize-app={minimizeApp} />
-    </div>
+<section
+  class="container"
+  class:dark={$theme.scheme === 'dark'}
+  class:normalWindow={!isMaximized}
+  class:maximizedWindow={isMaximized}
+  class:active={$activeApp === appID}
+  style:width="{+width / remModifier}rem"
+  style:height="{+height / remModifier}rem"
+  style:z-index={$appZIndices[appID]}
+  style:min-width="400px"
+  style:min-height="300px"
+  style:overflow="auto"
+  style:resize="both"
+  tabindex="-1"
+  bind:this={windowEl}
+  use:draggable={{
+    defaultPosition,
+    handle: '.app-window-drag-handle',
+    bounds: { bottom: -6000, top: 27.2, left: -6000, right: -6000 },
+    disabled: !draggingEnabled,
+    gpuAcceleration: false,
+  }}
+  on:svelte-drag:start={onAppDragStart}
+  on:svelte-drag:end={onAppDragEnd}
+  on:click={focusApp}
+  out:windowCloseTransition
+>
+  <div class="tl-container {appID}" use:elevation={'window-traffic-lights'}>
+    <TrafficLights {appID} on:maximize-click={maximizeApp} on:close-app={closeApp} on:minimize-app={minimizeApp} />
+  </div>
 
-    <AppNexus {appID} isBeingDragged={$isAppBeingDragged}/>
-  </section>
-{/if}
+  <AppNexus {appID} isBeingDragged={$isAppBeingDragged}/>
+</section>
 
 <style lang="scss">
   .container {
@@ -194,7 +195,17 @@
     box-shadow: none !important;
   }
 
-  .maximizedWindow {
+  .normalWindow {
     border-radius: 0.75rem;
+  }
+
+  .minimizedWindow {
+    display: none;
+  }
+
+  .maximizedWindow {
+    border: none;
+    box-shadow: none !important;
+    --elevated-shadow: none;
   }
 </style>

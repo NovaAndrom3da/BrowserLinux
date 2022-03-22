@@ -21,7 +21,7 @@
     on:mouseleave={() => (mouseX = null)}
   >
     <div class="dock_side_segment_left">
-      <button class="homebtn"><div class="homebtn_outline"></div></button>
+      <button class="homebtn"><img class="homebtn_icon" src="/assets/app-icons/Papirus/apps/distributor-logo-lubuntu.svg" alt="Start Button" /></button>
     </div>
     <div class="dock_apps">
       {#each Object.entries(appsConfig) as [appID, config]}
@@ -140,7 +140,6 @@
     border-radius: 50px;
     transition-duration: 0.15s;
     display: flex;
-    align-content: center;
     justify-content: center;
     align-items: center;
     margin-right: 1rem;
@@ -154,11 +153,10 @@
     background-color: rgb(150,150,150,0.5);
   }
 
-  .homebtn_outline {
+  .homebtn_icon {
     border-radius: 50px;
-    border: 4px solid hsl(240, 24%, 100%);
-    width: 2rem;
-    height: 2rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
   .dock_side_segment_left, .dock_side_segment_right {

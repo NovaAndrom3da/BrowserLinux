@@ -88,11 +88,11 @@ setTimeout(function(){
       }
 
       // Separate lines of the terminal
-      cmdlist = cmdprompt.innerHTML.split("<br>");
+      //cmdlist = cmdprompt.innerHTML.split("<br>");
       
       // Remove blank lines from the front of the terminal
-      if (cmdlist[0] == "") {
-        cmdlist.shift();
+      if (cmdprompt.firstChild.tagName==='BR') {
+        cmdprompt.removeChild(cmdprompt.firstChild);
       }
 
       // Sets command to the last line of the terminal
@@ -101,10 +101,12 @@ setTimeout(function(){
 /*        if (cmdlist[cmdlist.length-1] == "" || cmdlist[cmdlist.length-1].startsWith("<div style='coloredtext fore_green>/")) {} else {
           cmdlist.push("");
         } */
-        cmdlist[cmdlist.length-1] = currlineTemp;
+        //cmdlist[cmdlist.length-1] = currlineTemp;
+        cmdprompt.removeChild(cmdprompt.lastChild);
+        cmdprompt.insertAdjacentHTML('beforeend', currlineTemp);
       }
 
-      cmdprompt.innerHTML = cmdlist.join("<br>");
+      //cmdprompt.innerHTML = cmdlist.join("<br>");
     } else {
       // Command capture keyboard input
       cmdkeybind(e);

@@ -10,25 +10,27 @@ var bin = {
   "pwd": {"exec": cmd_pwd, "desc": "Prints the working directory"},
   "color": {"exec": cmd_color, "desc": "Change color"},
   "unset": {"exec": cmd_unset, "desc": "Remove an environment variable"},
+  "reboot": {"exec": cmd_reload, "desc": "Reload the browser window"},
+  "shutdown": {"exec": cmd_reload, "desc": "Reload the browser window"},
 };
 
 // "Emulating" /usr/bin/
 var usr_bin = {
   "whoami": {"exec": cmd_whoami, "desc": "Print the current user", "ver": "0.1"},
-  "reload": {"exec": cmd_reload, "desc": "Reload the browser window", "ver": "0.1"},
   "blpm": {"exec": cmd_blpm, "desc": "BrowserLinux Package Manager", "ver": "0.1"},
   "python": {"exec": cmd_pythonunloaded, "desc": "Python interpreter", "ver": "0.0"},
 };
 
 // like usr_bin, but does not show the content in `blpm list` or `help --usr`, for aliases
 var silent_usr_bin = {
-  "py": {"exec": cmd_pythonunloaded, "desc": "Python interpreter"},
-  "python3": {"exec": cmd_pythonunloaded, "desc": "Python interpreter"},
-  "python3.10": {"exec": cmd_pythonunloaded, "desc": "Python interpreter"},
-  "sh": {"exec": cmd_vmsh, "desc": "Shell"},
-  "bash": {"exec": cmd_vmsh, "desc": "Bourne-again Shell"},
-  "apt": {"exec": cmd_blpm, "desc": "Wrapper program for blpm, apt. WIP"},
-  "sudo": {"exec": cmd_vmsh, "desc": "Pseudo-Superuser Shell"},
+  "py": {"exec": cmd_pythonunloaded, "desc": "Python interpreter >{python}"},
+  "python3": {"exec": cmd_pythonunloaded, "desc": "Python interpreter >{python}"},
+  "python3.10": {"exec": cmd_pythonunloaded, "desc": "Python interpreter >{python}"},
+  "sh": {"exec": cmd_vmsh, "desc": "Shell >{vmsh}"},
+  "bash": {"exec": cmd_vmsh, "desc": "Bourne-again Shell >{vmsh}"},
+  "apt": {"exec": cmd_blpm, "desc": "Wrapper program for blpm, apt. WIP >{blpm}"},
+  "sudo": {"exec": cmd_vmsh, "desc": "Pseudo-Superuser Shell >{vmsh}"},
+  "reload": {"exec": cmd_reload, "desc": "Reload the browser window >{reboot}"}
 };
 
 // === Environment Variables ===
@@ -162,7 +164,7 @@ function cmd_help(args) {
     for (x in bin) {
       text += "<br>" + color(x, "yellow") + tab() + tab() + bin[x].desc;
     }
-    text += "<br>" + color("--------", "green") + "<br>" + color("Type `help --usr` to view all", "green") + " " + color(Object.keys(usr_bin).length, "yellow") + " " + color("user commands.", "green")
+    text += "<br>" + color("--------", "green") + "<br>" + color("Type `help --usr` to view all", "green") + " " + color(Object.keys(usr_bin).length, "yellow") + " " + color("commands from installed programs.", "green")
   }
   return text;
 }

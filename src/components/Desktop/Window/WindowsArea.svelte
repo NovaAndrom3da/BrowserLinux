@@ -41,7 +41,7 @@
   section {
     display: block;
 
-    // 1.7 rem is the heigh of the header
+    // 1.7 rem is the height of the header
     // 5.25 rem is the height of dock
     // top: 1.75rem;
     height: 100%;
