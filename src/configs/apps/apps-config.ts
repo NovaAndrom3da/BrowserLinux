@@ -35,7 +35,7 @@ const terminal = createAppConfig({
 });
 
 export const appsConfig = {
-  vscode,
+//  vscode,
   files,
   terminal,
   settings,

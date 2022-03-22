@@ -63,9 +63,7 @@
   }
 
   async function maximizeApp() {
-    if (!$prefersReducedMotion) {
-      windowEl.style.transition = 'height 0.3s ease, width 0.3s ease, transform 0.3s ease';
-    }
+    windowEl.style.transition = 'height 0.3s ease, width 0.3s ease, transform 0.3s ease';
 
     if (!isMaximized) {
       draggingEnabled = false;
@@ -120,7 +118,7 @@
   <section
     class="container"
     class:dark={$theme.scheme === 'dark'}
-    class:hasBorderRadius={!isMaximized}
+    class:maximizedWindow={!isMaximized}
     class:active={$activeApp === appID}
     style:width="{+width / remModifier}rem"
     style:height="{+height / remModifier}rem"
@@ -196,7 +194,7 @@
     box-shadow: none !important;
   }
 
-  .hasBorderRadius {
+  .maximizedWindow {
     border-radius: 0.75rem;
   }
 </style>

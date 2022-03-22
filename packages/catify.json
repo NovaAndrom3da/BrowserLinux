@@ -1,7 +1,6 @@
 {
   "desc": "Makes text sound like a cat",
-  "type": "js",
-  "exec": "return cmd_echo(args.split(\"everyone\").join(\"everynyan\").split(\"na\").join(\"nya\").split(\"help\").join(\"halp\"));",
+  "installcmd": "function(args){return cmd_echo(args.split(\"everyone\").join(\"everynyan\").split(\"na\").join(\"nya\").split(\"help\").join(\"halp\"));}",
   "ver": "0.1",
   "require": [""]
 }
