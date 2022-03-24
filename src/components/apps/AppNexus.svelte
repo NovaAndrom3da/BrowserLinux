@@ -25,6 +25,11 @@
     <Terminal {isBeingDragged} />
   {/await}
 
+{:else if appID === 'calendar'}
+  {#await import('./Calendar/Calendar.svelte') then { default: Calendar }}
+    <Calendar />
+  {/await}
+      
 {:else}
   {#await import('./ExternalApp/ExternalApp.svelte') then { default: ExternalApp }}
     <ExternalApp {isBeingDragged} />

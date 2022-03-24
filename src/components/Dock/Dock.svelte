@@ -21,7 +21,9 @@
     on:mouseleave={() => (mouseX = null)}
   >
     <div class="dock_side_segment_left">
-      <button class="homebtn"><img class="homebtn_icon" src="/assets/app-icons/Papirus/apps/distributor-logo-lubuntu.svg" alt="Start Button" /></button>
+      {#await import('./HomeButton.svelte') then { default: HomeButton }}
+        <HomeButton />
+      {/await}
     </div>
     <div class="dock_apps">
       {#each Object.entries(appsConfig) as [appID, config]}
@@ -133,41 +135,17 @@
     margin: 0 4px;
   }
 
-  .homebtn {
-    width: 3.5rem;
-    height: 3.5rem;
-    color: var(--system-color-dark);
-    border-radius: 50px;
-    transition-duration: 0.15s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 1rem;
-  }
-
-  .homebtn:hover {
-    background-color: rgb(100,100,100,0.5);
-  }
-
-  .homebtn:active {
-    background-color: rgb(150,150,150,0.5);
-  }
-
-  .homebtn_icon {
-    border-radius: 50px;
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-
   .dock_side_segment_left, .dock_side_segment_right {
     width: 15rem;
     height: 100%;
     display: flex;
     align-items: center;
+    padding-left: 0.25rem;
   }
 
   .dock_side_segment_right {
     justify-content: right;
+    padding-right: 0.25rem;
   }
   
 </style>

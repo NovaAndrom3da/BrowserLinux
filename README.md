@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/Froggo8311/BrowserLinux/main/docs/logo.svg" style="max-height: 150px; min-height: 150px; max-width: 100%; min-width: 600px;"/>
 
-BrowserLinux is a web application aiming to enable a linux environment completely in the browser. The project currently has a pseudo-terminal for the linux environment.
+BrowserLinux is a web application aiming to enable a linux environment completely in the browser.
 
 Please contribute if you feel you can help the development of this software! We are currently looking for people who are willing to add improvements and changes.
 

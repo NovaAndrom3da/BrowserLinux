@@ -1,5 +1,7 @@
 <section class="container" onclick="window.cmdprompt.focus();">
-  <header class="titlebar app-window-drag-handle" onclick="window.cmdprompt.focus();" />
+  <header class="titlebar app-window-drag-handle" onclick="window.cmdprompt.focus();">
+    <span>Terminal</span>
+  </header>
   <section class="content main-area" style="margin-top: 5px;">
     <div id="cmdprompt" style="width: 100%; height: 100%; overflow-x: hidden;" tabindex="0" autofocus></div>
   </section>
@@ -48,5 +50,23 @@
     background-color: rgb(15, 15, 15, 0);
     outline: none;
     box-shadow: none;
+    margin-top: 25px;
+  }
+  
+  .titlebar {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+
+    padding: 0.9rem 1rem;
+
+    width: 100%;
+
+    span {
+      color: hsla(var(--system-color-dark-hsl), 0.8);
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
   }
 </style>

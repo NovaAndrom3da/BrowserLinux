@@ -8,14 +8,36 @@ const colorsConfig = <T extends string = string>(
 ) => et;
 
 export const colors = colorsConfig({
+  red: {
+    light: {
+      hsl: '349deg, 100%, 59%',
+      contrastHsl: '349deg, 100%, 95%',
+    },
+    dark: {
+      hsl: '348deg, 100%, 61%',
+      contrastHsl: '348deg, 100%, 5%',
+    },
+  },
+
+  yellow: {
+    light: {
+      hsl: '65deg, 100%, 49%',
+      contrastHsl: '65deg, 9%, 8%',
+    },
+    dark: {
+      hsl: '65deg, 98%, 46%',
+      contrastHsl: '65deg, 9%, 8%',
+    },
+  },
+  
   orange: {
     light: {
       hsl: '35deg, 100%, 50%',
-      contrastHsl: '240, 3%, 11%',
+      contrastHsl: '240deg, 3%, 11%',
     },
     dark: {
       hsl: '36deg, 100%, 52%',
-      contrastHsl: '240, 3%, 11%',
+      contrastHsl: '240deg, 3%, 11%',
     },
   },
 
@@ -44,44 +66,33 @@ export const colors = colorsConfig({
   blue: {
     light: {
       hsl: '211, 100%, 50%',
-      contrastHsl: '240, 24%, 100%',
+      contrastHsl: '240deg, 24%, 100%',
     },
     dark: {
       hsl: '210, 100%, 52%',
-      contrastHsl: '210, 92%, 5%',
-    },
-  },
-
-  indigo: {
-    light: {
-      hsl: '241deg, 61%, 59%',
-      contrastHsl: '241deg, 61%, 98%',
-    },
-    dark: {
-      hsl: '241deg, 73%, 63%',
-      contrastHsl: '241deg, 73%, 5%',
+      contrastHsl: '210deg, 92%, 5%',
     },
   },
 
   purple: {
     light: {
-      hsl: '280deg, 68%, 60%',
-      contrastHsl: '280deg, 68%, 98%',
+      hsl: '282deg, 67%, 51%',
+      contrastHsl: '282deg, 87%, 8%',
     },
     dark: {
-      hsl: '280deg, 85%, 65%',
-      contrastHsl: '280deg, 85%, 5%',
+      hsl: '282deg, 67%, 58%',
+      contrastHsl: '282deg, 87%, 8%',
     },
   },
 
   pink: {
     light: {
-      hsl: '349deg, 100%, 59%',
-      contrastHsl: '349deg, 100%, 95%',
+      hsl: '280deg, 68%, 60%',
+      contrastHsl: '280deg, 75%, 100%',
     },
     dark: {
-      hsl: '348deg, 100%, 61%',
-      contrastHsl: '348deg, 100%, 5%',
+      hsl: '280deg, 85%, 65%',
+      contrastHsl: '280deg, 85%, 95%',
     },
   },
 });

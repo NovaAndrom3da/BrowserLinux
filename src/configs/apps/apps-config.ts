@@ -16,7 +16,7 @@ const files = createAppConfig({
   title: 'Files',
   resizable: true,
   dockBreaksBefore: true,
-  icon: 'dde-file-manager.svg',
+  icon: 'system-file-manager.svg',
   
 });
 
@@ -34,9 +34,18 @@ const terminal = createAppConfig({
   icon: 'utilities-x-terminal.svg',
 });
 
+const calendar = createAppConfig({
+  title: 'Calendar',
+  resizable: true,
+  height: 600,
+  width: 800,
+  icon: 'office-calendar.svg',
+})
+
 export const appsConfig = {
 //  vscode,
   files,
+  calendar,
   terminal,
   settings,
   ...extapps,

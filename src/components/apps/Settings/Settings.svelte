@@ -21,7 +21,7 @@
 
 <section class="container">
   <header class="titlebar app-window-drag-handle">
-    <span>Wallpapers</span>
+    <span>Settings | Background</span>
   </header>
 
   <aside>
@@ -39,20 +39,13 @@
         <p class="wallpaper-type">{wallpapersConfig[$wallpaper.id].type} wallpaper</p>
 
         <br /> <br />
-
-        {#if wallpapersConfig[$wallpaper.id].type !== 'standalone'}
-          <label>
-            <input type="checkbox" bind:checked={$wallpaper.canControlTheme} />
-            Change dark/light mode as wallpapers change
-          </label>
-        {/if}
       </div>
     </section>
 
     <br /><br /><br /><br />
 
     <section class="dynamic-wallpapers">
-      <h2>Dynamic Wallpapers</h2>
+      <h2>Background Image Sets</h2>
 
       <div class="wallpapers">
         {#each dynamicWallpapers as [id, { thumbnail, name }]}
@@ -60,7 +53,7 @@
             <button on:click={() => changeWallpaper(id)}>
               <img
                 src="/assets/wallpapers/{thumbnail}.jpg"
-                alt="MacOS {name} Wallpapers, dynamic"
+                alt="BrowserLinux Background Image Set"
               />
             </button>
             <p>{name}</p>
@@ -72,7 +65,7 @@
     <br /><br /><br />
 
     <section class="standalone-wallpapers">
-      <h2>Standalone Wallpapers</h2>
+      <h2>Standalone Backgrounds</h2>
 
       <div class="wallpapers">
         {#each standaloneWallpapers as [id, { thumbnail, name }]}
@@ -80,7 +73,7 @@
             <button on:click={() => changeWallpaper(id)}>
               <img
                 src="/assets/wallpapers/{thumbnail}.jpg"
-                alt="MacOS {name} Wallpapers, dynamic"
+                alt="BrowserLinux Background Image"
               />
             </button>
             <p>{name}</p>

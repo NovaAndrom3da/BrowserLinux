@@ -102,8 +102,9 @@ setTimeout(function(){
           cmdlist.push("");
         } */
         //cmdlist[cmdlist.length-1] = currlineTemp;
-        cmdprompt.removeChild(cmdprompt.lastChild);
-        cmdprompt.insertAdjacentHTML('beforeend', currlineTemp);
+        var cmdpromptlist = cmdprompt.innerHTML.split("<br>");
+        cmdpromptlist[cmdpromptlist.length-1] = currlineTemp;
+        cmdprompt.innerHTML = cmdpromptlist.join("<br>");
       }
 
       //cmdprompt.innerHTML = cmdlist.join("<br>");

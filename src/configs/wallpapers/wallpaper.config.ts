@@ -25,7 +25,7 @@ export const wallpapersConfig = createWallpapersConfig({
     name: '',
     type: 'standalone',
     thumbnail: '1',
-  }
+  },
 });
 
 export type WallpaperID = keyof typeof wallpapersConfig;

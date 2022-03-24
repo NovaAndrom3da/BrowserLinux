@@ -1,6 +1,6 @@
 # === Server Config ===
 install = False
-wait = 10
+wait = 0#10
 
 
 # === Server Program ===

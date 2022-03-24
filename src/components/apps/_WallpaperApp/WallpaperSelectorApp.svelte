@@ -74,7 +74,7 @@
             <button on:click={() => changeWallpaper(id)}>
               <img
                 src="/assets/wallpapers/{thumbnail}.jpg"
-                alt="MacOS {name} Wallpapers, dynamic"
+                alt="BrowserLinux Background Image"
               />
             </button>
             <p>{name}</p>

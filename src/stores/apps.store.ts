@@ -5,9 +5,8 @@ export type AppID = keyof typeof appsConfig;
 
 /** Which apps are currently open */
 export const openApps = writable<Record<AppID, boolean>>({
-  wallpapers: false,
   files: false,
-  vscode: false,
+  calendar: false,
   browser: false,
   terminal: false,
   settings: false,
@@ -23,9 +22,8 @@ export const activeApp = writable<AppID>('files');
 export const activeAppZIndex = writable(-2);
 
 export const appZIndices = writable<Record<AppID, number>>({
-  wallpapers: 0,
   files: 0,
-  vscode: 0,
+  calendar: 0,
   settings: 0,
   browser: 0,
   terminal: 0,
@@ -34,9 +32,8 @@ export const appZIndices = writable<Record<AppID, number>>({
 export const isAppBeingDragged = writable(false);
 
 export const appsInFullscreen = writable<Record<AppID, boolean>>({
-  wallpapers: false,
   files: false,
-  vscode: false,
+  calendar: false,
   browser: false,
   terminal: false,
   settings: false,

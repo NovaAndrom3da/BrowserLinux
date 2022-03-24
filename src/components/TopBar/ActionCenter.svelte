@@ -26,7 +26,7 @@
     $theme.scheme = $theme.scheme === 'light' ? 'dark' : 'light';
   }
 
-  function openBackgroundSettings() {
+  function openSettings() {
     $openApps.settings = true;
     $activeApp = 'settings';
   }
@@ -40,14 +40,14 @@
   tabindex={-1}
   bind:this={containerEl}
 >
-  <!-- Main controls: Wifi, Bluetooth, Airdrop -->
+
   <ActionCenterSurface
     grid={[
       [1, 6],
       [1, 2],
     ]}
   >
-    <ActionCenterTile grid={[1, 1]} on:click={toggleTheme}>
+    <ActionCenterTile grid={[1,1]} on:click={toggleTheme}>
       <span class="toggle-icon" class:filled={$theme.scheme === 'dark'}>
         <DarkMode />
       </span>
@@ -61,7 +61,12 @@
       [1, 2],
     ]}
   >
-    
+    <ActionCenterTile grid={[1,1]} on:click={openSettings}>
+      <span class="toggle-icon">
+        <img src="/assets/app-icons/Papirus/apps/administration.svg" style="height: 32px; width: 32px;" alt="Open Settings" />
+      </span>
+      All Settings
+    </ActionCenterTile>
   </ActionCenterSurface>
 
   <ActionCenterSurface
@@ -70,7 +75,7 @@
       [3, 2],
     ]}
   >
-    <ActionCenterTile grid={[1, 1]} role="region">
+    <ActionCenterTile grid={[1,1]} role="region">
       <div class="color-picker">
         <p>System Color</p>
         <div class="color-palette">
@@ -99,7 +104,7 @@
     ]}
   >
 
-  <ActionCenterTile grid={[1, 1]} on:click={openBackgroundSettings}>
+  <ActionCenterTile grid={[1,1]} on:click={openSettings}>
       <div class="wallpaper-tile">
         <img
           class="wallpaper-thumbnail"

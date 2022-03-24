@@ -9,9 +9,9 @@
   let visible = false;
   let themeWarningDialog: SystemDialog;
 
-  /* LOGIC FOR THEME SWITCHING WHEN IT ISN'T ALLOWED */
+  /* LOGIC FOR THEME SWITCHING WHEN IT ISN'T ALLOWED 
   let isThemeWarningDialogOpen = false;
-  $: isThemeWarningDialogOpen && themeWarningDialog.open();
+  $: isThemeWarningDialogOpen && themeWarningDialog.open();*/
 
   function show() {
     visible = true;
@@ -24,44 +24,15 @@
 
 <div class="container" use:clickOutside={{ callback: hide }} use:focusOutside={{ callback: hide }}>
   <button style:--scale={visible ? 1 : 0} on:click={show} on:focus={show}>
-    <img src="/assets/app-icons/Papirus/apps/administration.svg" style="height: 32px; width: 32px;"/>
+    <img src="/assets/app-icons/Papirus/apps/administration.svg" style="height: 32px; width: 32px;" alt="Quick Settings" />
   </button>
 
   {#if visible}
     <div in:fadeIn out:fadeOut class="menu-parent" use:elevation={'menubar-menu-parent'}>
-      <ActionCenter bind:isThemeWarningDialogOpen />
+      <ActionCenter />
     </div>
   {/if}
 </div>
-
-<SystemDialog bind:this={themeWarningDialog} on:close={() => (isThemeWarningDialogOpen = false)}>
-  <section class="theme-warning-section">
-    <img
-      height="100"
-      width="100"
-      src="/assets/app-icons/wallpapers/256.webp"
-      alt="Wallpapers app logo"
-    />
-
-    <h3>Current Wallpaper Settings prevent changing theme</h3>
-    <p>Head over to Wallpapers app to change this setting or choose a standalone wallpaper.</p>
-
-    <div class="buttons">
-      <button on:click={() => themeWarningDialog.close()}>Close</button>
-      <button
-        class="confirm"
-        on:click={() => {
-          themeWarningDialog.close();
-
-          $openApps.wallpapers = true;
-          $activeApp = 'wallpapers';
-        }}
-      >
-        Go to Wallpapers
-      </button>
-    </div>
-  </section>
-</SystemDialog>
 
 <style lang="scss">
   .container button {

@@ -1,0 +1,19 @@
+/* Profont */
+@font-face {
+  font-display: swap;
+  font-family: Profont;
+  src: url("/assets/bin/profont.ttf");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: Profont;
+  font-weight: bold;
+  src: url("/assets/bin/profont_bold.ttf");
+}
+
+html, body, h1, h2, p {
+  font-family: Profont;
+  color: #e1e1e1;
+  background-color: #1e1e1e;
+}
