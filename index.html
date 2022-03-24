@@ -1,24 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- I don't actually know why this exists -->
     <meta charset="utf-8" />
+
+    <!-- Favicon & Title -->
     <link rel="icon" href="/assets/app-icons/Papirus/apps/utilities-x-terminal.svg" />
     <title>BrowserLinux</title>
+
+    <!-- Add webapp option for ios devices -->
     <link rel="apple-touch-icon" href="/assets/app-icons/Papirus/apps/utilities-x-terminal.svg" sizes="192x192" />
     <meta name="theme-color" content="#ffffff" />
 
+    <!-- Add core JavaScript modules -->
     <script src="/assets/linux/cmdprompt.js"></script>
     <script src="/assets/linux/vmsh.js"></script>
     <script src="/assets/linux/filesystem.js"></script>
 
+    <!-- Add time.js from my personal chat service dragonfly -->
+    <script src="/assets/linux/time.js"></script>
+
+    <!-- Add python -->
     <script src="/assets/linux/python.js"></script>
     <script src="/assets/linux/python.py" type="text/python"></script>
 
+    <!-- I don't know what this is -->
     <meta property="og:title" content="BrowserLinux" />
 
   </head>
   <body>
     <noscript>
+      <!-- Add a notice for those people without JS -->
       <link rel="stylesheet" type="text/css" href="/info/info.css" />
       <h1>This webapp requires JavaScript to properly function.</h1>
       <h2>You can <a href="https://vivaldi.com">get a new browser</a> or <a href="/info/enablejs.html">enable javascript</a>. You can also read the <a href="/info/about.html">about BrowserLinux page</a> in the meantime.</h2>
