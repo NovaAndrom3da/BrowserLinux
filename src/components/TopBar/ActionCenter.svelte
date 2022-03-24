@@ -133,6 +133,8 @@
 
     padding: 0.75rem;
 
+    margin-top: 2.5px;
+
     position: relative;
 
     user-select: none;
