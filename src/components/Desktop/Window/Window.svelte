@@ -19,6 +19,7 @@
   import { theme } from '🍎/stores/theme.store';
   import AppNexus from '../../apps/AppNexus.svelte';
   import TrafficLights from './TrafficLights.svelte';
+  import Title from './Title.svelte';
 
   export let appID: AppID;
 
@@ -30,7 +31,7 @@
 
   let windowEl: HTMLElement;
 
-  const { height, width } = appsConfig[appID];
+  const { height, width, title } = appsConfig[appID];
 
   const remModifier = +height * 1.2 >= window.innerHeight ? 24 : 16;
 
@@ -147,6 +148,8 @@
     <TrafficLights {appID} on:maximize-click={maximizeApp} on:close-app={closeApp} on:minimize-app={minimizeApp} />
   </div>
 
+  <Title {appID} />
+  
   <AppNexus {appID} isBeingDragged={$isAppBeingDragged}/>
 </section>
 
