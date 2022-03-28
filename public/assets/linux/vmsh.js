@@ -12,6 +12,8 @@ var bin = {
   "unset": {"exec": cmd_unset, "desc": "Remove an environment variable"},
   "reboot": {"exec": cmd_reload, "desc": "Reload the browser window"},
   "shutdown": {"exec": cmd_reload, "desc": "Reload the browser window"},
+  "kill": {"exec": cmd_kill, "desc": "Terminates a process"},
+  "pgrep": {"exec": cmd_pgrep, "desc": "Search through all open processes"},
 };
 
 // "Emulating" /usr/bin/
@@ -43,7 +45,9 @@ var env = {
   "BLPM_INSTALL_DELAY": String(500), // installer delay, in milliseconds. Default (500 = 1/2 second)
 };
 
-setInterval(function(){
+
+env_vars_defaults_pid = instantiatePID("env_vars_defaults");
+addIIDtoThread(setInterval(function(){
   var envdefaults = {
     "USERDIR": "/home/user/",
     "DIR": "/home/user/",
@@ -57,7 +61,7 @@ setInterval(function(){
       env[envlist[x]] = envdefaults[envlist[x]];
     }
   }
-}, 150);
+}, 150), env_vars_defaults_pid);
 
 // === Background Functions ===
 function cmdexec(from, command, args) {
@@ -350,6 +354,8 @@ var blpm_background_process = setInterval(function(){
   }
 }, Number(env["BLPM_INSTALL_DELAY"]));
 
+addIIDtoThread(blpm_background_process, instantiatePID("blpm"));
+
 
 function cmd_blpm(args) {
   arglist = args.split(" ");
@@ -428,3 +434,5 @@ function cmd_pythonunloaded(args) {
   return color("Python has not finished loading. Please wait a second and then try again.", "yellow");
 }
 
+function cmd_kill(args) {}
+function cmd_pgrep(args) {}
