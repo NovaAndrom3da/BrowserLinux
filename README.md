@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/Froggo8311/BrowserLinux/main/docs/logo.svg" style="max-height: 150px; min-height: 150px; max-width: 100%; min-width: 600px;"/>
 
-BrowserLinux is a web application aiming to enable a linux environment completely in the browser. It is licensed under the [MIT License](https://github.com/Froggo8311/BrowserLinux/blob/main/docs/LICENSE.md).
+BrowserLinux is a web application aiming to enable a linux environment completely in the browser. It is currently licensed under the [MIT License](https://github.com/Froggo8311/BrowserLinux/blob/main/docs/LICENSE.md).
 
 Please contribute if you feel you can help the development of this software! We are currently looking for people who are willing to add improvements and changes.
 
