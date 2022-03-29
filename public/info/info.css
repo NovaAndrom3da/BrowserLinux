@@ -1,12 +1,12 @@
 /* Profont */
 @font-face {
-  font-display: swap;
+  /*font-display: swap;*/
   font-family: Profont;
   src: url("/assets/bin/profont.ttf");
 }
 
 @font-face {
-  font-display: swap;
+  /*font-display: swap;*/
   font-family: Profont;
   font-weight: bold;
   src: url("/assets/bin/profont_bold.ttf");
