@@ -1,7 +1,19 @@
 {
   "name": "browserlinux",
   "version": "0.1.0",
+  "description": "A completely in-browser linux environment",
   "type": "module",
+  "main": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Froggo8311/BrowserLinux/issues"
+  },
+  "repository": {
+    "url": "https://github.com/Froggo8311/BrowserLinux.git"
+  },
+  "homepage": {
+    "url": "https://browserlinux.vercel.app"
+  },
   "scripts": {
     "dev": "vite --host",
     "build": "pnpm check && vite build",
@@ -23,7 +35,7 @@
     "svelte-check": "^2.4.3",
     "svelte-preprocess": "^4.10.2",
     "typescript": "^4.5.5",
-    "vite": "2.7.13",
+    "vite": "2.8.6",
     "vite-plugin-pwa": "^0.11.13",
     "workbox-window": "^6.4.2"
   },
@@ -32,6 +44,8 @@
     "date-fns": "^2.28.0",
     "popmotion": "^11.0.3",
     "svelte-local-storage-store": "^0.2.6",
-    "unplugin-icons": "^0.13.0"
+    "unplugin-icons": "^0.13.0",
+    "browserfs": "^1.4.3",
+    "postcss": "^8.4.12"
   }
 }
