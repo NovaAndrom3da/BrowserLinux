@@ -3,6 +3,7 @@ try:
   from browser import window, document
   import sys
 except:
+  print("Could not load proper python modules, reloading.")
   window.cmd_reload()
 
 print = window.print
