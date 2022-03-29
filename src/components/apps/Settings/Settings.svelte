@@ -21,7 +21,7 @@
 
 <section class="container">
   <header class="titlebar app-window-drag-handle">
-    <span>Settings | Background</span>
+    <span>Background</span>
   </header>
 
   <aside>
