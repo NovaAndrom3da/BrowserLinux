@@ -5,13 +5,16 @@ try:
 except:
   window.cmd_reload()
 
-print = window.print
+#print = window.print
 color = window.color
 bold = window.bold
 tab = window.tab
 console = window.console
 scroll = window.scroll
 clear = window.cmd_clear
+
+#def print():
+  
 
 
 # === Python Execution Environment ===
