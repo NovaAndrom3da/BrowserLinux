@@ -5,7 +5,7 @@ try:
 except:
   window.cmd_reload()
 
-#print = window.print
+print = window.print
 color = window.color
 bold = window.bold
 tab = window.tab
