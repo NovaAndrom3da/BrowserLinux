@@ -6,12 +6,12 @@ window.__PYTHONCMDS__ = false;
 // Init brython
 head_element = document.querySelector("head");
 brython_js = document.createElement("script");
-brython_js.src = "/assets/linux/brython.js";
+brython_js.src = "/assets/lib/brython.js";
 head_element.appendChild(brython_js);
 setTimeout(function(){
   try {
     brython_stdlib_js = document.createElement("script");
-    brython_stdlib_js.src = "/assets/linux/brython_stdlib.js";
+    brython_stdlib_js.src = "/assets/lib/brython_stdlib.js";
     head_element.appendChild(brython_stdlib_js);
   } catch {
     cmd_reload();

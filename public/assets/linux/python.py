@@ -24,10 +24,17 @@ class open():
     self.filename = filename
     self.mode = mode
 
-  def read(self):
+  async def read(self):
     if self.mode == "r" or self.mode == "rw":
-      return "Read object"
+      return await window.FSRead(self.filename)
 
+    else:
+       return color("FileReadWriteError: Can not read file on operation '"+bold(self.mode)+"'", "red")
+
+  async def write(self, value):
+    if self.mode == "w" or self.mode == "rw":
+      await window.FSWrite(self.filename, value)
+      
     else:
        return color("FileReadWriteError: Can not read file on operation '"+bold(self.mode)+"'", "red")
 

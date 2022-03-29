@@ -14,6 +14,7 @@ var bin = {
   "shutdown": {"exec": cmd_reload, "desc": "Reload the browser window"},
   "kill": {"exec": cmd_kill, "desc": "Terminates a process"},
   "pgrep": {"exec": cmd_pgrep, "desc": "Search through all open processes"},
+  "history": {"exec": cmd_history, "desc": "Show the user's command history"},
 };
 
 // "Emulating" /usr/bin/
@@ -70,6 +71,7 @@ function cmdexec(from, command, args) {
 
 // Function to parse terminal commands.
 function parse(command) {
+  await FSWrite(env["USERDIR"]+".history", (await FSRead(env["USERDIR"]+".history")).toString()+"\n"+command);
   userHasAccess = false;
   // Splits commands between the "&&" operator
   andcmds = command.split("&&");
@@ -436,3 +438,13 @@ function cmd_pythonunloaded(args) {
 
 function cmd_kill(args) {}
 function cmd_pgrep(args) {}
+
+
+async function cmd_history(args) {
+  var arglist = args.split(" ");
+  if (args == "") {
+    print((await FSRead(env["USERDIR"]+".history")).toString());
+  } else if (arglist.contains("-c")) {
+    await FSWrite(env["USERDIR"]+".history", "");
+  }
+}

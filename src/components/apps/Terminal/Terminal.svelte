@@ -15,10 +15,6 @@
     window.triggerPrompt = function() {
       window.cmdprompt_keydown({"key": "", "shiftKey": false, "ctrlKey": false});
     }
-    setTimeout(function(){
-      cmdprompt.clientWidth = String(cmdprompt.parentElement.clientWidth);
-      cmdprompt.clientHeight = String(cmdprompt.parentElement.clientHeight);
-    }, 50);
   }, 50);
 </script>
 

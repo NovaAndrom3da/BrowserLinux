@@ -45,7 +45,8 @@
     "popmotion": "^11.0.3",
     "svelte-local-storage-store": "^0.2.6",
     "unplugin-icons": "^0.13.0",
-    "browserfs": "^1.4.3",
-    "postcss": "^8.4.12"
+    "postcss": "^8.4.12",
+    "util": "^0.12.4",
+    "browserfs": "^1.4.3"
   }
 }
