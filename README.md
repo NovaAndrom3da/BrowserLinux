@@ -1,3 +1,5 @@
+This project is no longer activelt maintained. I tried to do an approach that was too much of a "this thing works kind of like linux I guess" emulator than something that would straight-up be a linux environment in the browser. I may continue this project again, but knowing now what I wish I would have known then, I will do more of a direct approach to running linux in the browser (and not trying to merge other projects into one). I will start again with a terminal while this time trying to perhaps implement bash, taking a more direct approach.
+
 <img src="https://raw.githubusercontent.com/Froggo8311/BrowserLinux/main/docs/logo.svg" style="max-height: 150px; min-height: 150px; max-width: 100%; min-width: 600px;"/>
 
 BrowserLinux is a web application aiming to enable a linux environment completely in the browser. It is currently licensed under the [MIT License](https://github.com/Froggo8311/BrowserLinux/blob/main/docs/LICENSE.md).
