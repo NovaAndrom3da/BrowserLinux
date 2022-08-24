@@ -1,0 +1,10 @@
+{
+  "host": true,
+  "port": 80,
+  "zlib": false,
+  "gzip": false,
+  "minify": false,
+  "purgecache": false,
+  "cache-max-age": 0,
+  "indexDirectories": true
+}
