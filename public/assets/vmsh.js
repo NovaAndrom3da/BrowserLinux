@@ -1,6 +1,6 @@
 // === Command Setup ===
 // "Emulating" /bin/
-bin = {
+var bin = {
   "clear": {"exec": cmd_clear, "desc": "Clears the console."},
   "echo": {"exec": cmd_echo, "desc": "Prints the content provided to it"},
   "help": {"exec": cmd_help, "desc": "Shows this help message"},
@@ -8,39 +8,70 @@ bin = {
   "info": {"exec": cmd_info, "desc": "Provides information about the software. Type `info -h` for more options"},
   "export": {"exec": cmd_export, "desc": "Reads and writes environment variables"},
   "pwd": {"exec": cmd_pwd, "desc": "Prints the working directory"},
-  "color": {"exec": cmd_color, "desc": "Change color"},
-  "unset": {"exec": cmd_unset, "desc": "Remove an environment variable"}
+  // "color": {"exec": cmd_color, "desc": "Change color"},
+  "unset": {"exec": cmd_unset, "desc": "Remove an environment variable"},
+  "reboot": {"exec": cmd_reload, "desc": "Reload the browser window"},
+  "shutdown": {"exec": cmd_reload, "desc": "Reload the browser window"},
+  // "kill": {"exec": cmd_kill, "desc": "Terminates a process"},
+  // "pgrep": {"exec": cmd_pgrep, "desc": "Search through all open processes"},
+  // "history": {"exec": cmd_history, "desc": "Show the user's command history"},
 };
 
 // "Emulating" /usr/bin/
-usr_bin = {
+var usr_bin = {
   "whoami": {"exec": cmd_whoami, "desc": "Print the current user", "ver": "0.1"},
-  "reload": {"exec": cmd_reload, "desc": "Reload the browser window", "ver": "0.1"},
   "blpm": {"exec": cmd_blpm, "desc": "BrowserLinux Package Manager", "ver": "0.1"},
-  "python": {"exec": cmd_pythonunloaded, "desc": "Python interpreter", "ver": "0.0"}
+  "python": {"exec": cmd_pythonunloaded, "desc": "Python interpreter", "ver": "0.0"},
 };
 
-// like usr_bin, but does not show the content in `blpm list` or `help --usr`
-silent_usr_bin = {
-
+// like usr_bin, but does not show the content in `blpm list` or `help --usr`, for aliases
+var silent_usr_bin = {
+  "py": {"exec": cmd_pythonunloaded, "desc": "Python interpreter >{python}"},
+  "python3": {"exec": cmd_pythonunloaded, "desc": "Python interpreter >{python}"},
+  "python3.10": {"exec": cmd_pythonunloaded, "desc": "Python interpreter >{python}"},
+  "sh": {"exec": cmd_vmsh, "desc": "Shell >{vmsh}"},
+  "bash": {"exec": cmd_vmsh, "desc": "Bourne-again Shell >{vmsh}"},
+  "apt": {"exec": cmd_blpm, "desc": "Wrapper program for blpm, apt. WIP >{blpm}"},
+  "sudo": {"exec": cmd_vmsh, "desc": "Pseudo-Superuser Shell >{vmsh}"},
+  "reload": {"exec": cmd_reload, "desc": "Reload the browser window >{reboot}"}
 };
-
 
 // === Environment Variables ===
-env = {
+var env = {
   "USERDIR": "/home/user/",
   "DIR": "/home/user/",
   "USERNAME": "user",
-  "BLVERSION": "0.1.0"
+  "BLVERSION": "0.1.0",
+  "BLPM_REMOTE_CACHE_DELETE": String(120000), // Default (120000 = 2 minutes), timer for deleting blpm_remote_cache
+  "BLPM_INSTALL_DELAY": String(500), // installer delay, in milliseconds. Default (500 = 1/2 second)
 };
+
+
+// env_vars_defaults_pid = instantiatePID("env_vars_defaults");
+IntervalProc(setInterval(function(){
+  var envdefaults = {
+    "USERDIR": "/home/user/",
+    "DIR": "/home/user/",
+    "USERNAME": "user",
+    "BLPM_REMOTE_CACHE_DELETE": String(120000),
+    "BLPM_INSTALL_DELAY": String(500),
+  };
+  var envlist = Object.keys(envdefaults);
+  for (x in envlist) {
+    if (env[envlist[x]] == undefined) {
+      env[envlist[x]] = envdefaults[envlist[x]];
+    }
+  }
+}, 150), 'env_vars_defaults');
 
 // === Background Functions ===
 function cmdexec(from, command, args) {
-  return from[command].exec(args);
+  return Proc(from[command].exec(args), 'user', command).out;
 }
 
 // Function to parse terminal commands.
 function parse(command) {
+  //await FSWrite(env["USERDIR"]+".history", (await FSRead(env["USERDIR"]+".history")).toString()+"\n"+command);
   userHasAccess = false;
   // Splits commands between the "&&" operator
   andcmds = command.split("&&");
@@ -86,10 +117,16 @@ function print(output) {
   // Ignores empty stings and vague [object Object]
   if (!(output=="" || output=="<br>" || output=="\n" || output==undefined || output=="[object Object]")) {
     // Prints to the terminal after replacing all fake newlines with real newlines
-    cmdprompt.innerHTML += "<br>" + String(output).split("\n").join("<br>").split("\\n").join("<br>").split("\\t").join(tab());
+    cmdprompt.appendChild(document.createElement("br"));
+    cmdprompt.insertAdjacentHTML('beforeend', String(output).split("\n").join("<br>").split("\\n").join("<br>").split("\\t").join(tab()));
   } else if (output=="[object Object]") {
     // Tries to convert python objects that only return "[object Object]" to strings
-    print(JSON.stringify(output));
+    try {
+      print(JSON.stringify(output));
+    } catch {
+      //print(String(output));
+      console.log(output);
+    }
   }
 }
 
@@ -102,11 +139,7 @@ function cmd_echo(args) {
 
 // Clears the terminal
 function cmd_clear(args) {
-  if (args == "-r") {
-    parse("clear && info -w");
-  } else {
-    cmdprompt.innerHTML = "";
-  }
+  cmdprompt.innerHTML = "";
 }
 
 // Prints a help message
@@ -118,13 +151,26 @@ function cmd_help(args) {
     for (x in usr_bin) {
       text += "<br>" + color(x, "yellow") + tab() + tab() + usr_bin[x].desc;
     }
+  } else if (args.split(" ").includes("-a") || args.split(" ").includes("--all")) {
+    text = color("Showing the following "+color(Object.keys(bin).concat(Object.keys(usr_bin)).concat(Object.keys(silent_usr_bin)).length, "yellow")+" commands:<br>--------", "green");
+    for (x in bin) {
+      text += "<br>" + color(x, "yellow") + tab() + tab() + bin[x].desc;
+    }
+    for (x in usr_bin) {
+      text += "<br>" + color(x, "yellow") + tab() + tab() + usr_bin[x].desc;
+    }
+    for (x in silent_usr_bin) {
+      text += "<br>" + color(x, "yellow") + tab() + tab() + silent_usr_bin[x].desc;
+    }
+  } else if (args == "-h" || args == "--help") {
+    text = "Commands for `help`:\n"+color("-h --help"+tab()+"Shows this help message", "yellow")+"\n"+color("-a --all"+tab()+"Lists all commands", "yellow")+"\n"+color("--usr"+tab()+"Shows all commands in `/usr/bin/`", "yellow");
   } else {
     // Prints /bin/ commands
     text = color("Showing the following "+color(Object.keys(bin).length, "yellow")+" bin commands:<br>--------", "green");
     for (x in bin) {
       text += "<br>" + color(x, "yellow") + tab() + tab() + bin[x].desc;
     }
-    text += "<br>" + color("--------", "green") + "<br>" + color("Type `help --usr` to view all", "green") + " " + color(Object.keys(usr_bin).length, "yellow") + " " + color("user commands.", "green")
+    text += "<br>" + color("--------", "green") + "<br>" + color("Type `help --usr` to view all", "green") + " " + color(Object.keys(usr_bin).length, "yellow") + " " + color("commands from installed programs.", "green")
   }
   return text;
 }
@@ -148,9 +194,6 @@ function cmd_info(args) {
   } else if (args == "--help" || args == "-h") {
     // Prints arguments
     return color("-h --help", "yellow") + tab() + tab() +"Displays this help message.\n" + color("--contributors", "yellow") + tab() + tab() +"Lists the contributors\n" + color("--gh", "yellow") + tab() + tab() + "Opens the GitHub page in a new tab.\n" + color("-t --todo", "yellow") + tab() + tab() + "Shows the todo list for BrowserLinux's development.";
-  } else if (args == "-w") {
-    // Display welcome message
-    return welcomeText;
   } else if (args == "-t" || args == "--todo") {
     // Prints a todo list for the BrowserLinux project.
     return color("TODO List:<br>-"+tab()+"Add env var fetch using `$VARIABLE`<br>-"+tab()+"Make pipes less buggy when using `vmsh` as it is a problem instigator<br>-"+tab()+"Add `wget`/`curl` command<br>-"+tab()+"Add C/C++ compiler using emscrypten<br>-"+tab()+"Add a filesystem using IndexedDB & add `cd` command");
@@ -216,19 +259,6 @@ function cmd_cd(args) {
   if (env["DIR"].substring(-1)!="/") {env["DIR"]+="/"}
 }
 
-// A virtual display. Not an immediate concern, but could potentially be a feature later on.
-function cmd_display(args) {
-  if (args == "") {
-    return "This command closes this terminal and opens a graphical display. " + color("The graphical display currently does nothing.", "orange") + "<br>" + color("Use `display --yes` to switch to the graphical display.", "yellow");
-  } else if (args == "--yes" || args == "-y") {
-    return color("Not yet implemented.", "yellow");
-  } else if (args == "-h" || args == "--help") {
-    return "`-h` `--help`"+tab()+"Shows this help message<br>`--yes` `-y`"+tab()+"Opens the graphical display";
-  } else {
-    return color("display has no command '"+args+"'. Type `display --help` for help on this command.", "red");
-  }
-}
-
 // Evaluates a javascript expression. Can be used for math
 function cmd_eval(args) {
   if (args != "") {
@@ -246,17 +276,15 @@ function cmd_whoami(args) {
 }
 
 // Changes the color of input text in the terminal
-function cmd_color(args) {
-  consolecolor=args;
-}
+// function cmd_color(args) {
+//   consolecolor=args;
+// }
 
 // BrowserLinux Package Manager
-blpm_install_queue = []; // items to be installed
-blpm_remote_cache = []; // cache generated from `blpm remote` for the `blpm install-all` command.
-env["BLPM_REMOTE_CACHE_DELETE"] = String(120000); // Default (120000 = 2 minutes), timer for deleting blpm_remote_cache
-env["BLPM_INSTALL_DELAY"] = String(2000); // installer delay, in milliseconds
+var blpm_install_queue = []; // items to be installed
+var blpm_remote_cache = []; // cache generated from `blpm remote` for the `blpm install-all` command.
 
-blpm_background_process = setInterval(function(){
+var blpm_background_process = setInterval(function(){
   if (blpm_install_queue.length > 0) {
     pkg = blpm_install_queue[0];
     if (pkg == '') {return;}
@@ -328,6 +356,8 @@ blpm_background_process = setInterval(function(){
   }
 }, Number(env["BLPM_INSTALL_DELAY"]));
 
+// addIIDtoThread(blpm_background_process, instantiatePID("blpm"));
+IntervalProc(blpm_background_process, 'blpm');
 
 function cmd_blpm(args) {
   arglist = args.split(" ");
@@ -396,10 +426,25 @@ function cmd_blpm(args) {
 function cmd_unset(args) {
   arglist = args.split(" ");
   for (i in arglist) {
-    return delete(env[arglist[i]]);
+    if (!(delete(env[arglist[i].toUpperCase()]))) {
+      return color("Error: Could not unset '"+bold(arglist[i])+"'", "red");
+    }
   }
 }
 
 function cmd_pythonunloaded(args) {
   return color("Python has not finished loading. Please wait a second and then try again.", "yellow");
 }
+
+// function cmd_kill(args) {}
+// function cmd_pgrep(args) {}
+
+
+// async function cmd_history(args) {
+//   var arglist = args.split(" ");
+//   if (args == "") {
+//     print((await FSRead(env["USERDIR"]+".history")).toString());
+//   } else if (arglist.contains("-c")) {
+//     await FSWrite(env["USERDIR"]+".history", "");
+//   }
+// }

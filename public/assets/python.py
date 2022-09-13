@@ -1,6 +1,10 @@
 # === Initialize ===
-from browser import window, document
-import sys
+try:
+  from browser import window, document
+  import sys
+except:
+  print("Could not load proper python modules, reloading.")
+  window.cmd_reload()
 
 print = window.print
 color = window.color
@@ -10,6 +14,9 @@ console = window.console
 scroll = window.scroll
 clear = window.cmd_clear
 
+#def print():
+  
+
 
 # === Python Execution Environment ===
 class open():
@@ -17,10 +24,17 @@ class open():
     self.filename = filename
     self.mode = mode
 
-  def read(self):
+  async def read(self):
     if self.mode == "r" or self.mode == "rw":
-      return "Read object"
+      return await window.FSRead(self.filename)
 
+    else:
+       return color("FileReadWriteError: Can not read file on operation '"+bold(self.mode)+"'", "red")
+
+  async def write(self, value):
+    if self.mode == "w" or self.mode == "rw":
+      await window.FSWrite(self.filename, value)
+      
     else:
        return color("FileReadWriteError: Can not read file on operation '"+bold(self.mode)+"'", "red")
 
@@ -28,7 +42,6 @@ class open():
 
 def help_command(args=help):
   help(args)
-
 
 python_env_template = {
   "window": window,
@@ -51,7 +64,18 @@ python_env_template = {
   "help": help_command
 }
 
-module_env_template = python_env_template.copy()
+module_env_template = {
+  "__name__": "__main__",
+  "__package__": None,
+  "__builtins__": __builtins__,
+  "__annotations__": None,
+  "__doc__": None,
+  "__loader__": None,
+  "__spec__": None,
+  "print": print,
+  "help": help_command,
+  "open": open
+}
 
 # === Add Standard IO ===
 class stdout():
@@ -145,7 +169,13 @@ def cmd_python(args):
         return
       return color(o, "yellow")
     if "-m" in args.split(" "):
-      return pyeval("import "+args.lstrip("-m "), module_env_template.copy())
+      python_run_module_args = args.lstrip("-m ").split(" ")
+      python_run_module = python_run_module_args.pop(0)
+      sys.argv = python_run_module_args
+      try:
+        return pyeval("import "+python_run_module, module_env_template.copy())
+      except Exception as e:
+        return print(color("ImportError: "+String(e), "red"))
     if "-V" in args.split(" "):
       return "Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+")"
   else:
@@ -155,9 +185,9 @@ def cmd_python(args):
       print("Python "+version_main+"."+version_minor+" (Brython "+version_main+"."+version_minor+"."+version_micro+") on BrowserLinux "+window.env["BLVERSION"]+". Type `"+bold("help()")+"` for help and `"+bold("quit()")+"` to quit.\n")
       window.cmdkeybind = cmd_python_text
       window.triggerPrompt()
-      return None
-      #print(color(">>", "blue"))
+      #return None
     else:
+      sys.argv = args.split(" ")
       return "Running python files (coming soon with introduction of a filesystem)"
 
 version = window.__BRYTHON__.implementation
@@ -210,3 +240,10 @@ def cmd_pip(args):
 console.log("Python loaded.")
 
 window.__PYTHONREADY__ = True
+
+
+
+# === Add Python-Based Internal Commands ===
+
+
+window.__PYTHONCMDS__ = True

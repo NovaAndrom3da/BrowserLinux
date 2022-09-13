@@ -2,16 +2,35 @@
 <html lang="en">
   <head>
     <title>BrowserLinux Terminal</title>
+    <script src="/assets/thread.js"></script>
     <script src="/assets/cmdprompt.js"></script>
     <script src="/assets/vmsh.js"></script>
+
+    <!-- Time.js from the chat service Dragonfly -->
+    <script src="/assets/time.js"></script>
+
     <!script src="/assets/jquery-3.6.0.min.js"></!script>
-    <script src="/assets/filesystem.js"></script>
+    
 
     <script src="/assets/python.js"></script>
     <script src="/assets/python.py" type="text/python"></script>
 
+    <script src="/lib/browserfs.min.js"></script>
+    <script src="/assets/filesystem.js"></script>
+
     <link rel="stylesheet" type="text/css" href="/assets/index.css">
     <link rel="stylesheet" type="text/css" href="/assets/fonts.css">
+
+    <!--script>
+      setTimeout(function(){
+        window.cmdprompt = document.querySelector("#cmdprompt");
+        cmdprompt.addEventListener('keydown', cmdprompt_keydown);
+        cmdprompt.innerHTML = color(window.env["USERDIR"], "green") + " " + color(">>", "lightblue");
+        window.triggerPrompt = function() {
+          window.cmdprompt_keydown({"key": "", "shiftKey": false, "ctrlKey": false});
+        }
+      }, 50);
+    </script-->
 
 
   </head>

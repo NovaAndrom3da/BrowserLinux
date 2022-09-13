@@ -1,3 +1,0 @@
-language = "node"
-run = ""
-hidden = ["package.phoenix", "config.phoenix"]
