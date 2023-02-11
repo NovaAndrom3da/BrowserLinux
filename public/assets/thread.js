@@ -58,13 +58,13 @@ _null = function(){};
 
 
 /* Add thread-related commands */
-cmd_kill = function(args) {
+// cmd_kill = function(args) {
   
-}
+// }
 
-cmd_pgrep = function(args) {
+// cmd_pgrep = function(args) {
   
-}
+// }
 
 
 
@@ -107,7 +107,7 @@ function StopProcess(process_pid) {
   };
 }
 
-function KillProcess(procexx_pid) {
+function KillProcess(process_pid) {
   return function(){
     console.log("Error not implemented");
   };

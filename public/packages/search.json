@@ -1,1 +1,1 @@
-{"exec": "window.open(\"https://duckduckgo.com/?q=\"+args, \"_blank\");", "type": "js", "desc": "Search the internet", "ver": "0.1"}
+{"file": "window.open(\"https://duckduckgo.com/?q=\"+args, \"_blank\");", "type": "js", "desc": "Search the internet", "ver": "0.1"}

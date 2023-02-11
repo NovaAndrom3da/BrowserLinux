@@ -6,5 +6,6 @@
   "minify": false,
   "purgecache": false,
   "cache-max-age": 0,
-  "indexDirectories": true
+  "indexDirectories": true,
+  "threads": 16
 }

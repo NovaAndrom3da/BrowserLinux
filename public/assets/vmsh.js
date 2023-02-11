@@ -1,39 +1,38 @@
 // === Command Setup ===
 // "Emulating" /bin/
 var bin = {
-  "clear": {"exec": cmd_clear, "desc": "Clears the console."},
-  "echo": {"exec": cmd_echo, "desc": "Prints the content provided to it"},
-  "help": {"exec": cmd_help, "desc": "Shows this help message"},
-  "vmsh": {"exec": cmd_vmsh, "desc": "Runs the command in VM Shell"},
-  "info": {"exec": cmd_info, "desc": "Provides information about the software. Type `info -h` for more options"},
-  "export": {"exec": cmd_export, "desc": "Reads and writes environment variables"},
-  "pwd": {"exec": cmd_pwd, "desc": "Prints the working directory"},
-  // "color": {"exec": cmd_color, "desc": "Change color"},
-  "unset": {"exec": cmd_unset, "desc": "Remove an environment variable"},
-  "reboot": {"exec": cmd_reload, "desc": "Reload the browser window"},
-  "shutdown": {"exec": cmd_reload, "desc": "Reload the browser window"},
-  // "kill": {"exec": cmd_kill, "desc": "Terminates a process"},
-  // "pgrep": {"exec": cmd_pgrep, "desc": "Search through all open processes"},
-  // "history": {"exec": cmd_history, "desc": "Show the user's command history"},
+  "clear": {"file": cmd_clear, "desc": "Clears the console."},
+  "echo": {"file": cmd_echo, "desc": "Prints the content provided to it"},
+  "help": {"file": cmd_help, "desc": "Shows this help message"},
+  "vmsh": {"file": cmd_vmsh, "desc": "Runs the command in VM Shell"},
+  "info": {"file": cmd_info, "desc": "Provides information about the software. Type `info -h` for more options"},
+  "export": {"file": cmd_export, "desc": "Reads and writes environment variables"},
+  "pwd": {"file": cmd_pwd, "desc": "Prints the working directory"},
+  // "color": {"file": cmd_color, "desc": "Change color"},
+  "unset": {"file": cmd_unset, "desc": "Remove an environment variable"},
+  "reboot": {"file": cmd_reload, "desc": "Reload the browser window"},
+  "shutdown": {"file": cmd_reload, "desc": "Reload the browser window"},
+  "ls": {"file": cmd_ls, "desc": "List directory"},
+  // "kill": {"file": cmd_kill, "desc": "Terminates a process"},
+  // "pgrep": {"file": cmd_pgrep, "desc": "Search through all open processes"},
+  // "history": {"file": cmd_history, "desc": "Show the user's command history"},
 };
 
 // "Emulating" /usr/bin/
 var usr_bin = {
-  "whoami": {"exec": cmd_whoami, "desc": "Print the current user", "ver": "0.1"},
-  "blpm": {"exec": cmd_blpm, "desc": "BrowserLinux Package Manager", "ver": "0.1"},
-  "python": {"exec": cmd_pythonunloaded, "desc": "Python interpreter", "ver": "0.0"},
-};
-
-// like usr_bin, but does not show the content in `blpm list` or `help --usr`, for aliases
-var silent_usr_bin = {
-  "py": {"exec": cmd_pythonunloaded, "desc": "Python interpreter >{python}"},
-  "python3": {"exec": cmd_pythonunloaded, "desc": "Python interpreter >{python}"},
-  "python3.10": {"exec": cmd_pythonunloaded, "desc": "Python interpreter >{python}"},
-  "sh": {"exec": cmd_vmsh, "desc": "Shell >{vmsh}"},
-  "bash": {"exec": cmd_vmsh, "desc": "Bourne-again Shell >{vmsh}"},
-  "apt": {"exec": cmd_blpm, "desc": "Wrapper program for blpm, apt. WIP >{blpm}"},
-  "sudo": {"exec": cmd_vmsh, "desc": "Pseudo-Superuser Shell >{vmsh}"},
-  "reload": {"exec": cmd_reload, "desc": "Reload the browser window >{reboot}"}
+  "whoami": {"file": cmd_whoami, "desc": "Print the current user", "ver": "0.1"},
+  "blpm": {"file": cmd_blpm, "desc": "BrowserLinux Package Manager", "ver": "0.1"},
+  "python": {"file": cmd_pythonunloaded, "desc": "Python interpreter", "ver": "0.0"},
+  "py": {"file": cmd_pythonunloaded, "desc": "Python interpreter >{python}"},
+  "python3": {"file": cmd_pythonunloaded, "desc": "Python interpreter >{python}"},
+  "python3.10": {"file": cmd_pythonunloaded, "desc": "Python interpreter >{python}"},
+  "sh": {"file": cmd_vmsh, "desc": "Shell >{vmsh}"},
+  "bash": {"file": cmd_vmsh, "desc": "Bourne-again Shell >{vmsh}"},
+  "apt": {"file": cmd_blpm, "desc": "Wrapper program for blpm, apt. WIP >{blpm}"},
+  "sudo": {"file": cmd_vmsh, "desc": "Pseudo-Superuser Shell >{vmsh}"},
+  "reload": {"file": cmd_reload, "desc": "Reload the browser window >{reboot}"},
+  "cat": {"file": cmd_cat, "desc": "Prints the contents of a file"},
+  "which": {"file": cmd_which, "desc": "Get the location of an executable in the PATH"},
 };
 
 // === Environment Variables ===
@@ -44,11 +43,13 @@ var env = {
   "BLVERSION": "0.1.0",
   "BLPM_REMOTE_CACHE_DELETE": String(120000), // Default (120000 = 2 minutes), timer for deleting blpm_remote_cache
   "BLPM_INSTALL_DELAY": String(500), // installer delay, in milliseconds. Default (500 = 1/2 second)
+  "PATH": "/bin/:/usr/bin/",
 };
 
 
 // env_vars_defaults_pid = instantiatePID("env_vars_defaults");
-IntervalProc(setInterval(function(){
+// IntervalProc(
+  setInterval(function(){
   var envdefaults = {
     "USERDIR": "/home/user/",
     "DIR": "/home/user/",
@@ -62,11 +63,11 @@ IntervalProc(setInterval(function(){
       env[envlist[x]] = envdefaults[envlist[x]];
     }
   }
-}, 150), 'env_vars_defaults');
+}, 150)//, 'env_vars_defaults');
 
 // === Background Functions ===
-function cmdexec(from, command, args) {
-  return Proc(from[command].exec(args), 'user', command).out;
+function cmdexec(f, command, args) {
+  return f[command].file(args)//, 'user', command).out;
 }
 
 // Function to parse terminal commands.
@@ -91,14 +92,31 @@ function parse(command) {
       
 
       // Runs commands if in /bin/ or /usr/bin/ and returns an error if not
-      if (cmd == "") {}
-      else if (cmd in bin) {
-        o = cmdexec(bin, cmd, fullcommand.join(" ")+o);
-      } else if (cmd in usr_bin) {
-        o = cmdexec(usr_bin, cmd, fullcommand.join(" ")+o);
-      } else if (cmd in silent_usr_bin) {
-        o = cmdexec(silent_usr_bin, cmd, fullcommand.join(" ")+o);
-      } else {
+      path = env['PATH'].split(':');
+      found = false;
+      for (var i = 0; i < path.length; i++) {
+        try {
+          o = cmdexec(window.get_filesystem_object(path[i]), cmd, fullcommand.join(" ") + o);
+          found = true;
+          break;
+        } catch {}
+      }
+
+      if (!found) {
+        try {
+          o = window.get_filesystem_object(cmd).file(fullcommand.join(' ') + o);
+          found = true;
+        } catch {}
+      }
+      // if (cmd == "") {}
+      // else if (cmd in bin) {
+      //   o = cmdexec(bin, cmd, fullcommand.join(" ")+o);
+      // } else if (cmd in usr_bin) {
+      //   o = cmdexec(usr_bin, cmd, fullcommand.join(" ")+o);
+      // } else if (cmd in silent_usr_bin) {
+      //   o = cmdexec(silent_usr_bin, cmd, fullcommand.join(" ")+o);
+      // } else {
+      if (!found && cmd != '') {
         print(color("vmsh: <strong>"+cmd.split("<br>").join(" ").split(tab()).join(" ")+"</strong>: command not found", "red"), true);
         userHasAccess = true;
         return "";
@@ -152,16 +170,16 @@ function cmd_help(args) {
       text += "<br>" + color(x, "yellow") + tab() + tab() + usr_bin[x].desc;
     }
   } else if (args.split(" ").includes("-a") || args.split(" ").includes("--all")) {
-    text = color("Showing the following "+color(Object.keys(bin).concat(Object.keys(usr_bin)).concat(Object.keys(silent_usr_bin)).length, "yellow")+" commands:<br>--------", "green");
+    text = color("Showing the following "+color(Object.keys(bin).concat(Object.keys(usr_bin)).length, "yellow")+" commands:<br>--------", "green");
     for (x in bin) {
       text += "<br>" + color(x, "yellow") + tab() + tab() + bin[x].desc;
     }
     for (x in usr_bin) {
       text += "<br>" + color(x, "yellow") + tab() + tab() + usr_bin[x].desc;
     }
-    for (x in silent_usr_bin) {
-      text += "<br>" + color(x, "yellow") + tab() + tab() + silent_usr_bin[x].desc;
-    }
+    // for (x in silent_usr_bin) {
+    //   text += "<br>" + color(x, "yellow") + tab() + tab() + silent_usr_bin[x].desc;
+    // }
   } else if (args == "-h" || args == "--help") {
     text = "Commands for `help`:\n"+color("-h --help"+tab()+"Shows this help message", "yellow")+"\n"+color("-a --all"+tab()+"Lists all commands", "yellow")+"\n"+color("--usr"+tab()+"Shows all commands in `/usr/bin/`", "yellow");
   } else {
@@ -239,6 +257,19 @@ function cmd_pwd(args) {
   return env["DIR"];
 }
 
+function cmd_ls() {
+  return window.FILESYSTEM_LIST(env['DIR']).join(' ');
+}
+
+// Prints the contents of a file
+function cmd_cat(args) {
+  // var o = ''
+  // for (var i = 0; i < args.length; i++) {
+  //   o += window.FILESYSTEM_READ(args[i]);
+  // }
+  return window.FILESYSTEM_READ(args)
+}
+
 // Changes the working directory
 function cmd_cd(args) {
   if(args == "" || args == "~") {
@@ -270,6 +301,19 @@ function cmd_eval(args) {
   } else {}
 }
 
+function cmd_which(args) {
+  path = env['PATH'].split(':');
+  path.push(args);
+  for (var i = 0; i < path.length; i++) {
+    try {
+      if (Object.keys(window.get_filesystem_object(path[i])).includes(args)) {
+        return path[i] + args;
+      }
+    } catch {}
+  }
+  return color("Could not find '"+args+"'.", 'red');
+}
+
 // Prints the current user's name
 function cmd_whoami(args) {
   return env["USERNAME"];
@@ -294,7 +338,7 @@ var blpm_background_process = setInterval(function(){
       return;
     }
     xhr = new XMLHttpRequest();
-    xhr.open("GET", "/blpm/"+pkg+"/install");
+    xhr.open("GET", "/packages/"+pkg+".json");
     xhr.timeout = 2000;
     finishLoad = function() {
       if (xhr.readyState == 4) {
@@ -311,8 +355,8 @@ var blpm_background_process = setInterval(function(){
           print("Downloaded '"+bold(pkg)+"'. Installing...");
           if (installcmd["type"] == "vmsh") {
             try {
-              if (installcmd.exec != "") {
-                addCommandFromVMSH(installcmd.exec, pkg, installcmd.desc, installcmd.ver);
+              if (installcmd.file != "") {
+                addCommandFromVMSH(installcmd.file, pkg, installcmd.desc, installcmd.ver);
               }
               blpm_install_queue.shift();
               print("Successfully installed '"+bold(pkg)+"'<br>");
@@ -323,8 +367,8 @@ var blpm_background_process = setInterval(function(){
             }
           } else if (installcmd["type"] == "js") {
             try {
-              if (installcmd.exec != "") {
-                addCommandFromJSStr(installcmd.exec, pkg, installcmd.desc, installcmd.ver);
+              if (installcmd.file != "") {
+                addCommandFromJSStr(installcmd.file, pkg, installcmd.desc, installcmd.ver);
               }
               blpm_install_queue.shift();
               print("Successfully installed '"+bold(pkg)+"'<br>");
@@ -357,7 +401,7 @@ var blpm_background_process = setInterval(function(){
 }, Number(env["BLPM_INSTALL_DELAY"]));
 
 // addIIDtoThread(blpm_background_process, instantiatePID("blpm"));
-IntervalProc(blpm_background_process, 'blpm');
+// IntervalProc(blpm_background_process, 'blpm');
 
 function cmd_blpm(args) {
   arglist = args.split(" ");

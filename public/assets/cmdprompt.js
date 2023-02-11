@@ -4,7 +4,13 @@ document.querySelectorAll("html")[0].onkeydown = function(e) {
   } catch {}
 }
 
-var vmsh_proc = Proc(function(){
+// function Proc(f) {
+//   return {
+//     start: f
+//   }
+// }
+
+// var vmsh_proc = Proc(function(){
   setTimeout(function(){
     // Current command line
     var currline = "";
@@ -79,11 +85,11 @@ var vmsh_proc = Proc(function(){
           e.preventDefault();
           keywords = kwsearch(currline);
           if (keywords.length > 1) {
-            setTimeout(function(){cmdprompt.innerHTML += "<br>" + color(keywords.join(" "), "yellow");}, 200);
+            setTimeout(function(){cmdprompt.innerHTML += "<br>" + color(keywords.join(" "), "yellow");}, 100);
           } else if (keywords.length == 1) {
             currline = keywords[0] + " ";
           } else if (currline == "") {
-            setTimeout(function(){cmdprompt.innerHTML += "<br>" + color(Object.keys(bin).concat(Object.keys(usr_bin)).concat(Object.keys(silent_usr_bin)).join(" "), "yellow");}, 200);
+            setTimeout(function(){cmdprompt.innerHTML += "<br>" + color(Object.keys(bin).concat(Object.keys(usr_bin)).join(" "), "yellow");}, 100);
           }
           cmdprompt.focus();
         }
@@ -127,8 +133,8 @@ var vmsh_proc = Proc(function(){
     }
 
   }, 500);
-}, 'user', 'vmsh');
-vmsh_proc.start();
+// }, 'user', 'vmsh');
+// vmsh_proc.start();
 
 //setInterval(function(){
   // Ignore HTML not finished loading error
@@ -158,7 +164,7 @@ function tab() {
 function addCommandFromJS(cmd=function(args){}, name="", description="No description provided.", ver="0.1") {
   if(typeof(usr_bin[name])=="undefined") {
     usr_bin[name] = {
-      "exec": cmd,
+      "file": cmd,
       "desc": description,
       "ver": ver
     };
@@ -171,7 +177,7 @@ function addCommandFromJS(cmd=function(args){}, name="", description="No descrip
 function addCommandFromJSStr(cmd="", name="", description="No description provided.", ver="0.1") {
   if(typeof(usr_bin[name]) == "undefined") {
     usr_bin[name] = {
-      "exec": Function("args", String(cmd)),
+      "file": Function("args", String(cmd)),
       "desc": description,
       "ver": ver
     }
@@ -185,7 +191,7 @@ function addCommandFromJSStr(cmd="", name="", description="No description provid
 function addCommandFromVMSH(cmd="", name="", description="No description provided.", ver="0.1") {
   if(typeof(usr_bin[name])=="undefined") {
     usr_bin[name] = {
-      "exec": function(args) {
+      "file": function(args) {
         parse(cmd + " " + args);
       },
       "desc": description,
@@ -199,7 +205,6 @@ function addCommandFromVMSH(cmd="", name="", description="No description provide
 
 // Command autocompletion search for "Tab" key
 function kwsearch(query='', param=Object.keys(bin).concat(Object.keys(usr_bin))) {
-  
   if (query == '') {
     return [];
   }
